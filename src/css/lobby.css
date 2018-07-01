@@ -1,0 +1,58 @@
+.lobby-table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.lobby-table td,
+.lobby-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.lobby-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.lobby-table tr:hover {
+  background-color: #ddd;
+}
+
+.lobby-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #394899;
+  color: white;
+}
+
+#table-games {
+  /*grid-area: games;*/
+}
+
+#table-users {
+  /*grid-area: users;*/
+}
+
+#create-game {
+  grid-area: create-game;
+  /*margin-left: 10%;*/
+  /*margin-right: auto;*/
+  /*width: 50%;*/
+  /*padding: 10px;*/
+}
+
+#logo-lobby {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+
+.lobby-container {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  /*grid-template-columns: 33% 40% 20%;*/
+  /*grid-template-areas: "games create-game users";*/
+}

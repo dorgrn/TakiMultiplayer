@@ -1,0 +1,76 @@
+#stats-board {
+  width: 100%;
+  padding-left: 5%;
+}
+
+.stats {
+  position: relative;
+  grid-area: stats;
+}
+
+.stats-board-content {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding-left: 10%;
+  margin: 5%;
+}
+
+.stats-button,
+.stats-text {
+  font-family: "Segoe Print", serif;
+  font-size: 2.2vw;
+  color: white;
+  margin-bottom: 5%;
+}
+
+.stats-button {
+  background-color: burlywood;
+  border: blanchedalmond;
+  font-family: "Segoe Print", serif;
+  font-size: 2vw;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  margin: 1%;
+}
+
+.stats-bar {
+  width: 100%;
+  z-index: 10;
+}
+
+#stats-bar {
+  display: block;
+  width: 50%;
+  margin: auto;
+}
+
+.stats-bar-content {
+  position: absolute;
+  width: 50%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  text-align: center;
+  top: 0;
+  left: 0;
+  padding-left: 25%;
+  padding-top: 1%;
+}
+
+.stats-bar-text {
+  font-family: "Impact", serif;
+  font-size: 3vw;
+  color: black;
+}
+
+.main-menu {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: red;
+}

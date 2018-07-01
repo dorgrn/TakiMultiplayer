@@ -1,0 +1,17 @@
+.close-taki {
+    opacity: 0.6;
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3vw;
+    border: none;
+    border-radius: 10%;
+    width: 50%;
+    height: 50%;
+    z-index: 1;
+}
+
+.close-taki:hover {
+    opacity: 1;
+}

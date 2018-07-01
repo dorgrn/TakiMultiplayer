@@ -1,0 +1,37 @@
+.color-panel {
+    position: relative;
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: "redcolor yellowcolor" "bluecolor greencolor";
+    align-items: center;
+}
+
+.color-option {
+    position: relative;
+    padding-top: 100%;
+    width: 100%;
+}
+
+#red-color.color-option {
+    grid-area: redcolor;
+    background: Tomato;
+}
+
+#blue-color.color-option {
+    grid-area: bluecolor;
+    background: LightSkyBlue;
+}
+
+#green-color.color-option {
+    grid-area: greencolor;
+    background: LimeGreen;
+}
+
+#yellow-color.color-option {
+    grid-area: yellowcolor;
+    background: Yellow;
+}

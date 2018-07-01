@@ -1,0 +1,160 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: #394899;
+}
+
+h2 {
+  font-family: "arial", sans-serif;
+  text-align: center;
+}
+
+td,
+th {
+  padding: 1px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+th {
+  font-weight: bold;
+}
+
+.board-row {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.deck {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  grid-area: deck;
+  margin-top: 15%;
+}
+
+.playZone {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  grid-area: playZone;
+  margin-top: 15%;
+}
+
+.hand {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+.legal-card:hover,
+.illegal-card:hover {
+  position: relative;
+  top: -10px;
+  border: 5px solid;
+}
+
+.legal-card:hover {
+  border-color: lime;
+}
+
+.illegal-card:hover {
+  border-color: red;
+}
+
+.legal-card:after,
+.illegal-card:after {
+  position: static;
+  top: 10px;
+  border: 0 none transparent;
+}
+
+.card,
+.card-playZone,
+.legal-card,
+.illegal-card,
+.card-deck {
+  /* shadow */
+  box-shadow: 10px 15px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  /* rounded border */
+  border-radius: 10%;
+  width: 8%;
+}
+
+.card-playZone {
+  position: absolute;
+}
+
+.card-deck {
+  width: 25%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-areas: "stats playZone deck";
+}
+
+.menu-background {
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menu-content {
+  background-color: #fefefe;
+  font-family: "arial", sans-serif;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  font-size: 1.5vw;
+}
+
+.button-UI {
+  margin: auto;
+  cursor: pointer;
+}
+
+.button-UI:hover {
+  box-shadow: inset 0 0 10px black;
+}
+
+#play-again-button {
+  background-color: lightGreen;
+  font-size: 2vw;
+  width: 25%;
+  height: 4vw;
+  text-align: center;
+  margin-top: 3vw;
+  line-height: 4vw;
+}
+
+#show-game-button {
+  background-color: lightGreen;
+  font-size: 2vw;
+  width: 25%;
+  height: 4vw;
+  text-align: center;
+  margin-top: 3vw;
+  line-height: 4vw;
+}
+
+#statsTable {
+  width: 100%;
+  table-layout: fixed;
+  border: 1px solid black;
+}
