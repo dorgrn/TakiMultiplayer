@@ -1,13 +1,11 @@
 .lobby-table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
 }
 
 .lobby-table td,
 .lobby-table th {
   border: 1px solid #ddd;
-  padding: 8px;
 }
 
 .lobby-table tr:nth-child(even) {
@@ -21,7 +19,7 @@
 .lobby-table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #394899;
   color: white;
 }
@@ -52,7 +50,14 @@
 .lobby-container {
   display: flex;
   justify-content: space-around;
-  text-align: center;
+  flex-wrap: wrap;
+  flex-direction: row;
   /*grid-template-columns: 33% 40% 20%;*/
   /*grid-template-areas: "games create-game users";*/
+}
+
+.linkStyle{
+  color: blue;
+  text-underline: blue;
+  cursor: pointer;
 }

@@ -13,7 +13,7 @@ export default class BaseContainer extends React.Component {
       }
     };
 
-    this.handleSuccessedLogin = this.handleSuccessedLogin.bind(this);
+    this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
     this.handleLoginError = this.handleLoginError.bind(this);
     this.fetchUserInfo = this.fetchUserInfo.bind(this);
     this.logoutHandler = this.logoutHandler.bind(this);
@@ -21,7 +21,7 @@ export default class BaseContainer extends React.Component {
     this.getUserName();
   }
 
-  handleSuccessedLogin() {
+  handleSuccessfulLogin() {
     this.setState(() => ({ showLogin: false }), this.getUserName);
   }
 
@@ -33,7 +33,11 @@ export default class BaseContainer extends React.Component {
   renderLobby() {
     return (
       <div>
-        <LobbyContainer />
+        <LobbyContainer
+          logoutHandler={this.logoutHandler}
+          currentUser={this.state.currentUser}
+          fetchUserInfo={this.fetchUserInfo}
+        />
       </div>
     );
   }
@@ -92,12 +96,25 @@ export default class BaseContainer extends React.Component {
     );
   }
 
+  AddGameHandler() {
+    fetch("/games/addGame", { method: "POST", credentials: "include" })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
   render() {
     if (this.state.showLogin) {
       return (
         <LoginModal
-          loginSuccessHandler={this.handleSuccessedLogin}
+          loginSuccessHandler={this.handleSuccessfulLogin}
           loginErrorHandler={this.handleLoginError}
+          logoutHandler={this.logoutHandler}
         />
       );
     }
