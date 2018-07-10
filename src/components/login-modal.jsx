@@ -51,7 +51,7 @@ export default class LoginModal extends React.Component {
             Username:{" "}
           </label>
           <input className="username-input" name="userName" />
-          <input className="submit-btn btn" type="submit" value="Login" />
+          <input className="submit-btn btn-lobby" type="submit" value="Login" />
         </form>
         {this.renderErrorMessage()}
       </div>

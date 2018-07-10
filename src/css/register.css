@@ -1,4 +1,4 @@
-.btn {
+.btn-lobby {
   font-size: 16px;
   padding-left: 8px;
   padding-right: 8px;
@@ -95,7 +95,7 @@
   flex-grow: 1;
 }
 
-.chat-container .chat-input-wrapper .btn {
+.chat-container .chat-input-wrapper .btn-lobby {
   flex-grow: 0;
   width: 88px;
   margin: 0 2px 0 5px;

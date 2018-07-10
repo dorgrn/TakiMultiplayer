@@ -24,20 +24,8 @@
   color: white;
 }
 
-#table-games {
-  /*grid-area: games;*/
-}
-
-#table-users {
-  /*grid-area: users;*/
-}
-
 #create-game {
   grid-area: create-game;
-  /*margin-left: 10%;*/
-  /*margin-right: auto;*/
-  /*width: 50%;*/
-  /*padding: 10px;*/
 }
 
 #logo-lobby {
@@ -52,11 +40,9 @@
   justify-content: space-around;
   flex-wrap: wrap;
   flex-direction: row;
-  /*grid-template-columns: 33% 40% 20%;*/
-  /*grid-template-areas: "games create-game users";*/
 }
 
-.linkStyle{
+.linkStyle {
   color: blue;
   text-underline: blue;
   cursor: pointer;

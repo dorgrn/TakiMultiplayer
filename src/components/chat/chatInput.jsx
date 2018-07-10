@@ -21,7 +21,7 @@ export default class ChatInput extends React.Component {
         />
         <input
           type="submit"
-          className="btn"
+          className="btn-lobby"
           disabled={this.state.sendInProgress}
           value="Send"
         />

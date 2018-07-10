@@ -68,7 +68,7 @@ export default class GameTable extends React.Component {
     );
   }
 
-  renderGameTable() {
+  render() {
     return (
       <table className={"lobby-table games"}>
         <tbody>
@@ -83,9 +83,5 @@ export default class GameTable extends React.Component {
         </tbody>
       </table>
     );
-  }
-
-  render() {
-    return <div>{this.renderGameTable()}</div>;
   }
 }

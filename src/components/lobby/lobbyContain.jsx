@@ -16,7 +16,8 @@ export default class LobbyContainer extends React.Component {
 
     this.state = {
       users: {},
-      games: {}
+      games: {},
+      errMessage: ""
     };
   }
 
@@ -89,9 +90,14 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
+        this.setState(() => ({
+          errMessage: ""
+        }));
       })
       .catch(err => {
-        throw err;
+        this.setState(() => ({
+          errMessage: "Game name already exist, please try another one"
+        }));
       });
     return false;
   }
@@ -115,6 +121,13 @@ export default class LobbyContainer extends React.Component {
       });
   }
 
+  renderErrorMessage() {
+    if (this.state.errMessage) {
+      return <div className="login-error-message">{this.state.errMessage}</div>;
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
@@ -136,6 +149,7 @@ export default class LobbyContainer extends React.Component {
           />
           <UserTable users={this.state.users} />
         </div>
+        {this.renderErrorMessage()}
       </div>
     );
   }

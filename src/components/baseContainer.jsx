@@ -47,7 +47,7 @@ export default class BaseContainer extends React.Component {
       <div className="chat-base-container">
         <div className="user-info-area">
           Hello {this.state.currentUser.name}
-          <button className="logout btn" onClick={this.logoutHandler}>
+          <button className="logout btn-lobby" onClick={this.logoutHandler}>
             Logout
           </button>
         </div>
