@@ -9,6 +9,7 @@ function userAuthentication(req, res, next) {
 }
 
 function addUserToAuthList(req, res, next) {
+  // req.body = username
   if (userList[req.session.id] !== undefined) {
     res.status(403).send("user already exist");
   } else {

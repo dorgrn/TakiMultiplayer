@@ -1,11 +1,12 @@
 import React from "react";
-import "../../css/lobby.css";
+import "../../css/global.css";
 
 export default class GameContainer extends React.Component {
-    constructor(...args){
-        super(args);
-    }
+  constructor(...args) {
+    super(args);
+  }
 
-    render(){
-    }
+  render() {
+
+  }
 }
