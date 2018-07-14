@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/style.css";
 import "../css/styleColorMenu.css";
-import manager from "../engine/Manager";
+import manager from "../../engine/Manager";
 
 const ColorOption = props => {
   const color = props.color;

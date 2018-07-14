@@ -96,18 +96,6 @@ export default class BaseContainer extends React.Component {
     );
   }
 
-  AddGameHandler() {
-    fetch("/games/addGame", { method: "POST", credentials: "include" })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
   render() {
     if (this.state.showLogin) {
       return (

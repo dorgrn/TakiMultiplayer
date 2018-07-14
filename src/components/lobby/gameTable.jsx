@@ -1,13 +1,14 @@
 import React from "react";
 import "../../css/lobby.css";
+import GameTableRow from "./gameTableRow.jsx";
 
 export default class GameTable extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  isGameAuthor(gameRecord) {
-    return this.props.currentUser.name === gameRecord.authorName.name;
+  isGameCreator(gameRecord) {
+    return this.props.currentUser.name === gameRecord.creator.name;
   }
 
   renderGameRows() {
@@ -18,17 +19,11 @@ export default class GameTable extends React.Component {
       if (games.hasOwnProperty(gameName)) {
         let gameRecord = games[gameName];
         res.push(
-          <tr key={gameRecord.gameName}>
-            <td key={gameRecord.gameName + "_name"}>{gameRecord.gameName}</td>
-            <td key={gameRecord.gameName + "_partAmount"}>
-              {gameRecord.partAmount}
-            </td>
-            {this.renderJoin(gameRecord)}
-            {this.renderDelete(gameRecord)}
-            <td key={gameRecord.gameName + "_author"}>
-              {gameRecord.authorName.name}
-            </td>
-          </tr>
+          <GameTableRow
+            gameRecord={gameRecord}
+            deleteGameHandler={this.props.deleteGameHandler}
+            currentUser={this.props.currentUser}
+          />
         );
       }
     }
@@ -38,31 +33,12 @@ export default class GameTable extends React.Component {
 
   renderJoin(gameRecord) {
     return (
-      <td key={gameRecord.gameName + "_join"}>
+      <td key={gameRecord.name + "_join"}>
         <div
           onClick={void 0}
-          className={this.isGameAuthor(gameRecord) ? "linkStyle" : ""}
+          className={this.isGameCreator(gameRecord) ? "linkStyle" : ""}
         >
-          {gameRecord.authorName.name !== this.props.currentUser ? "Join" : "-"}
-        </div>
-      </td>
-    );
-  }
-
-  renderDelete(gameRecord) {
-    return (
-      <td key={gameRecord.gameName + "_delete"}>
-        <div
-          onClick={
-            this.isGameAuthor(gameRecord)
-              ? this.props.deleteGameHandler.bind(this, gameRecord)
-              : void 0
-          }
-          className={this.isGameAuthor(gameRecord) ? "linkStyle" : ""}
-        >
-          {gameRecord.authorName.name === this.props.currentUser.name
-            ? "Delete"
-            : "-"}
+          {this.isGameCreator(gameRecord) ? "Join" : "-"}
         </div>
       </td>
     );
@@ -77,7 +53,8 @@ export default class GameTable extends React.Component {
             <th>Participants</th>
             <th>Join</th>
             <th>Delete</th>
-            <th>Author</th>
+            <th>Creator</th>
+            <th>Active</th>
           </tr>
           {this.renderGameRows()}
         </tbody>

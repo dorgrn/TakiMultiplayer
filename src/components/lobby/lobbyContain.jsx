@@ -9,7 +9,7 @@ import takiImage from "../resources/logo.png";
 export default class LobbyContainer extends React.Component {
   constructor(args) {
     super(...args);
-    this.UPDATE_TIMEOUT = 2000;
+    this.UPDATE_TIMEOUT = 500;
 
     this.getUsers = this.getUsers.bind(this);
     this.getGames = this.getGames.bind(this);
@@ -17,6 +17,7 @@ export default class LobbyContainer extends React.Component {
     this.state = {
       users: {},
       games: {},
+      createdGame: false, // indicates that user has created a pending/active game
       errMessage: ""
     };
   }
@@ -29,6 +30,14 @@ export default class LobbyContainer extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.updateUserTableInterval);
     clearTimeout(this.updateGamesTableInterval);
+  }
+
+  createGame(name, creator, playerLimit) {
+    return {
+      name: name,
+      creator: creator,
+      playerLimit: playerLimit
+    };
   }
 
   getUsers() {
@@ -74,16 +83,13 @@ export default class LobbyContainer extends React.Component {
   handleAddGame(e) {
     e.preventDefault();
     const gameName = e.target.elements.gameName.value;
-    const partAmount = e.target.elements.partAmount.value;
-    const authorName = this.props.currentUser;
+    const playerLimit = e.target.elements.playerLimit.value;
+    const creator = this.props.currentUser;
+    const game = this.createGame(gameName, creator, playerLimit);
 
     fetch("/games/addGame", {
       method: "POST",
-      body: JSON.stringify({
-        gameName: gameName,
-        partAmount: partAmount,
-        authorName: authorName
-      }),
+      body: JSON.stringify(game),
       credentials: "include"
     })
       .then(response => {
@@ -91,7 +97,8 @@ export default class LobbyContainer extends React.Component {
           throw response;
         }
         this.setState(() => ({
-          errMessage: ""
+          errMessage: "",
+          createdGame: true // TODO: set to false when game ends/deleted
         }));
       })
       .catch(err => {
@@ -106,8 +113,28 @@ export default class LobbyContainer extends React.Component {
     fetch("/games/deleteGame", {
       method: "POST",
       body: JSON.stringify({
-        gameName: gameRecord.gameName,
-        author: gameRecord.authorName.name
+        gameName: gameRecord.name,
+        creator: gameRecord.creator.name
+      }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+        // this assumes only creator can delete his game
+        this.setState(() => ({ createdGame: false }));
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  handleJoinGame(gameRecord) {
+    fetch("/games/joinGame", {
+      method: "POST",
+      body: JSON.stringify({
+        gameName: gameRecord.name
       }),
       credentials: "include"
     })
@@ -141,11 +168,12 @@ export default class LobbyContainer extends React.Component {
           <GameTable
             games={this.state.games}
             currentUser={this.props.currentUser}
-            deleteGameHandler={this.handleDeleteGame}
+            deleteGameHandler={this.handleDeleteGame.bind(this)}
           />
           <AddGameForm
             currentUser={this.props.currentUser}
             addGameHandler={this.handleAddGame.bind(this)}
+            createdGame={this.state.createdGame}
           />
           <UserTable users={this.state.users} />
         </div>

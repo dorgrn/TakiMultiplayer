@@ -15,7 +15,7 @@ export default class UserTable extends React.Component {
           </tr>
           {Object.keys(this.props.users).map((user, index) => (
             <tr key={user}>
-              <td key={user + "_" + index}>{this.props.users[user]}</td>
+              <td key={user + "_" + index}>{this.props.users[user].name}</td>
             </tr>
           ))}
         </tbody>

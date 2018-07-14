@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/style.css";
-import manager from "../engine/Manager";
-import stats from "../engine/Stats";
+import manager from "../../engine/Manager";
+import stats from "../../engine/Stats";
 
 const EndGameMenu = props => {
   function buildTableValues() {

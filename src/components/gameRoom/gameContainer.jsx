@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/global.css";
+import Game from "./Game";
 
 export default class GameContainer extends React.Component {
   constructor(...args) {
@@ -7,6 +8,11 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-
+    return (
+      <div>
+        <Game />
+        <Chat />
+      </div>
+    );
   }
 }
