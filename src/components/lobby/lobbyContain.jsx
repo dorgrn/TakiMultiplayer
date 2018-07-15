@@ -3,8 +3,10 @@ import "../../css/lobby.css";
 import GameTable from "./gameTable.jsx";
 import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";
-
 import takiImage from "../resources/logo.png";
+import GameContainer from "../gameRoom/gameContainer.jsx";
+
+const gameUtils = require("../utils/gameUtils.js");
 
 export default class LobbyContainer extends React.Component {
   constructor(args) {
@@ -18,6 +20,7 @@ export default class LobbyContainer extends React.Component {
       users: {},
       games: {},
       createdGame: false, // indicates that user has created a pending/active game
+      showGame: false,
       errMessage: ""
     };
   }
@@ -30,14 +33,6 @@ export default class LobbyContainer extends React.Component {
   componentWillUnmount() {
     clearTimeout(this.updateUserTableInterval);
     clearTimeout(this.updateGamesTableInterval);
-  }
-
-  createGame(name, creator, playerLimit) {
-    return {
-      name: name,
-      creator: creator,
-      playerLimit: playerLimit
-    };
   }
 
   getUsers() {
@@ -74,10 +69,21 @@ export default class LobbyContainer extends React.Component {
       })
       .then(data => {
         this.setState(() => ({ games: data }));
+        if (this.shouldShowGame(data)) {
+          //this.setState(() => ({ showGame: true }));
+        }
       })
       .catch(err => {
         throw err;
       });
+  }
+
+  shouldShowGame(games) {
+    const currentUserGames = gameUtils.getGamesForUser(
+      games,
+      this.props.currentUser
+    );
+    return gameUtils.findFullGames(currentUserGames) !== undefined;
   }
 
   handleAddGame(e) {
@@ -85,7 +91,7 @@ export default class LobbyContainer extends React.Component {
     const gameName = e.target.elements.gameName.value;
     const playerLimit = e.target.elements.playerLimit.value;
     const creator = this.props.currentUser;
-    const game = this.createGame(gameName, creator, playerLimit);
+    const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
 
     fetch("/games/addGame", {
       method: "POST",
@@ -98,7 +104,7 @@ export default class LobbyContainer extends React.Component {
         }
         this.setState(() => ({
           errMessage: "",
-          createdGame: true // TODO: set to false when game ends/deleted
+          createdGame: true
         }));
       })
       .catch(err => {
@@ -156,7 +162,7 @@ export default class LobbyContainer extends React.Component {
   }
 
   render() {
-    return (
+    return !this.state.showGame ? (
       <div>
         <button className={"btn"} onClick={this.props.logoutHandler.bind(this)}>
           logout
@@ -169,6 +175,7 @@ export default class LobbyContainer extends React.Component {
             games={this.state.games}
             currentUser={this.props.currentUser}
             deleteGameHandler={this.handleDeleteGame.bind(this)}
+            joinGameHandler={this.handleJoinGame.bind(this)}
           />
           <AddGameForm
             currentUser={this.props.currentUser}
@@ -179,6 +186,8 @@ export default class LobbyContainer extends React.Component {
         </div>
         {this.renderErrorMessage()}
       </div>
+    ) : (
+      <GameContainer />
     );
   }
 }

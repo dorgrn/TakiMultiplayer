@@ -7,10 +7,6 @@ export default class GameTable extends React.Component {
     super(props);
   }
 
-  isGameCreator(gameRecord) {
-    return this.props.currentUser.name === gameRecord.creator.name;
-  }
-
   renderGameRows() {
     const games = this.props.games;
     let res = [];
@@ -20,8 +16,10 @@ export default class GameTable extends React.Component {
         let gameRecord = games[gameName];
         res.push(
           <GameTableRow
+            key={gameName + "_row"}
             gameRecord={gameRecord}
             deleteGameHandler={this.props.deleteGameHandler}
+            joinGameHandler={this.props.joinGameHandler}
             currentUser={this.props.currentUser}
           />
         );
@@ -31,30 +29,17 @@ export default class GameTable extends React.Component {
     return res;
   }
 
-  renderJoin(gameRecord) {
-    return (
-      <td key={gameRecord.name + "_join"}>
-        <div
-          onClick={void 0}
-          className={this.isGameCreator(gameRecord) ? "linkStyle" : ""}
-        >
-          {this.isGameCreator(gameRecord) ? "Join" : "-"}
-        </div>
-      </td>
-    );
-  }
-
   render() {
     return (
       <table className={"lobby-table games"}>
         <tbody>
-          <tr key={"head"}>
-            <th>Game</th>
-            <th>Participants</th>
-            <th>Join</th>
-            <th>Delete</th>
-            <th>Creator</th>
-            <th>Active</th>
+          <tr key={"head games"}>
+            <th key={"head-game"}>Game</th>
+            <th key={"head-part"}>Participants</th>
+            <th key={"head-join"}>Join</th>
+            <th key={"head-delete"}>Delete</th>
+            <th key={"head-creator"}>Creator</th>
+            <th key={"head-status"}>Status</th>
           </tr>
           {this.renderGameRows()}
         </tbody>

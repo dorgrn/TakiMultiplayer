@@ -1,14 +1,33 @@
 const auth = require("./auth");
 const gamesList = {};
 
+function doesGameExist(gameName) {
+  return gamesList[gameName] !== undefined;
+}
+
+function isUserInGame(userName, gameName) {
+  const game = gamesList[gameName];
+
+  return game.players.includes(userName);
+}
+
+function isGameFull(gameName) {
+  const game = gamesList[gameName];
+  if (game === undefined) {
+    return null;
+  }
+
+  return game.players.length === parseInt(game.playerLimit);
+}
+
 function createGameDTOFromParsed(parsedGame) {
   const res = {
     name: parsedGame.name,
     creator: parsedGame.creator,
     players: [],
-    playerLimit: parsedGame.playerLimit
+    playerLimit: parseInt(parsedGame.playerLimit)
   };
-  res.players.push(res.creator);
+  res.players.push(res.creator.name);
 
   return res;
 }
@@ -27,7 +46,7 @@ function addGameToList(req, res, next) {
 function removeGameFromList(req, res, next) {
   const parsed = JSON.parse(req.body);
   // check game exists
-  if (gamesList[parsed.gameName] === undefined) {
+  if (!doesGameExist(parsed.gameName)) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
@@ -42,7 +61,24 @@ function removeGameFromList(req, res, next) {
 }
 
 function addUserToGame(req, res, next) {
-    // TODO: add the user by userid to the given game
+  const parsed = JSON.parse(req.body);
+
+  if (!doesGameExist(parsed.gameName)) {
+    res.status(404).send("game does not exist");
+  } else if (isGameFull(parsed.gameName)) {
+    res.status(405).send("game is full");
+  } else if (isUserInGame(parsed.creator, parsed.gameName)) {
+    res.status(406).send("user already in game");
+  } else {
+    const game = gamesList[parsed.gameName];
+    game.players.push(parsed.creator);
+    gamesList[parsed.gameName] = game;
+
+    if (game.playerLimit === game.players.length) {
+      res.status(201).send("game is now full");
+    }
+    next();
+  }
 }
 
 function getAllGames() {
@@ -52,5 +88,6 @@ function getAllGames() {
 module.exports = {
   addGameToList,
   removeGameFromList,
-  getAllGames
+  getAllGames,
+  addUserToGame
 };

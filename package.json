@@ -29,6 +29,7 @@
     "prettier": "^1.13.7",
     "react": "^16.2.0",
     "react-dom": "^16.4.1",
-    "src": "^1.1.2"
+    "src": "^1.1.2",
+    "lodash": "latest"
   }
 }

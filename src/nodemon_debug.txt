@@ -1,0 +1,1 @@
+nodemon ./server.js --debug=3001 -V -e js,jsx
