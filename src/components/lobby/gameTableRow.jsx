@@ -3,17 +3,20 @@ import "../../css/lobby.css";
 
 export default class GameTableRow extends React.Component {
   constructor(props) {
+    debugger;
     super(props);
-
     this.isGameCreator =
       props.currentUser.name === props.gameRecord.creator.name;
   }
 
   shouldShowDelete() {
-    return this.isGameCreator && this.props.gameRecord.playersAmount === 1;
+    debugger;
+    console.log("should show delete:", this.isGameCreator, this.props.gameRecord.playersAmount)
+    return this.isGameCreator && parseInt(this.props.gameRecord.playersAmount) === 1;
   }
 
   shouldShowJoin() {
+      debugger;
     const gameRecord = this.props.gameRecord;
     return (
       !this.isGameCreator &&
@@ -26,7 +29,7 @@ export default class GameTableRow extends React.Component {
     let onClick = null;
     let className = "";
     const gameRecord = this.props.gameRecord;
-
+    debugger;
     if (this.shouldShowJoin()) {
       label = "Join";
       onClick = this.props.joinGameHandler.bind(this, gameRecord);
@@ -47,7 +50,7 @@ export default class GameTableRow extends React.Component {
     let onClick = null;
     let className = "";
     const gameRecord = this.props.gameRecord;
-
+    debugger;
     if (this.shouldShowDelete()) {
       label = "Delete";
       onClick = this.props.deleteGameHandler.bind(this, gameRecord);

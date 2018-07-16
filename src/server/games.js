@@ -73,10 +73,6 @@ function addUserToGame(req, res, next) {
     const game = gamesList[parsed.gameName];
     game.players.push(parsed.creator);
     gamesList[parsed.gameName] = game;
-
-    if (game.playerLimit === game.players.length) {
-      res.status(201).send("game is now full");
-    }
     next();
   }
 }

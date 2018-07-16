@@ -3,7 +3,7 @@ const userList = {};
 /*
   user: {
     name
-    status
+    status: idle/playing
   }
  */
 

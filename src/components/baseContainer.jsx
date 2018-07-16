@@ -9,7 +9,8 @@ export default class BaseContainer extends React.Component {
     this.state = {
       showLogin: true,
       currentUser: {
-        name: ""
+        name: "",
+        status: "idle"
       }
     };
 

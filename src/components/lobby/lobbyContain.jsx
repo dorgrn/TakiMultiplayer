@@ -70,7 +70,7 @@ export default class LobbyContainer extends React.Component {
       .then(data => {
         this.setState(() => ({ games: data }));
         if (this.shouldShowGame(data)) {
-          //this.setState(() => ({ showGame: true }));
+          this.setState(() => ({ showGame: true }));
         }
       })
       .catch(err => {
