@@ -1,24 +1,24 @@
 const auth = require("./auth");
+const gameUtils = require("../components/utils/gameUtils");
+
 const gamesList = {};
 
 function doesGameExist(gameName) {
   return gamesList[gameName] !== undefined;
 }
 
-function isUserInGame(userName, gameName) {
-  const game = gamesList[gameName];
-
+function isUserInGame(userName, game) {
   return game.players.includes(userName);
 }
-
-function isGameFull(gameName) {
-  const game = gamesList[gameName];
-  if (game === undefined) {
-    return null;
-  }
-
-  return game.players.length === parseInt(game.playerLimit);
-}
+//
+// function isGameFull(gameName) {
+//   const game = gamesList[gameName];
+//   if (game === undefined) {
+//     return null;
+//   }
+//
+//   return game.players.length === parseInt(game.playerLimit);
+// }
 
 function createGameDTOFromParsed(parsedGame) {
   const res = {
@@ -33,7 +33,7 @@ function createGameDTOFromParsed(parsedGame) {
 }
 
 function addGameToList(req, res, next) {
-  let parsedGame = JSON.parse(req.body);
+  const parsedGame = JSON.parse(req.body);
 
   if (gamesList[parsedGame.name] !== undefined) {
     res.status(403).send("this game name already exist");
@@ -46,7 +46,7 @@ function addGameToList(req, res, next) {
 function removeGameFromList(req, res, next) {
   const parsed = JSON.parse(req.body);
   // check game exists
-  if (!doesGameExist(parsed.gameName)) {
+  if (!doesGameExist(parsed.name)) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
@@ -55,23 +55,26 @@ function removeGameFromList(req, res, next) {
       .status(401)
       .send("user isn't permitted to delete another creator's game");
   } else {
-    delete gamesList[parsed.gameName];
+    delete gamesList[parsed.name];
     next();
   }
 }
 
-function addUserToGame(req, res, next) {
+function addCurrentUserToGame(req, res, next) {
   const parsed = JSON.parse(req.body);
+  const game = gamesList[parsed.gameName];
+  const user = auth.getUserInfo(req.session.id);
 
-  if (!doesGameExist(parsed.gameName)) {
+  if (!game) {
     res.status(404).send("game does not exist");
-  } else if (isGameFull(parsed.gameName)) {
+  } else if (!user) {
+    res.status(401).send("user not found");
+  } else if (gameUtils.isGameFull(game)) {
     res.status(405).send("game is full");
-  } else if (isUserInGame(parsed.creator, parsed.gameName)) {
+  } else if (isUserInGame(user.name, game)) {
     res.status(406).send("user already in game");
   } else {
-    const game = gamesList[parsed.gameName];
-    game.players.push(parsed.creator);
+    game.players.push(user.name);
     gamesList[parsed.gameName] = game;
     next();
   }
@@ -85,5 +88,5 @@ module.exports = {
   addGameToList,
   removeGameFromList,
   getAllGames,
-  addUserToGame
+  addUserToGame: addCurrentUserToGame
 };

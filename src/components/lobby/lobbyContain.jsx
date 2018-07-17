@@ -20,7 +20,7 @@ export default class LobbyContainer extends React.Component {
       users: {},
       games: {},
       createdGame: false, // indicates that user has created a pending/active game
-      showGame: false,
+      showGame: null, // TODO: need to think on how to show which game users where move to!
       errMessage: ""
     };
   }
@@ -83,7 +83,7 @@ export default class LobbyContainer extends React.Component {
       games,
       this.props.currentUser
     );
-    return gameUtils.findFullGames(currentUserGames) !== undefined;
+    return !_.isEmpty(gameUtils.findFullGames(currentUserGames));
   }
 
   handleAddGame(e) {
@@ -187,7 +187,10 @@ export default class LobbyContainer extends React.Component {
         {this.renderErrorMessage()}
       </div>
     ) : (
-      <GameContainer />
+      <GameContainer
+        logoutHandler={this.logoutHandler}
+        currentUser={this.state.currentUser}
+      />
     );
   }
 }
