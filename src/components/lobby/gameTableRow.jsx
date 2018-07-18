@@ -10,7 +10,6 @@ export default class GameTableRow extends React.Component {
 
   shouldShowDelete() {
     const playerAmount = this.props.gameRecord.players.length;
-    console.log("should show delete:", this.isGameCreator, playerAmount);
     return this.isGameCreator && _.eq(playerAmount, 1);
   }
 

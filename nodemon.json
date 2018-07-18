@@ -17,5 +17,6 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "ext": "js,json, jsx"
+  "ext": "js,json, jsx",
+  "dev": "npm run build:dev && node src/server.js"
 }

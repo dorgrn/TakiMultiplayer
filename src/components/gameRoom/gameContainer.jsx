@@ -2,13 +2,14 @@ import React from "react";
 import Chat from "../chat/chatContainer.jsx";
 
 export default class GameContainer extends React.Component {
-  constructor(...args) {
-    super(args);
+  constructor(props) {
+    super(props);
   }
 
   render() {
     return (
       <div>
+        {/*<Game />*/}
         <Chat />
       </div>
     );

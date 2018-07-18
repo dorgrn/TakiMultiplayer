@@ -4,8 +4,8 @@ import ChatContainer from "./chat/chatContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContain.jsx";
 
 export default class BaseContainer extends React.Component {
-  constructor(args) {
-    super(...args);
+  constructor(props) {
+    super(props);
     this.state = {
       showLogin: true,
       currentUser: {

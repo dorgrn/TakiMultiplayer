@@ -46,7 +46,7 @@ function addGameToList(req, res, next) {
 function removeGameFromList(req, res, next) {
   const parsed = JSON.parse(req.body);
   // check game exists
-  if (!doesGameExist(parsed.name)) {
+  if (!doesGameExist(parsed.gameName)) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
@@ -55,7 +55,7 @@ function removeGameFromList(req, res, next) {
       .status(401)
       .send("user isn't permitted to delete another creator's game");
   } else {
-    delete gamesList[parsed.name];
+    delete gamesList[parsed.gameName];
     next();
   }
 }

@@ -9,8 +9,8 @@ import GameContainer from "../gameRoom/gameContainer.jsx";
 const gameUtils = require("../utils/gameUtils.js");
 
 export default class LobbyContainer extends React.Component {
-  constructor(args) {
-    super(...args);
+  constructor(props) {
+    super(props);
     this.UPDATE_TIMEOUT = 500;
 
     this.getUsers = this.getUsers.bind(this);
@@ -69,8 +69,9 @@ export default class LobbyContainer extends React.Component {
       })
       .then(data => {
         this.setState(() => ({ games: data }));
-        if (this.shouldShowGame(data)) {
-          this.setState(() => ({ showGame: true }));
+        const game = this.shouldShowGame(data);
+        if (game) {
+          this.setState(() => ({ showGame: game }));
         }
       })
       .catch(err => {
@@ -83,7 +84,10 @@ export default class LobbyContainer extends React.Component {
       games,
       this.props.currentUser
     );
-    return !_.isEmpty(gameUtils.findFullGames(currentUserGames));
+    const res = _.head(gameUtils.findFullGames(currentUserGames));
+    console.log("game in should show:", res);
+    console.log("hiuhihia");
+    return res;
   }
 
   handleAddGame(e) {
@@ -188,8 +192,9 @@ export default class LobbyContainer extends React.Component {
       </div>
     ) : (
       <GameContainer
-        logoutHandler={this.logoutHandler}
-        currentUser={this.state.currentUser}
+        logoutHandler={this.props.logoutHandler}
+        currentUser={this.props.currentUser}
+        showGane={this.state.showGame}
       />
     );
   }

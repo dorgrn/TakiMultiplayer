@@ -1,8 +1,8 @@
 import React from "react";
 
 export default class conversationArea extends React.Component {
-  constructor(args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
     this.state = {
       content: []

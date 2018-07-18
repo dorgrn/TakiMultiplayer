@@ -2,11 +2,11 @@ const _ = require("lodash");
 
 function getGamesForUser(games, userid) {
   const username = userid.name;
-  return _.pickBy(games, game => _.includes(game.players, username));
+  return _.filter(games, game => _.includes(game.players, username));
 }
 
 function findFullGames(games) {
-  return _.pickBy(games, isGameFull);
+  return _.filter(games, isGameFull);
 }
 
 function isGameFull(game) {
