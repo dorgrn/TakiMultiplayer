@@ -10,6 +10,7 @@ function findFullGames(games) {
 }
 
 function isGameFull(game) {
+  if (!game) throw "game not defined!";
   return game.players.length === game.playerLimit;
 }
 

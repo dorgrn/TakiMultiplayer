@@ -63,6 +63,9 @@
 
 .chat-container {
   flex-grow: 1;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

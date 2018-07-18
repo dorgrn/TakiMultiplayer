@@ -1,5 +1,6 @@
 import React from "react";
 import Chat from "../chat/chatContainer.jsx";
+import Sidebar from "./Sidebar.jsx";
 
 export default class GameContainer extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class GameContainer extends React.Component {
   render() {
     return (
       <div>
-        {/*<Game />*/}
+        <Sidebar gameToShow={this.props.gameToShow} />
         <Chat />
       </div>
     );
