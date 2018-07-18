@@ -24,7 +24,7 @@ export default class AddGameForm extends React.Component {
           type={"submit"}
           className={"btn"}
           value={"Submit"}
-          disabled={this.props.createdGame}
+          disabled={this.props.disable}
         />
       </form>
     );

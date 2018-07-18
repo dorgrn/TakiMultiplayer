@@ -17,8 +17,9 @@ export default class LobbyContainer extends React.Component {
     this.getGames = this.getGames.bind(this);
 
     this.state = {
-      users: {},
-      games: {},
+      status: this.props.currentUser.status, // idle / created / joined / playing
+      users: {}, // all users
+      games: {}, // all games
       createdGame: false, // indicates that user has created a pending/active game
       gameToShow: null, // the actual game record to move to, null if none
       errMessage: ""
@@ -69,22 +70,29 @@ export default class LobbyContainer extends React.Component {
       })
       .then(data => {
         this.setState(() => ({ games: data }));
-        const game = this.shouldShowGame(data);
-        if (game) {
-          this.setState(() => ({ gameToShow: game }));
-        }
+        this.checkMoveToGameRoom(data);
       })
       .catch(err => {
         throw err;
       });
   }
 
-  shouldShowGame(games) {
+  checkMoveToGameRoom(games) {
+    const game = this.getFullGameForUser(games);
+    if (game) {
+      this.setState(() => ({
+        status: gameUtils.STATUS_CONSTS.PLAYING,
+        gameToShow: game
+      }));
+    }
+  }
+
+  getFullGameForUser(games) {
     const currentUserGames = gameUtils.getGamesForUser(
       games,
       this.props.currentUser
     );
-      return _.head(gameUtils.findFullGames(currentUserGames));
+    return _.head(gameUtils.findFullGames(currentUserGames));
   }
 
   handleAddGame(e) {
@@ -105,10 +113,10 @@ export default class LobbyContainer extends React.Component {
         }
         this.setState(() => ({
           errMessage: "",
-          createdGame: true
+          status: gameUtils.STATUS_CONSTS.CREATED
         }));
       })
-      .catch(err => {
+      .catch(() => {
         this.setState(() => ({
           errMessage: "Game name already exist, please try another one"
         }));
@@ -130,7 +138,10 @@ export default class LobbyContainer extends React.Component {
           throw response;
         }
         // this assumes only creator can delete his game
-        this.setState(() => ({ createdGame: false }));
+        this.setState(prev => {
+          if (prev.status === gameUtils.STATUS_CONSTS.CREATED)
+            return { status: gameUtils.STATUS_CONSTS.IDLE };
+        });
       })
       .catch(err => {
         throw err;
@@ -149,6 +160,9 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
+        this.setState(() => ({
+          status: gameUtils.STATUS_CONSTS.JOINED
+        }));
       })
       .catch(err => {
         throw err;
@@ -160,6 +174,10 @@ export default class LobbyContainer extends React.Component {
       return <div className="login-error-message">{this.state.errMessage}</div>;
     }
     return null;
+  }
+
+  isUserIdle() {
+    return this.state.status === gameUtils.STATUS_CONSTS.IDLE;
   }
 
   render() {
@@ -177,11 +195,12 @@ export default class LobbyContainer extends React.Component {
             currentUser={this.props.currentUser}
             deleteGameHandler={this.handleDeleteGame.bind(this)}
             joinGameHandler={this.handleJoinGame.bind(this)}
+            isUserIdle={this.isUserIdle.bind(this)}
           />
           <AddGameForm
             currentUser={this.props.currentUser}
             addGameHandler={this.handleAddGame.bind(this)}
-            createdGame={this.state.createdGame}
+            disable={!this.isUserIdle()}
           />
           <UserTable users={this.state.users} />
         </div>

@@ -21,6 +21,7 @@ export default class GameTable extends React.Component {
             deleteGameHandler={this.props.deleteGameHandler}
             joinGameHandler={this.props.joinGameHandler}
             currentUser={this.props.currentUser}
+            isUserIdle={this.props.isUserIdle}
           />
         );
       }

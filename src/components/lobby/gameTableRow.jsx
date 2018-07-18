@@ -14,11 +14,7 @@ export default class GameTableRow extends React.Component {
   }
 
   shouldShowJoin() {
-    const gameRecord = this.props.gameRecord;
-    return (
-      !this.isGameCreator &&
-      gameRecord.players.length < parseInt(gameRecord.playerLimit)
-    );
+    return this.props.isUserIdle();
   }
 
   renderJoin() {

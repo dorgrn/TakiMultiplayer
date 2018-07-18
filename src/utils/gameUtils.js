@@ -1,5 +1,12 @@
 const _ = require("lodash");
 
+const STATUS_CONSTS = {
+  IDLE: "idle",
+  PLAYING: "playing",
+  CREATED: "created",
+  JOINED: "joined"
+};
+
 function getGamesForUser(games, userid) {
   const username = userid.name;
   return _.filter(games, game => _.includes(game.players, username));
@@ -26,5 +33,6 @@ module.exports = {
   getGamesForUser,
   findFullGames,
   isGameFull,
-  createGameRecord
+  createGameRecord,
+  STATUS_CONSTS
 };
