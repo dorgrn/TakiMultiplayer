@@ -1,5 +1,19 @@
 const userList = {};
 
+/*
+  user: {
+    name
+    status: idle/playing
+  }
+ */
+
+function createUserFromParsed(name) {
+  return {
+    name: name,
+    status: "pending"
+  };
+}
+
 function userAuthentication(req, res, next) {
   if (userList[req.session.id] === undefined) {
     res.sendStatus(401);
@@ -20,7 +34,8 @@ function addUserToAuthList(req, res, next) {
         return;
       }
     }
-    userList[req.session.id] = req.body;
+
+    userList[req.session.id] = createUserFromParsed(req.body);
     next();
   }
 }
@@ -35,7 +50,7 @@ function removeUserFromAuthList(req, res, next) {
 }
 
 function getUserInfo(id) {
-  return { name: userList[id] };
+  return { name: userList[id].name };
 }
 
 function getAllUsers() {

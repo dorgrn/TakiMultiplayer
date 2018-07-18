@@ -13,14 +13,19 @@ export default class AddGameForm extends React.Component {
         <br />
         <input type={"text"} name={"gameName"} placeholder={"Game name"} />
         <br />
-        <label htmlFor={"partAmount"}>Participant amount: </label>
-        <select name={"partAmount"}>
+        <label htmlFor={"playerLimit"}>Participant amount: </label>
+        <select name={"playerLimit"}>
           <option value={"2"}>2</option>
           <option value={"3"}>3</option>
           <option value={"4"}>4</option>
         </select>
         <br />
-        <input type={"submit"} className={"btn"} value={"Submit"} />
+        <input
+          type={"submit"}
+          className={"btn"}
+          value={"Submit"}
+          disabled={this.props.createdGame}
+        />
       </form>
     );
   }

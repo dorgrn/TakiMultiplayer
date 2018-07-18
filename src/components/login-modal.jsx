@@ -2,8 +2,8 @@ import React from "react";
 import takiImage from "./resources/logo.png";
 
 export default class LoginModal extends React.Component {
-  constructor(args) {
-    super(...args);
+  constructor(props) {
+    super(props);
 
     this.state = {
       errMessage: ""

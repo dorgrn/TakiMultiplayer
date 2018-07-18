@@ -2,7 +2,7 @@ import React from "react";
 import "../css/style.css";
 import Board from "./Board";
 import StatsBar from "./StatsBar.jsx";
-import manager from "../engine/Manager.js";
+import manager from "../../engine/Manager.js";
 import ColorMenu from "./ColorMenu";
 import EndGameMenu from "./EndGameMenu.jsx";
 

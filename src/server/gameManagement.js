@@ -15,4 +15,9 @@ gameManagement.get("/allGames", (req, res) => {
   res.json(games.getAllGames());
 });
 
+gameManagement.post("/joinGame", games.addUserToGame, (req,res) =>{
+  // check if game is now full and respond accordingly
+  res.sendStatus(200);
+});
+
 module.exports = gameManagement;

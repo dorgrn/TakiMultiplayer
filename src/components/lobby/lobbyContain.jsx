@@ -3,13 +3,15 @@ import "../../css/lobby.css";
 import GameTable from "./gameTable.jsx";
 import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";
-
 import takiImage from "../resources/logo.png";
+import GameContainer from "../gameRoom/gameContainer.jsx";
+
+const gameUtils = require("../utils/gameUtils.js");
 
 export default class LobbyContainer extends React.Component {
-  constructor(args) {
-    super(...args);
-    this.UPDATE_TIMEOUT = 2000;
+  constructor(props) {
+    super(props);
+    this.UPDATE_TIMEOUT = 500;
 
     this.getUsers = this.getUsers.bind(this);
     this.getGames = this.getGames.bind(this);
@@ -17,6 +19,8 @@ export default class LobbyContainer extends React.Component {
     this.state = {
       users: {},
       games: {},
+      createdGame: false, // indicates that user has created a pending/active game
+      showGame: null, // TODO: need to think on how to show which game users where move to!
       errMessage: ""
     };
   }
@@ -65,25 +69,37 @@ export default class LobbyContainer extends React.Component {
       })
       .then(data => {
         this.setState(() => ({ games: data }));
+        const game = this.shouldShowGame(data);
+        if (game) {
+          this.setState(() => ({ showGame: game }));
+        }
       })
       .catch(err => {
         throw err;
       });
   }
 
+  shouldShowGame(games) {
+    const currentUserGames = gameUtils.getGamesForUser(
+      games,
+      this.props.currentUser
+    );
+    const res = _.head(gameUtils.findFullGames(currentUserGames));
+    console.log("game in should show:", res);
+    console.log("hiuhihia");
+    return res;
+  }
+
   handleAddGame(e) {
     e.preventDefault();
     const gameName = e.target.elements.gameName.value;
-    const partAmount = e.target.elements.partAmount.value;
-    const authorName = this.props.currentUser;
+    const playerLimit = e.target.elements.playerLimit.value;
+    const creator = this.props.currentUser;
+    const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
 
     fetch("/games/addGame", {
       method: "POST",
-      body: JSON.stringify({
-        gameName: gameName,
-        partAmount: partAmount,
-        authorName: authorName
-      }),
+      body: JSON.stringify(game),
       credentials: "include"
     })
       .then(response => {
@@ -91,7 +107,8 @@ export default class LobbyContainer extends React.Component {
           throw response;
         }
         this.setState(() => ({
-          errMessage: ""
+          errMessage: "",
+          createdGame: true
         }));
       })
       .catch(err => {
@@ -106,8 +123,28 @@ export default class LobbyContainer extends React.Component {
     fetch("/games/deleteGame", {
       method: "POST",
       body: JSON.stringify({
-        gameName: gameRecord.gameName,
-        author: gameRecord.authorName.name
+        gameName: gameRecord.name,
+        creator: gameRecord.creator.name
+      }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+        // this assumes only creator can delete his game
+        this.setState(() => ({ createdGame: false }));
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  handleJoinGame(gameRecord) {
+    fetch("/games/joinGame", {
+      method: "POST",
+      body: JSON.stringify({
+        gameName: gameRecord.name
       }),
       credentials: "include"
     })
@@ -129,7 +166,7 @@ export default class LobbyContainer extends React.Component {
   }
 
   render() {
-    return (
+    return !this.state.showGame ? (
       <div>
         <button className={"btn"} onClick={this.props.logoutHandler.bind(this)}>
           logout
@@ -141,16 +178,24 @@ export default class LobbyContainer extends React.Component {
           <GameTable
             games={this.state.games}
             currentUser={this.props.currentUser}
-            deleteGameHandler={this.handleDeleteGame}
+            deleteGameHandler={this.handleDeleteGame.bind(this)}
+            joinGameHandler={this.handleJoinGame.bind(this)}
           />
           <AddGameForm
             currentUser={this.props.currentUser}
             addGameHandler={this.handleAddGame.bind(this)}
+            createdGame={this.state.createdGame}
           />
           <UserTable users={this.state.users} />
         </div>
         {this.renderErrorMessage()}
       </div>
+    ) : (
+      <GameContainer
+        logoutHandler={this.props.logoutHandler}
+        currentUser={this.props.currentUser}
+        showGane={this.state.showGame}
+      />
     );
   }
 }

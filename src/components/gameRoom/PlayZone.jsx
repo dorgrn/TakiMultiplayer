@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card.jsx";
 import CloseTakiButton from "./CloseTakiButton.jsx";
-import manager from "../engine/Manager.js";
+import manager from "../../engine/Manager.js";
 
 export default class PlayZone extends React.Component {
   constructor(props) {

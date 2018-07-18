@@ -4,12 +4,13 @@ import ChatContainer from "./chat/chatContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContain.jsx";
 
 export default class BaseContainer extends React.Component {
-  constructor(args) {
-    super(...args);
+  constructor(props) {
+    super(props);
     this.state = {
       showLogin: true,
       currentUser: {
-        name: ""
+        name: "",
+        status: "idle"
       }
     };
 
@@ -94,18 +95,6 @@ export default class BaseContainer extends React.Component {
         this.setState(() => ({ currentUser: { name: "" }, showLogin: true }));
       }
     );
-  }
-
-  AddGameHandler() {
-    fetch("/games/addGame", { method: "POST", credentials: "include" })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
   }
 
   render() {

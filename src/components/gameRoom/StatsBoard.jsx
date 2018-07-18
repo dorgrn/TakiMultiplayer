@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/styleStatsMenu.css";
-import manager from "../engine/Manager";
+import manager from "../../engine/Manager";
 
 const StatsBoard = props => {
   function handleQuit() {
