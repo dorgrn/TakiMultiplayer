@@ -11,18 +11,16 @@ export default class Game extends React.Component {
     super(props);
     this.initalState = {
       board: {},
-      history: [],
-      stepNumber: 0,
-      inShowMode: false, // this cancels interactivity and animations
+      inShowMode: false, // this cancels interactivity - for watchers
       colorMenuShown: false,
       endMenuShown: false,
       quit: false
     };
     this.state = this.initalState;
-    Game.runGame();
+    this.runGame();
   }
 
-  static runGame() {
+  runGame() {
     manager.create();
     manager.init();
   }
@@ -48,10 +46,6 @@ export default class Game extends React.Component {
     manager.updateUI();
   }
 
-  componentDidMount(){
-    this.saveHistory();
-  }
-
   endGame() {
     this.setState(() => ({ endMenuShown: true }));
   }
@@ -69,34 +63,6 @@ export default class Game extends React.Component {
     }
   }
 
-  saveHistory() {
-    const boardState = manager.getBoardState();
-    this.setState(prevState => ({
-      history: [...prevState.history, boardState],
-      stepNumber: prevState.stepNumber + 1
-    }));
-  }
-
-  loadPrevHistory() {
-    if (this.state.stepNumber === 0) {
-      return;
-    }
-    this.setState(prevState => ({
-      board: prevState.history[prevState.stepNumber - 1],
-      stepNumber: prevState.stepNumber - 1
-    }));
-  }
-
-  loadNextHistory() {
-    if (this.state.stepNumber >= this.state.history.length - 1) {
-      return;
-    }
-    this.setState(prevState => ({
-      board: prevState.history[prevState.stepNumber + 1],
-      stepNumber: prevState.stepNumber + 1
-    }));
-  }
-
   toggleColorMenu() {
     this.setState(prevState => ({ colorMenuShown: !prevState.colorMenuShown }));
   }
@@ -106,16 +72,6 @@ export default class Game extends React.Component {
       return <ColorMenu onColorSelected={this.toggleColorMenu.bind(this)} />;
     }
     return null;
-  }
-
-  handlePrevHistory() {
-    this.setState(() => ({ inShowMode: true }));
-    this.loadPrevHistory();
-  }
-
-  handleNextHistory() {
-    this.setState(() => ({ inShowMode: true }));
-    this.loadNextHistory();
   }
 
   render() {
@@ -128,8 +84,6 @@ export default class Game extends React.Component {
         <Board
           board={this.state.board}
           cbHandleQuit={this.handleQuit.bind(this)}
-          cbHandlePrevHistory={this.handlePrevHistory.bind(this)}
-          cbHandleNextHistory={this.handleNextHistory.bind(this)}
           inShowMode={this.state.inShowMode}
         />
         {this.renderColorMenu()}

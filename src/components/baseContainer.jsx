@@ -47,7 +47,7 @@ export default class BaseContainer extends React.Component {
     return (
       <div className="chat-base-container">
         <div className="user-info-area">
-          Hello {this.state.currentUser.name}
+          Hello {this.props.currentUser.name}
           <button className="logout btn-lobby" onClick={this.logoutHandler}>
             Logout
           </button>
@@ -88,7 +88,7 @@ export default class BaseContainer extends React.Component {
       response => {
         if (!response.ok) {
           console.log(
-            `failed to logout user ${this.state.currentUser.name} `,
+            `failed to logout user ${this.props.currentUser.name} `,
             response
           );
         }
