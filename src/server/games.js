@@ -1,5 +1,5 @@
 const auth = require("./auth");
-const gameUtils = require("../components/utils/gameUtils");
+const gameUtils = require("../utils/gameUtils");
 
 const gamesList = {};
 
@@ -10,15 +10,6 @@ function doesGameExist(gameName) {
 function isUserInGame(userName, game) {
   return game.players.includes(userName);
 }
-//
-// function isGameFull(gameName) {
-//   const game = gamesList[gameName];
-//   if (game === undefined) {
-//     return null;
-//   }
-//
-//   return game.players.length === parseInt(game.playerLimit);
-// }
 
 function createGameDTOFromParsed(parsedGame) {
   const res = {

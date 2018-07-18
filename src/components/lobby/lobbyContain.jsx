@@ -6,7 +6,7 @@ import AddGameForm from "./addGameForm.jsx";
 import takiImage from "../resources/logo.png";
 import GameContainer from "../gameRoom/gameContainer.jsx";
 
-const gameUtils = require("../utils/gameUtils.js");
+const gameUtils = require("../../utils/gameUtils.js");
 
 export default class LobbyContainer extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export default class LobbyContainer extends React.Component {
       users: {},
       games: {},
       createdGame: false, // indicates that user has created a pending/active game
-      showGame: null, // TODO: need to think on how to show which game users where move to!
+      gameToShow: null, // the actual game record to move to, null if none
       errMessage: ""
     };
   }
@@ -71,7 +71,7 @@ export default class LobbyContainer extends React.Component {
         this.setState(() => ({ games: data }));
         const game = this.shouldShowGame(data);
         if (game) {
-          this.setState(() => ({ showGame: game }));
+          this.setState(() => ({ gameToShow: game }));
         }
       })
       .catch(err => {
@@ -84,10 +84,7 @@ export default class LobbyContainer extends React.Component {
       games,
       this.props.currentUser
     );
-    const res = _.head(gameUtils.findFullGames(currentUserGames));
-    console.log("game in should show:", res);
-    console.log("hiuhihia");
-    return res;
+      return _.head(gameUtils.findFullGames(currentUserGames));
   }
 
   handleAddGame(e) {
@@ -166,7 +163,7 @@ export default class LobbyContainer extends React.Component {
   }
 
   render() {
-    return !this.state.showGame ? (
+    return !this.state.gameToShow ? (
       <div>
         <button className={"btn"} onClick={this.props.logoutHandler.bind(this)}>
           logout
@@ -194,7 +191,7 @@ export default class LobbyContainer extends React.Component {
       <GameContainer
         logoutHandler={this.props.logoutHandler}
         currentUser={this.props.currentUser}
-        showGane={this.state.showGame}
+        GameToShow={this.state.gameToShow}
       />
     );
   }
