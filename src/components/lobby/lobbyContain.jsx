@@ -20,7 +20,6 @@ export default class LobbyContainer extends React.Component {
       status: this.props.currentUser.status, // idle / created / joined / playing
       users: {}, // all users
       games: {}, // all games
-      createdGame: false, // indicates that user has created a pending/active game
       gameToShow: null, // the actual game record to move to, null if none
       errMessage: ""
     };

@@ -33,7 +33,7 @@ export default class LoginModal extends React.Component {
       } else {
         if (response.status === 403) {
           this.setState(() => ({
-            errMessage: "User name already exist, please try another one"
+            errMessage: "UserModel.js name already exist, please try another one"
           }));
         }
         this.props.loginErrorHandler();

@@ -9,7 +9,7 @@
     "start": "node --inspect ./src/server.js",
     "start-watch": "nodemon --inspect ./src/server.js localhost 3000"
   },
-  "author": "Spivak Ofer",
+  "author": "Dor Grinshpan",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -26,10 +26,12 @@
     "body-parser": "latest",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "lodash": "latest",
     "prettier": "^1.13.7",
     "react": "^16.2.0",
     "react-dom": "^16.4.1",
+    "react-mobx": "0.0.3",
     "src": "^1.1.2",
-    "lodash": "latest"
+    "mobx": "latest"
   }
 }

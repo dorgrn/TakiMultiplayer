@@ -31,6 +31,7 @@ export default class BaseContainer extends React.Component {
     this.setState(() => ({ showLogin: true }));
   }
 
+
   renderLobby() {
     return (
       <div>

@@ -1,5 +1,5 @@
 const userList = {};
-
+const gameUtils = require("../utils/gameUtils.js");
 /*
   user: {
     name
@@ -10,7 +10,7 @@ const userList = {};
 function createUserFromParsed(name) {
   return {
     name: name,
-    status: "pending"
+    status: gameUtils.STATUS_CONSTS.IDLE
   };
 }
 
