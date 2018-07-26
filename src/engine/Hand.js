@@ -24,14 +24,6 @@ export default class Hand {
         removeCardInArray(this.legalCards, card);
     }
 
-    getCardById(cardId) {
-        for (let i = 0; i < this.cards.length; i++) {
-            if (cardId === this.cards[i].cardId) {
-                return this.cards[i];
-            }
-        }
-    }
-
     copyState() {
         return {
             cards: this.cards.slice(),

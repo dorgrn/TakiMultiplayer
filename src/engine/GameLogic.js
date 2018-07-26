@@ -16,18 +16,12 @@ function funcOpenTaki(){
     if (activePlayer.isPC()){
         this.doPlayerTurn();
     }
-    else{
-        this.updateUI();
-    }
 }
 
 function funcChangeColor(){
     const activePlayer=this.getActivePlayer();
     if (activePlayer.isPC()){
         this.colorSelected(activePlayer.determinePCColor());
-    }
-    else{
-        this.UIChangeColor();
     }
 }
 
@@ -75,23 +69,8 @@ export default class GameLogic{
         this.playingDirection=1;
         this.playerTurn = 0;
         this.isGameEnded = false;
-        this.CBUpdateUIComponents = () => {}; // set by Board to be updateUI(UIComponents)
-        this.UIChangeColor = () => {};
-        this.CBUIEndGame = () => {};
 
         this.init();
-    }
-
-    setCBUIUpdateFunction(func) {
-        this.CBUpdateUIComponents = func;
-    }
-
-    setUIChangeColorFunction(func) {
-        this.UIChangeColor = func;
-    }
-
-    setCBUIEndGame(func) {
-        this.CBUIEndGame = func;
     }
 
     //TODO: this method is vital for server
@@ -114,7 +93,6 @@ export default class GameLogic{
         this.playZone.putOnTop(top);
 
         this.history.gamePostColorChanged(this.stats.getElapsedTime(), color);
-        this.updateUI();
         if (activePlayer.inTakiMode.status === false) {
             this.swapPlayer();
         }
@@ -183,13 +161,8 @@ export default class GameLogic{
 
         activePlayer.hand.removeCard(card);
         this.playZone.putOnTop(card);
-        this.updateUI();
         this.history.playerPostPlay(this.stats.getElapsedTime(),this.stats.turnAmount, activePlayer, card);
         this.activateCard(card);
-    }
-
-    updateUI() {
-        this.CBUpdateUIComponents(this.getBoardState());
     }
 
     drawCard() {
@@ -220,8 +193,6 @@ export default class GameLogic{
             player.hand.cards.push(card);
         }
         this.history.playerPostDraw(this.stats.getElapsedTime(),this.stats.turnAmount, player, cardsDrawn);
-
-        this.updateUI();
     }
 
     //TODO: this method is vital for server
@@ -235,7 +206,6 @@ export default class GameLogic{
     fillLegalCards() {
         const activePlayer = this.getActivePlayer();
         activePlayer.hand.legalCards = activePlayer.hand.cards.filter(this.isCardLegal.bind(this));
-        this.updateUI();
     }
 
     isCardLegal(card) {
@@ -268,7 +238,6 @@ export default class GameLogic{
         this.stats.gameWatch.stop();
         this.isGameEnded = true;
         this.players.sort(Player.comparePlayersPlaces);
-        this.CBUIEndGame();
     }
 
     swapPlayer() {
@@ -285,7 +254,6 @@ export default class GameLogic{
             this.gameEnded();
         }
 
-        this.updateUI();
         if (!this.isGameEnded) {
             this.setNextPlayerAsActive();
             this.doPlayerTurn();
