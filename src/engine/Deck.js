@@ -1,113 +1,133 @@
 import cardFactory from "../engine/CardFactory.js";
-const takiDeck = (function() {
-  // from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-  function shuffle() {
-    let j, x, i;
-    const cards = takiDeck.cards;
-    for (i = cards.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = cards[i];
-      cards[i] = cards[j];
-      cards[j] = x;
-    }
-  }
 
-  function getFilename(type, color) {
-    return type + (color ? "_" + color : "");
-  }
+function createDeck() {
+    let cardIdCounter = 1;
+    let newCard;
 
-  return {
-    VALUE_CARDS: 2,
-    SPECIAL_CARDS: 2,
-    SUPER_CARDS: 4,
+    clearDeck.call(this);
 
-    cards: [],
-
-    createDeck: function() {
-      let cardIdCounter = 1;
-      let newCard;
-
-      takiDeck.clearDeck();
-
-      // value cards
-      cardFactory.values.forEach(function(value) {
-        for (let i = 0; i < takiDeck.VALUE_CARDS; i++) {
-          cardFactory.colors.forEach(function(color) {
-            newCard = cardFactory.createCard(
-              cardIdCounter++,
-              color,
-              "value",
-              getFilename(value, color),
-              value
-            );
-            takiDeck.insertCard(newCard);
-          });
+    // value cards
+    cardFactory.values.forEach((value) => {
+        for (let i = 0; i < this.VALUE_CARDS; i++) {
+            cardFactory.colors.forEach((color) => {
+                newCard = cardFactory.createCard(
+                    cardIdCounter++,
+                    color,
+                    "value",
+                    getFilename(value, color),
+                    value
+                );
+                this.insertCard(newCard);
+            });
         }
-      });
+    });
 
-      // special cards
-      cardFactory.specialTypes.forEach(function(type) {
-        for (let i = 0; i < takiDeck.SPECIAL_CARDS; i++) {
-          cardFactory.colors.forEach(function(color) {
-            newCard = cardFactory.createCard(
-              cardIdCounter++,
-              color,
-              type,
-              getFilename(type, color)
-            );
-            takiDeck.insertCard(newCard);
-          });
+    // special cards
+    cardFactory.specialTypes.forEach((type) => {
+        for (let i = 0; i < this.SPECIAL_CARDS; i++) {
+            cardFactory.colors.forEach((color) => {
+                newCard = cardFactory.createCard(
+                    cardIdCounter++,
+                    color,
+                    type,
+                    getFilename(type, color)
+                );
+                this.insertCard(newCard);
+            });
         }
-      });
+    });
 
-      // supercards
-      cardFactory.superCards.forEach(function(type) {
-        for (let i = 0; i < takiDeck.SUPER_CARDS; i++) {
-          newCard = cardFactory.createCard(
+    // supercard change color
+    for (let i = 0; i < this.SUPER_CARD_CHANGE_COLOR; i++) {
+        newCard = cardFactory.createCard(
             cardIdCounter++,
             "colorful",
-            type,
-            getFilename(type, "colorful")
-          );
-          takiDeck.insertCard(newCard);
-        }
-      });
-
-      shuffle();
-    },
-
-    insertCard: function(card) {
-      const randomIndex = Math.floor(Math.random() * takiDeck.cards.length);
-      takiDeck.cards.splice(randomIndex, 0, card);
-    },
-
-    insertCards: function(cards) {
-      takiDeck.cards.push(cards);
-      shuffle();
-    },
-
-    draw: function() {
-      return takiDeck.cards.pop();
-    },
-
-    isEmpty: function() {
-      return takiDeck.cards.length === 0;
-    },
-
-    isLastCard: function() {
-      return takiDeck.cards.length === 1;
-    },
-
-    clearDeck: function() {
-      takiDeck.cards = [];
-    },
-
-    copyState: function(){
-      return {
-        cards: takiDeck.cards.slice()
-      };
+            cardFactory.superCards[0],
+            getFilename(cardFactory.superCards[0], "colorful")
+        );
+        this.insertCard(newCard);
     }
-  };
-})();
 
-export default takiDeck;
+    // supercard super taki
+    for (let i = 0; i < this.SUPER_CARD_SUPER_TAKI; i++) {
+        newCard = cardFactory.createCard(
+            cardIdCounter++,
+            "colorful",
+            cardFactory.superCards[1],
+            getFilename(cardFactory.superCards[1], "colorful")
+        );
+        this.insertCard(newCard);
+    }
+
+
+    shuffle.call(this);
+}
+
+function clearDeck() {
+    this.cards = [];
+}
+
+function shuffle() {
+    let j, x, i;
+    const cards = this.cards;
+    for (i = cards.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = cards[i];
+        cards[i] = cards[j];
+        cards[j] = x;
+    }
+}
+
+function getFilename(type, color) {
+    return type + (color ? "_" + color : "");
+}
+
+export default class Deck {
+    constructor() {
+        this.cards = [];
+        this.VALUE_CARDS = 2;
+        this.SPECIAL_CARDS = 2;
+        this.SUPER_CARD_CHANGE_COLOR = 4;
+        this.SUPER_CARD_SUPER_TAKI = 2;
+
+        createDeck.call(this);
+    }
+
+    init(){
+        clearDeck.call(this);
+        createDeck.call(this);
+    }
+
+    drawCard() {
+        return this.cards.pop();
+    }
+
+    insertCard(card) {
+        const randomIndex = Math.floor(Math.random() * this.cards.length);
+        this.cards.splice(randomIndex, 0, card);
+    }
+
+    insertCards(cards){
+        for(let i=0;i<cards.length;i++){
+            this.cards.push(cards[i]);
+        }
+
+        shuffle.call(this);
+    }
+
+    isEmpty() {
+        return this.cards.length === 0;
+    }
+
+    isLastCard() {
+        return this.cards.length === 1;
+    }
+
+    copyState(){
+        return {
+            cards: this.cards.slice()
+        };
+    }
+}
+
+

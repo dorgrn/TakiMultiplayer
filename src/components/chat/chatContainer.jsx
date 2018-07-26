@@ -5,7 +5,7 @@ import ChatInput from "./chatInput.jsx";
 export default function() {
   return (
     <div className="chat-container">
-      <ConversationArea />
+      <ConversationArea />n
       <ChatInput />
     </div>
   );

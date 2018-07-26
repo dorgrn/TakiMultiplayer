@@ -1,37 +1,35 @@
-const playZone = (function() {
-  return {
-    cards: [],
-
-    putOnTop: function(card) {
-      playZone.cards.push(card);
-    },
-
-    popTheTop: function() {
-      return playZone.cards.pop();
-    },
-
-    getTop: function() {
-      return playZone.cards[playZone.cards.length - 1];
-    },
-
-    getUsedCards: function() {
-      return playZone.cards.splice(0, playZone.cards.length - 1);
-    },
-
-    isEmpty: function() {
-      return playZone.cards.length === 0;
-    },
-
-    copyState: function() {
-      return {
-        cards: playZone.cards.slice()
-      };
-    },
-
-    init: function() {
-      this.cards = [];
+export default class PlayZone{
+    constructor() {
+        this.cards = [];
     }
-  };
-})();
 
-export default playZone;
+    putOnTop(card) {
+        this.cards.push(card);
+    }
+
+    popTheTop() {
+        return this.cards.pop();
+    }
+
+    getTop() {
+        return this.cards[this.cards.length - 1];
+    }
+
+    getUsedCards() {
+        return this.cards.splice(0, this.cards.length - 1);
+    }
+
+    isEmpty() {
+        return this.cards.length === 0;
+    }
+
+    copyState() {
+        return {
+            cards: this.cards.slice()
+        };
+    }
+
+    init() {
+        this.cards = [];
+    }
+}

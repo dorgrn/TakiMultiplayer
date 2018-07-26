@@ -1,29 +1,25 @@
-import stopWatchFactory from "../engine/StopWatchFactory.js";
+import Stopwatch from "./Stopwatch";
 
-const stats = (function() {
-  const gameWatch = stopWatchFactory.createStopWatch();
-
-  return {
-    gamesAmount: 0,
-    turnAmount: 0,
-    gameWatch: gameWatch,
-    getElapsedTime: function() {
-      return stats.gameWatch.getElapsedTime();
-    },
-
-    resetGameStats: function(){
-      stats.gameWatch.reset();
-      stats.turnAmount = 0;
-    },
-
-    copyState: function() {
-      return {
-        gamesAmount: stats.gamesAmount,
-        turnAmount: stats.turnAmount,
-        gameElapsedTime: stats.getElapsedTime()
-      };
+export default class Stats{
+    constructor() {
+        this.gameWatch = new Stopwatch();
+        this.gamesAmount = 0;
+        this.turnAmount = 0;
     }
-  };
-})();
+    getElapsedTime() {
+        return this.gameWatch.getElapsedTime();
+    }
 
-export default stats;
+    resetGameStats(){
+        this.gameWatch.reset();
+        this.turnAmount = 0;
+    }
+
+    copyState() {
+        return {
+            gamesAmount: this.gamesAmount,
+            turnAmount: this.turnAmount,
+            gameElapsedTime: this.getElapsedTime()
+        };
+    }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import LoginModal from "./login-modal.jsx";
 import ChatContainer from "./chat/chatContainer.jsx";
-import LobbyContainer from "./lobby/lobbyContain.jsx";
+import LobbyContainer from "./lobby/lobbyContainer.jsx";
 
 export default class BaseContainer extends React.Component {
   constructor(args) {
