@@ -1,0 +1,42 @@
+@media screen and (max-width: 1000px){
+    .info-layout {
+        height: 130px;
+        grid-template-columns: 25% 75%;
+        grid-template-rows: 130px 130px;
+        grid-template-areas:
+                "chat chat"
+                "presentUsers movesHistory";
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .info-layout {
+        height: 165px;
+        grid-template-columns: 40% 20% 40%;
+        grid-template-areas:
+                "chat presentUsers movesHistory";
+    }
+}
+
+
+.info-layout{
+    width: 100%;
+    display: grid;
+
+}
+
+.present-users{
+    width: 100%;
+    grid-area: presentUsers;
+}
+
+.moves-history{
+    width: 100%;
+    grid-area: movesHistory;
+}
+
+.chat{
+    display: block;
+    width: 100%;
+    grid-area: chat;
+}

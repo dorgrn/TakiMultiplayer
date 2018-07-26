@@ -1,0 +1,72 @@
+.board-layout {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 20% 40% 40%;
+    grid-template-areas:
+        "otherPlayersRow"
+        "mainBoardRow"
+        "thisPlayerRow";
+}
+
+.other-players-row{
+    width:100%;
+    grid-area: otherPlayersRow;
+
+    display: flex;
+    align-items: flex-start;
+}
+
+.main-board-row{
+    grid-area: mainBoardRow;
+    margin:1%;
+}
+
+.main-board-row-layout{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-areas:
+            "statistics playZone deck";
+}
+
+.this-player-row{
+    grid-area: thisPlayerRow;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    margin: 1%;
+}
+
+.playZone{
+    width: 100%;
+    grid-area: playZone;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.statistics{
+    width: 100%;
+    grid-area: statistics;
+
+    background-size: 100% 100%;
+}
+
+.deck{
+    width: 100%;
+    grid-area: deck;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.statistics-board-img{
+    width: 50%;
+}
+

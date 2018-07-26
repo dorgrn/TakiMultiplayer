@@ -1,0 +1,46 @@
+.other-player{
+    height: 100%;
+    width: 20%;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-areas:
+            "otherPlayerHeadline"
+            "otherPlayerHand";
+    margin-left: 5%;
+    margin-right: 5%;
+    position: relative;
+}
+
+.other-player-headline{
+    grid-area: otherPlayerHeadline;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-areas:
+            "otherPlayerIcon otherPlayerName";
+
+    background-color: lightgray;
+    border-radius: 20px;
+
+}
+
+.other-player-icon{
+    grid-area: otherPlayerIcon;
+}
+
+.other-player-icon-img{
+    width: 75%;
+}
+
+.other-player-name{
+    grid-area: otherPlayerName;
+    text-align: center;
+    font-family: arial;
+    font-size: 1.5vw;
+}
+
+.other-player-hand{
+    grid-area: otherPlayerHand;
+
+    margin: 1%;
+}
+
