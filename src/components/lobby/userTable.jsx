@@ -11,11 +11,11 @@ export default class UserTable extends React.Component {
       <table className={"lobby-table users"}>
         <tbody>
           <tr>
-            <th key={"head"}>Users</th>
+            <th key={"head users"}>Users</th>
           </tr>
           {Object.keys(this.props.users).map((user, index) => (
             <tr key={user}>
-              <td key={user + "_" + index}>{this.props.users[user]}</td>
+              <td key={user + "_" + index}>{this.props.users[user].name}</td>
             </tr>
           ))}
         </tbody>

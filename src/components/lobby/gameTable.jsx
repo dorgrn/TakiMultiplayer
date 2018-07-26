@@ -1,13 +1,10 @@
 import React from "react";
 import "../../css/lobby.css";
+import GameTableRow from "./gameTableRow.jsx";
 
 export default class GameTable extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  isGameAuthor(gameRecord) {
-    return this.props.currentUser.name === gameRecord.authorName.name;
   }
 
   renderGameRows() {
@@ -18,17 +15,14 @@ export default class GameTable extends React.Component {
       if (games.hasOwnProperty(gameName)) {
         let gameRecord = games[gameName];
         res.push(
-          <tr key={gameRecord.gameName}>
-            <td key={gameRecord.gameName + "_name"}>{gameRecord.gameName}</td>
-            <td key={gameRecord.gameName + "_partAmount"}>
-              {gameRecord.partAmount}
-            </td>
-            {this.renderJoin(gameRecord)}
-            {this.renderDelete(gameRecord)}
-            <td key={gameRecord.gameName + "_author"}>
-              {gameRecord.authorName.name}
-            </td>
-          </tr>
+          <GameTableRow
+            key={gameName + "_row"}
+            gameRecord={gameRecord}
+            deleteGameHandler={this.props.deleteGameHandler}
+            joinGameHandler={this.props.joinGameHandler}
+            currentUser={this.props.currentUser}
+            isUserIdle={this.props.isUserIdle}
+          />
         );
       }
     }
@@ -36,48 +30,17 @@ export default class GameTable extends React.Component {
     return res;
   }
 
-  renderJoin(gameRecord) {
-    return (
-      <td key={gameRecord.gameName + "_join"}>
-        <div
-          onClick={void 0}
-          className={this.isGameAuthor(gameRecord) ? "linkStyle" : ""}
-        >
-          {gameRecord.authorName.name !== this.props.currentUser ? "Join" : "-"}
-        </div>
-      </td>
-    );
-  }
-
-  renderDelete(gameRecord) {
-    return (
-      <td key={gameRecord.gameName + "_delete"}>
-        <div
-          onClick={
-            this.isGameAuthor(gameRecord)
-              ? this.props.deleteGameHandler.bind(this, gameRecord)
-              : void 0
-          }
-          className={this.isGameAuthor(gameRecord) ? "linkStyle" : ""}
-        >
-          {gameRecord.authorName.name === this.props.currentUser.name
-            ? "Delete"
-            : "-"}
-        </div>
-      </td>
-    );
-  }
-
   render() {
     return (
       <table className={"lobby-table games"}>
         <tbody>
-          <tr key={"head"}>
-            <th>Game</th>
-            <th>Participants</th>
-            <th>Join</th>
-            <th>Delete</th>
-            <th>Author</th>
+          <tr key={"head games"}>
+            <th key={"head-game"}>Game</th>
+            <th key={"head-part"}>Participants</th>
+            <th key={"head-join"}>Join</th>
+            <th key={"head-delete"}>Delete</th>
+            <th key={"head-creator"}>Creator</th>
+            <th key={"head-status"}>Status</th>
           </tr>
           {this.renderGameRows()}
         </tbody>

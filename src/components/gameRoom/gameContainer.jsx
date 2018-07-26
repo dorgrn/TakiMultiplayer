@@ -1,11 +1,18 @@
 import React from "react";
-import "../../css/lobby.css";
+import Chat from "../chat/chatContainer.jsx";
+import Sidebar from "./Sidebar.jsx";
 
 export default class GameContainer extends React.Component {
-    constructor(...args){
-        super(args);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render(){
-    }
+  render() {
+    return (
+      <div>
+        {/*<Sidebar gameToShow={this.props.gameToShow} />*/}
+        <Chat />
+      </div>
+    );
+  }
 }

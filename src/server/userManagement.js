@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const auth = require("./auth");
 const chatManagement = require("./chat");
 
@@ -14,7 +13,8 @@ userManagement.get("/allUsers", auth.userAuthentication, (req, res) => {
   res.json(auth.getAllUsers());
 });
 
-userManagement.post("/addUser", auth.addUserToAuthList, (req, res) => {
+userManagement.
+post("/addUser", auth.addUserToAuthList, (req, res) => {
   res.sendStatus(200);
 });
 
