@@ -7,6 +7,7 @@ import takiImage from "../resources/logo.png";
 import GameContainer from "../gameRoom/gameContainer.jsx";
 
 const gameUtils = require("../../utils/gameUtils.js");
+const fetchUtils = require("../../utils/fetchUtils");
 
 export default class LobbyContainer extends React.Component {
   constructor(props) {
@@ -27,54 +28,19 @@ export default class LobbyContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.getUsers();
-    this.getGames();
+    this.updateUserTableInterval = setInterval(
+      this.getUsers,
+      this.UPDATE_TIMEOUT
+    );
+    this.updateGamesTableInterval = setInterval(
+      this.getGames,
+      this.UPDATE_TIMEOUT
+    );
   }
 
   componentWillUnmount() {
     clearTimeout(this.updateUserTableInterval);
     clearTimeout(this.updateGamesTableInterval);
-  }
-
-  getUsers() {
-    return fetch("/users/allUsers", { method: "GET", credentials: "include" })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        this.updateUserTableInterval = setTimeout(
-          this.getUsers,
-          this.UPDATE_TIMEOUT
-        );
-        return response.json();
-      })
-      .then(data => {
-        this.setState(() => ({ users: data }));
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  getGames() {
-    return fetch("/games/allGames", { method: "GET", credentials: "include" })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        this.updateGamesTableInterval = setTimeout(
-          this.getGames,
-          this.UPDATE_TIMEOUT
-        );
-        return response.json();
-      })
-      .then(data => {
-        this.setState(() => ({ games: data }));
-        this.checkMoveToGameRoom(data);
-      })
-      .catch(err => {
-        throw err;
-      });
   }
 
   checkMoveToGameRoom(games) {
@@ -93,80 +59,6 @@ export default class LobbyContainer extends React.Component {
       this.props.currentUser
     );
     return _.head(gameUtils.findFullGames(currentUserGames));
-  }
-
-  handleAddGame(e) {
-    e.preventDefault();
-    const gameName = e.target.elements.gameName.value;
-    const playerLimit = e.target.elements.playerLimit.value;
-    const creator = this.props.currentUser;
-    const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
-
-    fetch("/games/addGame", {
-      method: "POST",
-      body: JSON.stringify(game),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        this.setState(() => ({
-          errMessage: "",
-          status: gameUtils.STATUS_CONSTS.CREATED
-        }));
-      })
-      .catch(() => {
-        this.setState(() => ({
-          errMessage: "Game name already exist, please try another one"
-        }));
-      });
-    return false;
-  }
-
-  handleDeleteGame(gameRecord) {
-    fetch("/games/deleteGame", {
-      method: "POST",
-      body: JSON.stringify({
-        gameName: gameRecord.name,
-        creator: gameRecord.creator.name
-      }),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        // this assumes only creator can delete his game
-        this.setState(prev => {
-          if (prev.status === gameUtils.STATUS_CONSTS.CREATED)
-            return { status: gameUtils.STATUS_CONSTS.IDLE };
-        });
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  handleJoinGame(gameRecord) {
-    fetch("/games/joinGame", {
-      method: "POST",
-      body: JSON.stringify({
-        gameName: gameRecord.name
-      }),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        this.setState(() => ({
-          status: gameUtils.STATUS_CONSTS.JOINED
-        }));
-      })
-      .catch(err => {
-        throw err;
-      });
   }
 
   renderErrorMessage() {
@@ -213,5 +105,89 @@ export default class LobbyContainer extends React.Component {
         GameToShow={this.state.gameToShow}
       />
     );
+  }
+
+  // handlers
+  handleAddGame(e) {
+    e.preventDefault();
+    const gameName = e.target.elements.gameName.value;
+    const playerLimit = e.target.elements.playerLimit.value;
+    const creator = this.props.currentUser;
+    const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
+
+    fetchUtils
+      .postData("/games/addGame", JSON.stringify(game))
+      .then(() => {
+        this.setState(() => ({
+          errMessage: "",
+          status: gameUtils.STATUS_CONSTS.CREATED
+        }));
+      })
+      .catch(() => {
+        this.setState(() => ({
+          errMessage: "Game name already exist, please try another one"
+        }));
+      });
+    return false;
+  }
+
+  handleDeleteGame(gameRecord) {
+    fetchUtils.postData(
+      "/games/deleteGame",
+      JSON.stringify({
+        gameName: gameRecord.name,
+        creator: gameRecord.creator.name
+      })
+        .then(() => {
+          // this assumes only creator can delete his game
+          this.setState(prev => {
+            if (prev.status === gameUtils.STATUS_CONSTS.CREATED)
+              return { status: gameUtils.STATUS_CONSTS.IDLE };
+          });
+        })
+        .catch(err => {
+          throw err;
+        })
+    );
+  }
+
+  handleJoinGame(gameRecord) {
+    fetchUtils.postData(
+      "/games/joinGame",
+      JSON.stringify({
+        gameName: gameRecord.name
+      })
+        .then(() => {
+          this.setState(() => ({
+            status: gameUtils.STATUS_CONSTS.JOINED
+          }));
+        })
+        .catch(err => {
+          throw err;
+        })
+    );
+  }
+
+  getUsers() {
+    return fetchUtils
+      .getData("/users/allUsers")
+      .then(data => {
+        this.setState(() => ({ users: data }));
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  getGames() {
+    return fetchUtils
+      .getData("/games/allGames")
+      .then(data => {
+        this.setState(() => ({ games: data }));
+        this.checkMoveToGameRoom(data);
+      })
+      .catch(err => {
+        throw err;
+      });
   }
 }
