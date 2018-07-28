@@ -26,8 +26,9 @@
     "body-parser": "latest",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "lodash": "latest",
+    "prettier": "^1.13.7",
     "react": "^16.2.0",
-    "react-dom": "^16.4.1",
-    "lodash": "latest"
+    "react-dom": "^16.4.1"
   }
 }

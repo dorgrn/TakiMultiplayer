@@ -1,25 +1,25 @@
-import Stopwatch from "./Stopwatch";
+const Stopwatch = require("./Stopwatch");
 
-export default class Stats{
-    constructor() {
-        this.gameWatch = new Stopwatch();
-        this.gamesAmount = 0;
-        this.turnAmount = 0;
-    }
-    getElapsedTime() {
-        return this.gameWatch.getElapsedTime();
-    }
+module.exports = class Stats {
+  constructor() {
+    this.gameWatch = new Stopwatch();
+    this.gamesAmount = 0;
+    this.turnAmount = 0;
+  }
+  getElapsedTime() {
+    return this.gameWatch.getElapsedTime();
+  }
 
-    resetGameStats(){
-        this.gameWatch.reset();
-        this.turnAmount = 0;
-    }
+  resetGameStats() {
+    this.gameWatch.reset();
+    this.turnAmount = 0;
+  }
 
-    copyState() {
-        return {
-            gamesAmount: this.gamesAmount,
-            turnAmount: this.turnAmount,
-            gameElapsedTime: this.getElapsedTime()
-        };
-    }
-}
+  copyState() {
+    return {
+      gamesAmount: this.gamesAmount,
+      turnAmount: this.turnAmount,
+      gameElapsedTime: this.getElapsedTime()
+    };
+  }
+};
