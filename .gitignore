@@ -53,6 +53,6 @@ typings/
 # next.js build output
 .next
 .idea/workspace.xml
-public/
+public/*
 !/public/index.html
 .idea/codeStyles/
