@@ -1,6 +1,6 @@
-import Stopwatch from "./Stopwatch";
+const Stopwatch = require("./Stopwatch");
 
-export default class Stats{
+module.exports = class Stats{
     constructor() {
         this.gameWatch = new Stopwatch();
         this.turnAmount = 0;
@@ -23,4 +23,4 @@ export default class Stats{
             isGameEnded: this.isGameEnded
         };
     }
-}
+};

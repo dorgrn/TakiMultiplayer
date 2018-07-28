@@ -1,3 +1,5 @@
+const gameLogic = require("../engine/GameLogic.js");
+
 const auth = require("./auth");
 const gameUtils = require("../utils/gameUtils");
 
@@ -28,7 +30,6 @@ function createGameDTOFromParsed(parsedGame) {
 function addGameToList(req, res, next) {
   console.log(" in add GameToList", req);
   const parsedGame = JSON.parse(req.body);
-
 
   if (gamesList[parsedGame.name] !== undefined) {
     res.status(403).send("this game name already exist");
@@ -81,9 +82,29 @@ function getAllGames() {
   return gamesList;
 }
 
+function getGameByName(gameName) {
+  return gamesList[gameName];
+}
+
+function createGameLogic(gameName) {
+  const game = getGameByName(gameName);
+  if (!game) {
+    throw "undefined game!";
+  }
+  if (game.gameLogic !== null) {
+    throw "game logic already exists!";
+  }
+  if (gameUtils.isGameFull(game)) {
+    game.gameLogic = new GameLogic();
+  }
+
+  console.log(game.gameLogic);
+}
+
 module.exports = {
   addGameToList,
   removeGameFromList,
   getAllGames,
-  addUserToGame: addCurrentUserToGame
+  addCurrentUserToGame,
+  getGameByName
 };

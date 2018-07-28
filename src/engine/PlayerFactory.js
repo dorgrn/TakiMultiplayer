@@ -1,6 +1,6 @@
-import Player from "./Player";
+const Player = require("./Player");
 
-const playerFactory = (function() {
+module.exports = (function() {
   const TYPES = {
     PC: "pc",
     USER: "user"
@@ -33,10 +33,7 @@ const playerFactory = (function() {
     },
 
     getTypes: function() {
-        return TYPES;
+      return TYPES;
     }
-
   };
 })();
-
-export default playerFactory;
