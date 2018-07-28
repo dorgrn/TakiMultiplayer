@@ -54,3 +54,5 @@ typings/
 .next
 .idea/workspace.xml
 public/
+!/public/index.html
+.idea/codeStyles/
