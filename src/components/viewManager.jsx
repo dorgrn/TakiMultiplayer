@@ -1,5 +1,5 @@
 import React from "react";
-import LoginModal from "./login/login-modal.jsx";
+import LoginContainer from "./login/loginContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContainer.jsx";
 const gameUtils = require("../utils/gameUtils.js");
 
@@ -25,7 +25,7 @@ export default class ViewManager extends React.Component {
   }
 
   renderLogin(){
-      return (<LoginModal/>);
+      return (<LoginContainer/>);
   }
 
   renderLobby() {

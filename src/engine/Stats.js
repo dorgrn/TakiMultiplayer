@@ -3,8 +3,8 @@ import Stopwatch from "./Stopwatch";
 export default class Stats{
     constructor() {
         this.gameWatch = new Stopwatch();
-        this.gamesAmount = 0;
         this.turnAmount = 0;
+        this.isGameEnded = false;
     }
     getElapsedTime() {
         return this.gameWatch.getElapsedTime();
@@ -13,13 +13,14 @@ export default class Stats{
     resetGameStats(){
         this.gameWatch.reset();
         this.turnAmount = 0;
+        this.isGameEnded = false;
     }
 
     copyState() {
         return {
-            gamesAmount: this.gamesAmount,
             turnAmount: this.turnAmount,
-            gameElapsedTime: this.getElapsedTime()
+            gameElapsedTime: this.getElapsedTime(),
+            isGameEnded: this.isGameEnded
         };
     }
 }

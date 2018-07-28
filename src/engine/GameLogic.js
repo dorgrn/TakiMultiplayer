@@ -68,7 +68,6 @@ export default class GameLogic{
         this.currentlyPlaying = playersDTO.length;
         this.playingDirection=1;
         this.playerTurn = 0;
-        this.isGameEnded = false;
 
         this.init();
     }
@@ -80,6 +79,7 @@ export default class GameLogic{
             turn: this.playerTurn,
             stats: this.stats.copyState(),
             playZone: this.playZone.copyState(),
+            deck: this.deck.copyState(),
             history: this.history.copyState()
         };
     }
@@ -234,9 +234,8 @@ export default class GameLogic{
     }
 
     gameEnded() {
-        this.stats.gamesAmount++;
         this.stats.gameWatch.stop();
-        this.isGameEnded = true;
+        this.stats.isGameEnded = true;
         this.players.sort(Player.comparePlayersPlaces);
     }
 
@@ -254,7 +253,7 @@ export default class GameLogic{
             this.gameEnded();
         }
 
-        if (!this.isGameEnded) {
+        if (!this.stats.isGameEnded) {
             this.setNextPlayerAsActive();
             this.doPlayerTurn();
         }
@@ -324,7 +323,6 @@ export default class GameLogic{
         this.stats.gameWatch.start();
         this.history.clearHistory();
 
-        this.isGameEnded = false;
         this.deck.init();
         // draw the first card to playZone
         let card = this.drawCard();
