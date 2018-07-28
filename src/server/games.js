@@ -25,7 +25,9 @@ function createGameDTOFromParsed(parsedGame) {
 }
 
 function addGameToList(req, res, next) {
+  console.log(" in add GameToList", req);
   const parsedGame = JSON.parse(req.body);
+
 
   if (gamesList[parsedGame.name] !== undefined) {
     res.status(403).send("this game name already exist");
