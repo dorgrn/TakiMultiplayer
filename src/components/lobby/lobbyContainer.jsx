@@ -12,24 +12,28 @@ export default class LobbyContainer extends React.Component {
     super(props);
     this.UPDATE_TIMEOUT = 500;
 
-    this.getUsers = this.getUsers.bind(this);
-    this.getGames = this.getGames.bind(this);
-
     this.state = {
       users: {}, // all users
       games: {}, // all games
       errMessage: ""
     };
-  }
 
-  componentDidMount() {
-    this.getUsers();
-    this.getGames();
+  this.fetchUsersInterval = setInterval(
+      this.getUsers.bind(this),
+      this.UPDATE_TIMEOUT
+  );
+
+  this.fetchGamesInterval = setInterval(
+      this.getGames.bind(this),
+      this.UPDATE_TIMEOUT
+  );
+
+
   }
 
   componentWillUnmount() {
-    clearTimeout(this.updateUserTableInterval);
-    clearTimeout(this.updateGamesTableInterval);
+    clearInterval(this.fetchUsersInterval);
+    clearInterval(this.fetchGamesInterval);
   }
 
   getUsers() {
@@ -38,10 +42,6 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
-        this.updateUserTableInterval = setTimeout(
-          this.getUsers,
-          this.UPDATE_TIMEOUT
-        );
         return response.json();
       })
       .then(data => {
@@ -58,80 +58,10 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
-        this.updateGamesTableInterval = setTimeout(
-          this.getGames,
-          this.UPDATE_TIMEOUT
-        );
         return response.json();
       })
       .then(data => {
         this.setState(() => ({ games: data }));
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  handleAddGame(e) {
-    e.preventDefault();
-    const gameName = e.target.elements.gameName.value;
-    const playerLimit = e.target.elements.playerLimit.value;
-    //TODO: should the PC player option be available on the creation of game?
-    const creator = this.props.userName;
-    const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
-
-    fetch("/games/addGame", {
-      method: "POST",
-      body: JSON.stringify(game),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-        this.setState(() => ({
-          errMessage: ""
-        }));
-      })
-      .catch(() => {
-        this.setState(() => ({
-          errMessage: "Game name already exist, please try another one"
-        }));
-      });
-    return false;
-  }
-
-  handleDeleteGame(gameRecord) {
-    fetch("/games/deleteGame", {
-      method: "POST",
-      body: JSON.stringify({
-        gameName: gameRecord.name,
-        creator: gameRecord.creator.name
-      }),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  handleJoinGame(gameRecord) {
-    fetch("/games/joinGame", {
-      method: "POST",
-      body: JSON.stringify({
-        gameName: gameRecord.name
-      }),
-      credentials: "include"
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw response;
-        }
       })
       .catch(err => {
         throw err;
@@ -143,7 +73,7 @@ export default class LobbyContainer extends React.Component {
           response => {
               if (!response.ok) {
                   console.log(
-                      `failed to logout user ${this.props.userName} `,
+                      `failed to logout user ${this.props.userInfo.userName} `,
                       response
                   );
               }
@@ -158,31 +88,23 @@ export default class LobbyContainer extends React.Component {
     return null;
   }
 
-  isUserIdle() {
-    return this.state.status === gameUtils.STATUS_CONSTS.IDLE;
-  }
-
   render() {
+      //console.log(this.props.userInfo);
     return (
       <div>
-        <button className={"btn"} onClick={this.logoutHandler()}>
+        <button className={"btn"} onClick={this.logoutHandler.bind(this)}>
           logout
         </button>
-        <p>Username: {this.props.userName}</p>
+        <p>Username: {this.props.userInfo.userName}</p>
         <img id={"logo-lobby"} src={takiImage} />
 
         <div className={"lobby-container"}>
           <GameTable
             games={this.state.games}
-            currentUser={this.props.userName}
-            deleteGameHandler={this.handleDeleteGame.bind(this)}
-            joinGameHandler={this.handleJoinGame.bind(this)}
-            isUserIdle={this.isUserIdle.bind(this)}
+            userInfo={this.props.userInfo}
           />
           <AddGameForm
-            currentUser={this.props.userName}
-            addGameHandler={this.handleAddGame.bind(this)}
-            disable={!this.isUserIdle()}
+            userInfo={this.props.userInfo}
           />
           <UserTable users={this.state.users} />
         </div>

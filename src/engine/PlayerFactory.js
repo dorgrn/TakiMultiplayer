@@ -6,32 +6,30 @@ module.exports = (function() {
     USER: "user"
   };
 
-  let counterPCPlayers = 0;
 
   return {
     HAND_INITIAL_SIZE: 8,
 
-    createPlayers: function(playersDTO) {
-      let players = [];
-      for (let i = 0; i < playersDTO.length; i++) {
-        if (playersDTO[i].playerType === TYPES.USER) {
-          players.push(
-            this.createUserPlayer(playersDTO[i].id, playersDTO[i].name)
-          );
-        } else if (playersDTO[i].playerType === TYPES.PC) {
-          players.push(this.createPCPlayer());
+    createPlayers: function(playersDTO){
+      let players=[];
+      for(let i=0; i<playersDTO.length;i++){
+        if(playersDTO[i].playerType === TYPES.USER){
+            players.push(this.createUserPlayer(playersDTO[i].name));
+        }
+        else if(playersDTO[i].playerType === TYPES.PC){
+            players.push(this.createPCPlayer());
         }
       }
 
       return players;
     },
 
-    createUserPlayer: function(id, name) {
-      return new Player(TYPES.USER, id, name);
+    createUserPlayer: function(name){
+      return new Player(TYPES.USER, name);
     },
 
-    createPCPlayer: function() {
-      return new Player(TYPES.PC, counterPCPlayers++, "PC player");
+    createPCPlayer: function(){
+      return new Player(TYPES.PC, "PC player");
     },
 
     getTypes: function() {

@@ -56,31 +56,32 @@ function funcSuperTaki() {
   funcOpenTaki.call(this);
 }
 
-module.exports = class GameLogic {
-  constructor(playersDTO) {
-    this.stats = new Stats();
-    this.history = new History();
-    this.deck = new Deck();
-    this.playZone = new PlayZone();
-    this.players = playerFactory.createPlayers(playersDTO);
-    this.currentlyPlaying = playersDTO.length;
-    this.playingDirection = 1;
-    this.playerTurn = 0;
-    this.isGameEnded = false;
+
+module.exports = class GameLogic{
+    constructor(playersDTO){
+        this.stats = new Stats();
+        this.history = new History();
+        this.deck = new Deck();
+        this.playZone = new PlayZone();
+        this.players = playerFactory.createPlayers(playersDTO);
+        this.currentlyPlaying = playersDTO.length;
+        this.playingDirection=1;
+        this.playerTurn = 0;
 
     this.init();
   }
 
-  //TODO: this method is vital for server
-  getBoardState() {
-    return {
-      players: this.players.map(player => player.copyState()),
-      turn: this.playerTurn,
-      stats: this.stats.copyState(),
-      playZone: this.playZone.copyState(),
-      history: this.history.copyState()
-    };
-  }
+    //TODO: this method is vital for server
+    getBoardState() {
+        return {
+            players: this.players.map(player => player.copyState()),
+            turn: this.playerTurn,
+            stats: this.stats.copyState(),
+            playZone: this.playZone.copyState(),
+            deck: this.deck.copyState(),
+            history: this.history.copyState()
+        };
+    }
 
   //TODO: this method is vital for server
   colorSelected(color) {
@@ -242,12 +243,11 @@ module.exports = class GameLogic {
     );
   }
 
-  gameEnded() {
-    this.stats.gamesAmount++;
-    this.stats.gameWatch.stop();
-    this.isGameEnded = true;
-    this.players.sort(Player.comparePlayersPlaces);
-  }
+    gameEnded() {
+        this.stats.gameWatch.stop();
+        this.stats.isGameEnded = true;
+        this.players.sort(Player.comparePlayersPlaces);
+    }
 
   swapPlayer() {
     let activePlayer = this.getActivePlayer();
@@ -267,11 +267,11 @@ module.exports = class GameLogic {
       this.gameEnded();
     }
 
-    if (!this.isGameEnded) {
-      this.setNextPlayerAsActive();
-      this.doPlayerTurn();
+        if (!this.stats.isGameEnded) {
+            this.setNextPlayerAsActive();
+            this.doPlayerTurn();
+        }
     }
-  }
 
   playerDonePlaying() {
     let activePlayer = this.getActivePlayer();
@@ -343,10 +343,9 @@ module.exports = class GameLogic {
     this.stats.gameWatch.start();
     this.history.clearHistory();
 
-    this.isGameEnded = false;
-    this.deck.init();
-    // draw the first card to playZone
-    let card = this.drawCard();
+        this.deck.init();
+        // draw the first card to playZone
+        let card = this.drawCard();
 
     while (card.isSuperCard()) {
       this.deck.insertCard(card);

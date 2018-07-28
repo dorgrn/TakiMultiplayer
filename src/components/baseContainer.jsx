@@ -1,5 +1,5 @@
 import React from "react";
-import LoginModal from "./login/login-modal.jsx";
+import LoginContainer from "./login/loginContainer.jsx";
 import ChatContainer from "./chat/chatContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContainer.jsx";
 
@@ -100,7 +100,7 @@ export default class BaseContainer extends React.Component {
   render() {
     if (this.state.showLogin) {
       return (
-        <LoginModal
+        <LoginContainer
           loginSuccessHandler={this.handleSuccessfulLogin}
           loginErrorHandler={this.handleLoginError}
           logoutHandler={this.logoutHandler}

@@ -1,7 +1,7 @@
 import React from "react";
 import takiImage from "../resources/logo.png";
 
-export default class LoginModal extends React.Component {
+export default class LoginContainer extends React.Component {
   constructor(props) {
     super(props);
 

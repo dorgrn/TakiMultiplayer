@@ -8,28 +8,27 @@ const PLAYING_STATUS = {
   IDLE: "idle"
 };
 
-module.exports = class Player {
-  constructor(type, id, name) {
-    this.id = id;
-    this.name = name;
-    this.stats = {
-      lastCardCounter: 0,
-      turnsAmount: 0,
-      turnsTime: 0,
-      turnsAvgTime: 0,
-      turnStopWatch: new Stopwatch()
-    };
-    this.playerType = type;
-    this.inTakiMode = {
-      status: false,
-      takiId: {}
-    };
-    this.isStopped = false;
-    this.mustTake = 0;
-    this.hand = new Hand();
-    this.playingStatus = PLAYING_STATUS.PLAYING;
-    this.place = 0;
-  }
+module.exports = class Player{
+    constructor(type, name){
+        this.name = name;
+        this.stats = {
+            lastCardCounter: 0,
+            turnsAmount: 0,
+            turnsTime: 0,
+            turnsAvgTime: 0,
+            turnStopWatch: new Stopwatch()
+        };
+        this.playerType = type;
+        this.inTakiMode = {
+            status: false,
+            takiId: {}
+        };
+        this.isStopped = false;
+        this.mustTake = 0;
+        this.hand = new Hand();
+        this.playingStatus = PLAYING_STATUS.PLAYING;
+        this.place = 0;
+    }
 
   static getAvgTime(turnsAmount, turnsTime) {
     return turnsAmount === 0
@@ -66,15 +65,15 @@ module.exports = class Player {
     return Player.getAvgTime(this.stats.turnsAmount, this.stats.turnsTime);
   }
 
-  copyState() {
-    return {
-      id: this.id,
-      type: this.playerType,
-      hand: this.hand.copyState(),
-      stats: Object.assign({}, this.stats),
-      place: this.place
-    };
-  }
+    copyState() {
+        return {
+            name: this.name,
+            type: this.playerType,
+            hand: this.hand.copyState(),
+            stats: Object.assign({}, this.stats),
+            place: this.place
+        };
+    }
 
   determinePCPlay(top) {
     const TYPES = cardFactory.getTypes();

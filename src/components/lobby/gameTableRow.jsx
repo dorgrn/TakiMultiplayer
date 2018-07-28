@@ -1,12 +1,51 @@
 import React from "react";
 import "../../css/lobby.css";
+const gameUtils = require("../../utils/gameUtils.js");
+
 
 export default class GameTableRow extends React.Component {
   constructor(props) {
     super(props);
     this.isGameCreator =
-      props.currentUser.name === props.gameRecord.creator.name;
+      props.userInfo.userName === props.gameRecord.creator;
   }
+
+    deleteGameHandler(gameRecord) {
+        fetch("/games/deleteGame", {
+            method: "POST",
+            body: JSON.stringify({
+                gameName: gameRecord.name,
+                creator: gameRecord.creator.name
+            }),
+            credentials: "include"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+            })
+            .catch(err => {
+                throw err;
+            });
+    }
+
+    joinGameHandler(gameRecord) {
+        fetch("/games/joinGame", {
+            method: "POST",
+            body: JSON.stringify({
+                gameName: gameRecord.name
+            }),
+            credentials: "include"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+            })
+            .catch(err => {
+                throw err;
+            });
+    }
 
   shouldShowDelete() {
     const playerAmount = this.props.gameRecord.players.length;
@@ -14,7 +53,7 @@ export default class GameTableRow extends React.Component {
   }
 
   shouldShowJoin() {
-    return this.props.isUserIdle();
+    return !this.isGameCreator && (this.props.userInfo.gameName !== this.props.gameRecord.name);
   }
 
   renderJoin() {
@@ -25,7 +64,7 @@ export default class GameTableRow extends React.Component {
 
     if (this.shouldShowJoin()) {
       label = "Join";
-      onClick = this.props.joinGameHandler.bind(this, gameRecord);
+      onClick = this.joinGameHandler.bind(this, gameRecord);
       className = "linkStyle";
     }
 
@@ -46,7 +85,7 @@ export default class GameTableRow extends React.Component {
 
     if (this.shouldShowDelete()) {
       label = "Delete";
-      onClick = this.props.deleteGameHandler.bind(this, gameRecord);
+      onClick = this.deleteGameHandler.bind(this, gameRecord);
       className = "linkStyle";
     }
 

@@ -5,8 +5,8 @@ const chatManagement = require("./chat");
 const userManagement = express.Router();
 
 userManagement.get("/", auth.userAuthentication, (req, res) => {
-  const userName = auth.getUserInfo(req.session.id).name;
-  res.json({ name: userName });
+  const userName = auth.getUserInfo(req.session.id);
+  res.json(userName);
 });
 
 userManagement.get("/allUsers", auth.userAuthentication, (req, res) => {
