@@ -1,6 +1,7 @@
 const auth = require("./auth");
 const gameUtils = require("../utils/gameUtils");
 
+
 const gamesList = {};
 
 function doesGameExist(gameName) {
@@ -33,6 +34,7 @@ function addGameToList(req, res, next) {
     res.status(403).send("this game name already exist");
   } else {
     gamesList[parsedGame.name] = createGameDTOFromParsed(parsedGame);
+    auth.setGameNameForUser(req.session.id, parsedGame.name);
     next();
   }
 }
@@ -57,25 +59,26 @@ function removeGameFromList(req, res, next) {
 function addCurrentUserToGame(req, res, next) {
   const parsed = JSON.parse(req.body);
   const game = gamesList[parsed.gameName];
-  const user = auth.getUserInfo(req.session.id);
+  const userInfo = auth.getUserInfo(req.session.id);
 
   if (!game) {
     res.status(404).send("game does not exist");
-  } else if (!user) {
+  } else if (!userInfo) {
     res.status(401).send("user not found");
   } else if (gameUtils.isGameFull(game)) {
     res.status(405).send("game is full");
-  } else if (isUserInGame(user.name, game)) {
+  } else if (isUserInGame(userInfo.userName, game)) {
     res.status(406).send("user already in game");
   } else {
-    game.players.push(user.name);
+    game.players.push(userInfo.userName);
+    auth.setGameNameForUser(req.session.id, game.name);
     gamesList[parsed.gameName] = game;
     next();
   }
 }
 
 function getAllGames() {
-  return gamesList.map();
+  return gamesList;
 }
 
 module.exports = {

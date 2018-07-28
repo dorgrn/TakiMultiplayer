@@ -10,8 +10,7 @@ const PLAYING_STATUS={
 
 export default class Player{
 
-    constructor(type, id, name){
-        this.id = id;
+    constructor(type, name){
         this.name = name;
         this.stats = {
             lastCardCounter: 0,
@@ -72,7 +71,7 @@ export default class Player{
 
     copyState() {
         return {
-            id: this.id,
+            name: this.name,
             type: this.playerType,
             hand: this.hand.copyState(),
             stats: Object.assign({}, this.stats),

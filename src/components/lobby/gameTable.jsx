@@ -18,10 +18,7 @@ export default class GameTable extends React.Component {
           <GameTableRow
             key={gameName + "_row"}
             gameRecord={gameRecord}
-            deleteGameHandler={this.props.deleteGameHandler}
-            joinGameHandler={this.props.joinGameHandler}
-            currentUser={this.props.currentUser}
-            isUserIdle={this.props.isUserIdle()}
+            userInfo={this.props.userInfo}
           />
         );
       }

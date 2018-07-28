@@ -1,3 +1,5 @@
+const gameUtils = require("../utils/gameUtils");
+
 const userList = {};
 
 /*
@@ -10,7 +12,8 @@ const userList = {};
 function createUserFromParsed(name) {
   return {
     name: name,
-    status: "pending"
+    status: gameUtils.STATUS_CONSTS.IDLE,
+    gameName: ""
   };
 }
 
@@ -50,7 +53,13 @@ function removeUserFromAuthList(req, res, next) {
 }
 
 function getUserInfo(id) {
-  return { name: userList[id].name };
+  let userInfo = userList[id];
+  return { userName: userInfo.name, userStatus: userInfo.status, gameName: userInfo.gameName };
+}
+
+function setGameNameForUser(id, gameName){
+    let userInfo = userList[id];
+    userInfo.gameName=gameName;
 }
 
 function getAllUsers() {
@@ -62,5 +71,6 @@ module.exports = {
   addUserToAuthList,
   removeUserFromAuthList,
   getUserInfo,
+  setGameNameForUser,
   getAllUsers
 };
