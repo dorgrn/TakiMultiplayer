@@ -3,7 +3,6 @@ const gameLogic = require("../engine/GameLogic.js");
 const auth = require("./auth");
 const gameUtils = require("../utils/gameUtils");
 
-
 const gamesList = {};
 
 function doesGameExist(gameName) {
@@ -16,9 +15,9 @@ function isUserInGame(userName, game) {
 
 function createGameDTOFromParsed(parsedGame) {
   const res = {
-    name: parsedGame.name,
+    gameName: parsedGame.name,
     creator: parsedGame.creator,
-    players: [parsedGame.creator.name],
+    players: [parsedGame.creator],
     playerAmount: 1,
     playerLimit: parseInt(parsedGame.playerLimit),
     gameLogic: null
@@ -74,6 +73,7 @@ function addCurrentUserToGame(req, res, next) {
     game.players.push(userInfo.userName);
     auth.setGameNameForUser(req.session.id, game.name);
     gamesList[parsed.gameName] = game;
+    createGameLogic(game.gameName);
     next();
   }
 }
@@ -87,6 +87,7 @@ function getGameByName(gameName) {
 }
 
 function createGameLogic(gameName) {
+  console.log("gameList:", gamesList);
   const game = getGameByName(gameName);
   if (!game) {
     throw "undefined game!";
@@ -94,11 +95,16 @@ function createGameLogic(gameName) {
   if (game.gameLogic !== null) {
     throw "game logic already exists!";
   }
+
   if (gameUtils.isGameFull(game)) {
-    game.gameLogic = new GameLogic();
+    game.gameLogic = new gameLogic(game.players);
+    console.log("game after logicCreate", game);
+    game.players.forEach(player =>
+      auth.setStatusForUser(player, gameUtils.STATUS_CONSTS.PLAYING)
+    );
   }
 
-  console.log(game.gameLogic);
+  console.log("Games list:", gamesList);
 }
 
 module.exports = {
@@ -106,5 +112,6 @@ module.exports = {
   removeGameFromList,
   getAllGames,
   addCurrentUserToGame,
-  getGameByName
+  getGameByName,
+  createGameLogic
 };

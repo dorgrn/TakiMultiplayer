@@ -20,7 +20,10 @@ function playCard(req, res, next) {
   next();
 }
 
-function drawCard(req, res, next) {}
+function drawCard(req, res, next) {
+  const card = req.body.card;
+
+}
 
 module.exports = {
   getBoardState,

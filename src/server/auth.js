@@ -54,12 +54,25 @@ function removeUserFromAuthList(req, res, next) {
 
 function getUserInfo(id) {
   let userInfo = userList[id];
-  return { userName: userInfo.name, userStatus: userInfo.status, gameName: userInfo.gameName };
+  return {
+    userName: userInfo.name,
+    userStatus: userInfo.status,
+    gameName: userInfo.gameName
+  };
 }
 
-function setGameNameForUser(id, gameName){
-    let userInfo = userList[id];
-    userInfo.gameName=gameName;
+function setGameNameForUser(id, gameName) {
+  let userInfo = userList[id];
+  userInfo.gameName = gameName;
+}
+
+function getUserIdFromUserName(userName) {
+  return _.findKey(userList, user => (user.userName = userName));
+}
+
+function setStatusForUser(userName, status) {
+  let userId = getUserIdFromUserName(userName);
+  userList[userId].userStatus = status;
 }
 
 function getAllUsers() {
@@ -72,5 +85,6 @@ module.exports = {
   removeUserFromAuthList,
   getUserInfo,
   setGameNameForUser,
-  getAllUsers
+  getAllUsers,
+  setStatusForUser
 };

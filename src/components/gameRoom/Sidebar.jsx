@@ -11,7 +11,7 @@ export default class Sidebar extends React.Component {
     return (
       <div className={"sidebar"}>
         <section>
-          <h3>Game:</h3> {gameRecord.name}
+          <h3>Game:</h3> {gameRecord.gameName}
         </section>
         <section>
           <h3>Players</h3>

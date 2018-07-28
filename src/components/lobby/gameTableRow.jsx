@@ -1,51 +1,50 @@
 import React from "react";
 import "../../css/lobby.css";
-const gameUtils = require("../../utils/gameUtils.js");
 
+const gameUtils = require("../../utils/gameUtils.js");
 
 export default class GameTableRow extends React.Component {
   constructor(props) {
     super(props);
-    this.isGameCreator =
-      props.userInfo.userName === props.gameRecord.creator;
+    this.isGameCreator = props.userInfo.userName === props.gameRecord.creator;
   }
 
-    deleteGameHandler(gameRecord) {
-        fetch("/games/deleteGame", {
-            method: "POST",
-            body: JSON.stringify({
-                gameName: gameRecord.name,
-                creator: gameRecord.creator.name
-            }),
-            credentials: "include"
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw response;
-                }
-            })
-            .catch(err => {
-                throw err;
-            });
-    }
+  deleteGameHandler(gameRecord) {
+    fetch("/games/deleteGame", {
+      method: "POST",
+      body: JSON.stringify({
+        gameName: gameRecord.gameName,
+        creator: gameRecord.creator
+      }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
 
-    joinGameHandler(gameRecord) {
-        fetch("/games/joinGame", {
-            method: "POST",
-            body: JSON.stringify({
-                gameName: gameRecord.name
-            }),
-            credentials: "include"
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw response;
-                }
-            })
-            .catch(err => {
-                throw err;
-            });
-    }
+  joinGameHandler(gameRecord) {
+    fetch("/games/joinGame", {
+      method: "POST",
+      body: JSON.stringify({
+        gameName: gameRecord.gameName
+      }),
+      credentials: "include"
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
 
   shouldShowDelete() {
     const playerAmount = this.props.gameRecord.players.length;
@@ -53,7 +52,10 @@ export default class GameTableRow extends React.Component {
   }
 
   shouldShowJoin() {
-    return !this.isGameCreator && (this.props.userInfo.gameName !== this.props.gameRecord.name);
+    return (
+      !this.isGameCreator &&
+      this.props.userInfo.gameName !== this.props.gameRecord.gameName
+    );
   }
 
   renderJoin() {
@@ -69,7 +71,7 @@ export default class GameTableRow extends React.Component {
     }
 
     return (
-      <td key={gameRecord.name + "_join"}>
+      <td key={gameRecord.gameName + "_join"}>
         <div onClick={onClick} className={className}>
           {label}
         </div>
@@ -90,7 +92,7 @@ export default class GameTableRow extends React.Component {
     }
 
     return (
-      <td key={gameRecord.name + "_delete"}>
+      <td key={gameRecord.gameName + "_delete"}>
         <div onClick={onClick} className={className}>
           {label}
         </div>
@@ -107,15 +109,15 @@ export default class GameTableRow extends React.Component {
   render() {
     const gameRecord = this.props.gameRecord;
     return (
-      <tr key={gameRecord.name}>
-        <td key={gameRecord.name + "_name"}>{gameRecord.name}</td>
-        <td key={gameRecord.name + "_players"}>
+      <tr key={gameRecord.gameName}>
+        <td key={gameRecord.gameName + "_name"}>{gameRecord.gameName}</td>
+        <td key={gameRecord.gameName + "_players"}>
           {gameRecord.players.length + "/" + gameRecord.playerLimit}
         </td>
         {this.renderJoin(gameRecord)}
         {this.renderDelete(gameRecord)}
-        <td key={gameRecord.name + "_creator"}>{gameRecord.creator.name}</td>
-        <td key={gameRecord.name + "_status"}>
+        <td key={gameRecord.gameName + "_creator"}>{gameRecord.creator}</td>
+        <td key={gameRecord.gameName + "_status"}>
           {GameTableRow.getGameStatus(gameRecord)}
         </td>
       </tr>
