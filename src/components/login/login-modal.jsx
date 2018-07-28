@@ -1,5 +1,5 @@
 import React from "react";
-import takiImage from "./resources/logo.png";
+import takiImage from "../resources/logo.png";
 
 export default class LoginModal extends React.Component {
   constructor(props) {
@@ -19,6 +19,10 @@ export default class LoginModal extends React.Component {
     return null;
   }
 
+  loginErrorHandler() {
+      console.error("login failed");
+  }
+
   handleLogin(e) {
     e.preventDefault();
     const userName = e.target.elements.userName.value;
@@ -29,14 +33,13 @@ export default class LoginModal extends React.Component {
     }).then(response => {
       if (response.ok) {
         this.setState(() => ({ errMessage: "" }));
-        this.props.loginSuccessHandler();
       } else {
         if (response.status === 403) {
           this.setState(() => ({
             errMessage: "User name already exist, please try another one"
           }));
         }
-        this.props.loginErrorHandler();
+        this.loginErrorHandler();
       }
     });
     return false;

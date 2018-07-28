@@ -15,10 +15,11 @@ function createGameDTOFromParsed(parsedGame) {
   const res = {
     name: parsedGame.name,
     creator: parsedGame.creator,
-    players: [],
-    playerLimit: parseInt(parsedGame.playerLimit)
+    players: [parsedGame.creator.name],
+    playerAmount: 1,
+    playerLimit: parseInt(parsedGame.playerLimit),
+    gameLogic: null
   };
-  res.players.push(res.creator.name);
 
   return res;
 }
@@ -72,7 +73,7 @@ function addCurrentUserToGame(req, res, next) {
 }
 
 function getAllGames() {
-  return gamesList;
+  return gamesList.map();
 }
 
 module.exports = {

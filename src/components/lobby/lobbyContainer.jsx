@@ -4,7 +4,6 @@ import GameTable from "./gameTable.jsx";
 import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";
 import takiImage from "../resources/logo.png";
-import GameContainer from "../gameRoom/gameContainer.jsx";
 
 const gameUtils = require("../../utils/gameUtils.js");
 
@@ -17,11 +16,8 @@ export default class LobbyContainer extends React.Component {
     this.getGames = this.getGames.bind(this);
 
     this.state = {
-      status: this.props.currentUser.status, // idle / created / joined / playing
       users: {}, // all users
       games: {}, // all games
-      createdGame: false, // indicates that user has created a pending/active game
-      gameToShow: null, // the actual game record to move to, null if none
       errMessage: ""
     };
   }
@@ -70,36 +66,18 @@ export default class LobbyContainer extends React.Component {
       })
       .then(data => {
         this.setState(() => ({ games: data }));
-        this.checkMoveToGameRoom(data);
       })
       .catch(err => {
         throw err;
       });
   }
 
-  checkMoveToGameRoom(games) {
-    const game = this.getFullGameForUser(games);
-    if (game) {
-      this.setState(() => ({
-        status: gameUtils.STATUS_CONSTS.PLAYING,
-        gameToShow: game
-      }));
-    }
-  }
-
-  getFullGameForUser(games) {
-    const currentUserGames = gameUtils.getGamesForUser(
-      games,
-      this.props.currentUser
-    );
-    return _.head(gameUtils.findFullGames(currentUserGames));
-  }
-
   handleAddGame(e) {
     e.preventDefault();
     const gameName = e.target.elements.gameName.value;
     const playerLimit = e.target.elements.playerLimit.value;
-    const creator = this.props.currentUser;
+    //TODO: should the PC player option be available on the creation of game?
+    const creator = this.props.userName;
     const game = gameUtils.createGameRecord(gameName, creator, playerLimit);
 
     fetch("/games/addGame", {
@@ -112,8 +90,7 @@ export default class LobbyContainer extends React.Component {
           throw response;
         }
         this.setState(() => ({
-          errMessage: "",
-          status: gameUtils.STATUS_CONSTS.CREATED
+          errMessage: ""
         }));
       })
       .catch(() => {
@@ -137,11 +114,6 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
-        // this assumes only creator can delete his game
-        this.setState(prev => {
-          if (prev.status === gameUtils.STATUS_CONSTS.CREATED)
-            return { status: gameUtils.STATUS_CONSTS.IDLE };
-        });
       })
       .catch(err => {
         throw err;
@@ -160,13 +132,23 @@ export default class LobbyContainer extends React.Component {
         if (!response.ok) {
           throw response;
         }
-        this.setState(() => ({
-          status: gameUtils.STATUS_CONSTS.JOINED
-        }));
       })
       .catch(err => {
         throw err;
       });
+  }
+
+  logoutHandler() {
+      fetch("/users/logout", { method: "GET", credentials: "include" }).then(
+          response => {
+              if (!response.ok) {
+                  console.log(
+                      `failed to logout user ${this.props.userName} `,
+                      response
+                  );
+              }
+          }
+      );
   }
 
   renderErrorMessage() {
@@ -181,24 +163,24 @@ export default class LobbyContainer extends React.Component {
   }
 
   render() {
-    return !this.state.gameToShow ? (
+    return (
       <div>
-        <button className={"btn"} onClick={this.props.logoutHandler.bind(this)}>
+        <button className={"btn"} onClick={this.logoutHandler()}>
           logout
         </button>
-        <p>Username: {this.props.currentUser.name}</p>
+        <p>Username: {this.props.userName}</p>
         <img id={"logo-lobby"} src={takiImage} />
 
         <div className={"lobby-container"}>
           <GameTable
             games={this.state.games}
-            currentUser={this.props.currentUser}
+            currentUser={this.props.userName}
             deleteGameHandler={this.handleDeleteGame.bind(this)}
             joinGameHandler={this.handleJoinGame.bind(this)}
             isUserIdle={this.isUserIdle.bind(this)}
           />
           <AddGameForm
-            currentUser={this.props.currentUser}
+            currentUser={this.props.userName}
             addGameHandler={this.handleAddGame.bind(this)}
             disable={!this.isUserIdle()}
           />
@@ -206,12 +188,6 @@ export default class LobbyContainer extends React.Component {
         </div>
         {this.renderErrorMessage()}
       </div>
-    ) : (
-      <GameContainer
-        logoutHandler={this.props.logoutHandler}
-        currentUser={this.props.currentUser}
-        GameToShow={this.state.gameToShow}
-      />
     );
   }
 }

@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./css/register.css";
 import BaseContainer from "./components/baseContainer.jsx";
+import ViewManager from "./components/viewManager.jsx";
 import GameContainer from "./components/gameRoom/gameContainer.jsx";
 const gameUtils = require("./utils/gameUtils.js");
 
-ReactDOM.render(<BaseContainer />, document.getElementById("root"));
+ReactDOM.render(<ViewManager />, document.getElementById("root"));
 
 function testGameContainer() {
   return (

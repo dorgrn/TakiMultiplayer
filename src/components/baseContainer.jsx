@@ -1,5 +1,5 @@
 import React from "react";
-import LoginModal from "./login-modal.jsx";
+import LoginModal from "./login/login-modal.jsx";
 import ChatContainer from "./chat/chatContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContainer.jsx";
 
