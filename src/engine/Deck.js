@@ -7,9 +7,9 @@ function createDeck() {
   clearDeck.call(this);
 
   // value cards
-  cardFactory.values.forEach(value => {
+  cardFactory.VALUES.forEach(value => {
     for (let i = 0; i < this.VALUE_CARDS; i++) {
-      cardFactory.colors.forEach(color => {
+      cardFactory.COLORS.forEach(color => {
         newCard = cardFactory.createCard(
           cardIdCounter++,
           color,
@@ -23,9 +23,9 @@ function createDeck() {
   });
 
   // special cards
-  cardFactory.specialTypes.forEach(type => {
+  cardFactory.SPECIAL_CARDS.forEach(type => {
     for (let i = 0; i < this.SPECIAL_CARDS; i++) {
-      cardFactory.colors.forEach(color => {
+      cardFactory.COLORS.forEach(color => {
         newCard = cardFactory.createCard(
           cardIdCounter++,
           color,
@@ -42,8 +42,8 @@ function createDeck() {
     newCard = cardFactory.createCard(
       cardIdCounter++,
       "colorful",
-      cardFactory.superCards[0],
-      getFilename(cardFactory.superCards[0], "colorful")
+      cardFactory.SUPER_CARDS[0],
+      getFilename(cardFactory.SUPER_CARDS[0], "colorful")
     );
     this.insertCard(newCard);
   }
@@ -53,8 +53,8 @@ function createDeck() {
     newCard = cardFactory.createCard(
       cardIdCounter++,
       "colorful",
-      cardFactory.superCards[1],
-      getFilename(cardFactory.superCards[1], "colorful")
+      cardFactory.SUPER_CARDS[1],
+      getFilename(cardFactory.SUPER_CARDS[1], "colorful")
     );
     this.insertCard(newCard);
   }

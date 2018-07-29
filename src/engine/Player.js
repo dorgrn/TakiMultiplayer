@@ -76,7 +76,7 @@ module.exports = class Player{
     }
 
   determinePCPlay(top) {
-    const TYPES = cardFactory.getTypes();
+    const TYPES = cardFactory.TYPES;
     const legalCards = this.hand.legalCards;
     let cardToPlay;
 
@@ -143,8 +143,8 @@ module.exports = class Player{
     let colorSelected;
     let max = 0;
 
-    for (i = 0; i < cardFactory.colors.length; i++) {
-      colorsCount[cardFactory.colors[i]] = 0;
+    for (i = 0; i < cardFactory.COLORS.length; i++) {
+      colorsCount[cardFactory.COLORS[i]] = 0;
     }
 
     for (i = 0; i < cards.length; i++) {
@@ -159,8 +159,8 @@ module.exports = class Player{
 
     if (max === 0) {
       colorSelected =
-        cardFactory.colors[
-          Math.floor(Math.random() * cardFactory.colors.length)
+        cardFactory.COLORS[
+          Math.floor(Math.random() * cardFactory.COLORS.length)
         ];
     }
 

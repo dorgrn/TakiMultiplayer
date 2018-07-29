@@ -115,7 +115,7 @@ module.exports = class GameLogic{
 
   activateCard(card) {
     const activePlayer = this.getActivePlayer();
-    const types = cardFactory.getTypes();
+    const types = cardFactory.TYPES;
     if (activePlayer.inTakiMode.status === true) {
       if (activePlayer.isPC()) {
         this.doPlayerTurn();
@@ -347,7 +347,9 @@ module.exports = class GameLogic{
     // draw the first card to playZone
     let card = this.drawCard();
 
-    while (card.isSuperCard()) {
+    console.log(cardFactory.SUPER_CARDS);
+
+      while (card.isSuperCard()) {
       this.deck.insertCard(card);
       card = this.drawCard();
     }

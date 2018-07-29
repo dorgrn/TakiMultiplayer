@@ -1,4 +1,5 @@
-const cardFactory = require("./CardFactory");
+const CardFactory = require("./CardFactory.js");
+
 
 module.exports = class Card {
   constructor(cardId, color, type, frontImg, value) {
@@ -12,15 +13,16 @@ module.exports = class Card {
   }
 
   isValueCard() {
-    return this.type === cardFactory.getTypes().VALUE;
+    return this.type === CardFactory.TYPES.VALUE;
   }
 
   isSpecialCard() {
-    return cardFactory.specialTypes.indexOf(this.type) !== -1;
+    return CardFactory.SPECIAL_CARDS.indexOf(this.type) !== -1;
   }
 
   isSuperCard() {
-    return cardFactory.superCards.indexOf(this.type) !== -1;
+    console.log(CardFactory.SUPER_CARDS);
+    return CardFactory.SUPER_CARDS.indexOf(this.type) !== -1;
   }
 
   compareColor(card) {
@@ -29,8 +31,8 @@ module.exports = class Card {
 
   compareValue(card) {
     return (
-      this.type === cardFactory.getTypes().VALUE &&
-      card.type === cardFactory.getTypes().VALUE &&
+      this.type === CardFactory.TYPES.VALUE &&
+      card.type === CardFactory.TYPES.VALUE &&
       this.value === card.value
     );
   }
