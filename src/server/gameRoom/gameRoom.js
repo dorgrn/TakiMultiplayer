@@ -2,17 +2,17 @@ const auth = require("../auth");
 const games = require("../games");
 
 function getBoardState(req, res, next) {
-  const gameName = auth.getUserInfo(req.session.id).gameName;
-  const game = games.getGameByName(gameName);
+  const gameName = auth.userList.getUserById(req.session.id).gameName;
+  const game = games.gamesList.getGameByGameName(gameName);
 
   res.send(game.gameLogic);
   next();
 }
 
 function playCard(req, res, next) {
-  const player = auth.getUserInfo(req.session.id);
+  const player = auth.userList.getUserById(req.session.id);
   const gameName = player.gameName;
-  const game = games.getGameByName(gameName);
+  const game = games.gamesList.getGameByGameName(gameName);
 
   const gameLogic = game.gameLogic;
 

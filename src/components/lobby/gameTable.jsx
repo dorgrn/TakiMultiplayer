@@ -18,7 +18,7 @@ export default class GameTable extends React.Component {
           <GameTableRow
             key={gameName + "_row"}
             gameRecord={gameRecord}
-            userInfo={this.props.userInfo}
+            user={this.props.user}
           />
         );
       }

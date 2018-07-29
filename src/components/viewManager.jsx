@@ -1,7 +1,8 @@
 import React from "react";
+import gameUtils from "../utils/gameUtils.js";
 import LoginContainer from "./login/loginContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContainer.jsx";
-const gameUtils = require("../utils/gameUtils.js");
+import GameContainer from "./gameRoom/gameContainer.jsx";
 
 
 export default class ViewManager extends React.Component {
@@ -9,25 +10,17 @@ export default class ViewManager extends React.Component {
     super(props);
     this.UPDATE_TIMEOUT = 500;
     this.state = {
-      userInfo: {
-          userName: "",
-          userStatus: "",
-          gameName: ""
-      }
+      user: ""
     };
 
     this.fetchInterval = setInterval(
-        this.getUserInfo.bind(this),
+        this.getUser.bind(this),
         this.UPDATE_TIMEOUT
     );
   }
 
   clearUserInfo(){
-    return {userInfo: {
-      userName: "",
-      userStatus: "",
-      gameName: ""}
-    };
+    return {user: ""};
   }
 
   renderLogin(){
@@ -37,23 +30,23 @@ export default class ViewManager extends React.Component {
   renderLobby() {
     return (
         <LobbyContainer
-          userInfo={this.state.userInfo}
+          user={this.state.user}
         />
     );
   }
 
   renderGameRoom(){
     return (
-        <GameContainter
-          userInfo={this.state.userInfo}
+        <GameContainer
+          user={this.state.user}
         />
     );
   }
 
-  getUserInfo() {
-    this.fetchUserInfo()
-      .then(userInfo => {
-        this.setState(() => ({ userInfo: userInfo}));
+  getUser() {
+    this.fetchUser()
+      .then(user => {
+        this.setState(() => ({ user: user}));
       })
       .catch(err => {
         if (err.status === 401) {
@@ -65,7 +58,7 @@ export default class ViewManager extends React.Component {
       });
   }
 
-  fetchUserInfo() {
+  fetchUser() {
     return fetch("/users", { method: "GET", credentials: "include" }).then(
       response => {
         if (!response.ok) {
@@ -77,11 +70,13 @@ export default class ViewManager extends React.Component {
   }
 
   render() {
-    if (this.state.userInfo.userStatus === gameUtils.STATUS_CONSTS.PLAYING) {
-      return this.renderGameRoom();
-    }
-    else if (this.state.userInfo.userName !== ""){
-      return this.renderLobby();
+    if (this.state.user !== ""){
+        if (this.state.user.gameName !== "" && this.state.user.status === gameUtils.STATUS_CONSTS.PLAYING) {
+            return this.renderGameRoom();
+        }
+        else if (this.state.user.name !== ""){
+            return this.renderLobby();
+        }
     }
     else {
       return this.renderLogin();

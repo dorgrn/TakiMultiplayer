@@ -343,9 +343,9 @@ module.exports = class GameLogic{
     this.stats.gameWatch.start();
     this.history.clearHistory();
 
-        this.deck.init();
-        // draw the first card to playZone
-        let card = this.drawCard();
+    this.deck.init();
+    // draw the first card to playZone
+    let card = this.drawCard();
 
     while (card.isSuperCard()) {
       this.deck.insertCard(card);

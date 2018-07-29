@@ -6,15 +6,15 @@ const gameUtils = require("../../utils/gameUtils.js");
 export default class GameTableRow extends React.Component {
   constructor(props) {
     super(props);
-    this.isGameCreator = props.userInfo.userName === props.gameRecord.creator;
+    this.isGameCreator = props.user.name === props.gameRecord.creator.name;
   }
 
   deleteGameHandler(gameRecord) {
     fetch("/games/deleteGame", {
       method: "POST",
       body: JSON.stringify({
-        gameName: gameRecord.gameName,
-        creator: gameRecord.creator
+        gameName: gameRecord.name,
+        creator: gameRecord.creator.name
       }),
       credentials: "include"
     })
@@ -32,7 +32,7 @@ export default class GameTableRow extends React.Component {
     fetch("/games/joinGame", {
       method: "POST",
       body: JSON.stringify({
-        gameName: gameRecord.gameName
+        gameName: gameRecord.name
       }),
       credentials: "include"
     })
@@ -54,7 +54,7 @@ export default class GameTableRow extends React.Component {
   shouldShowJoin() {
     return (
       !this.isGameCreator &&
-      this.props.userInfo.gameName !== this.props.gameRecord.gameName
+      this.props.user.gameName !== this.props.gameRecord.name
     );
   }
 
@@ -71,7 +71,7 @@ export default class GameTableRow extends React.Component {
     }
 
     return (
-      <td key={gameRecord.gameName + "_join"}>
+      <td key={gameRecord.name + "_join"}>
         <div onClick={onClick} className={className}>
           {label}
         </div>
@@ -92,7 +92,7 @@ export default class GameTableRow extends React.Component {
     }
 
     return (
-      <td key={gameRecord.gameName + "_delete"}>
+      <td key={gameRecord.name + "_delete"}>
         <div onClick={onClick} className={className}>
           {label}
         </div>
@@ -109,15 +109,15 @@ export default class GameTableRow extends React.Component {
   render() {
     const gameRecord = this.props.gameRecord;
     return (
-      <tr key={gameRecord.gameName}>
-        <td key={gameRecord.gameName + "_name"}>{gameRecord.gameName}</td>
-        <td key={gameRecord.gameName + "_players"}>
+      <tr key={gameRecord.name}>
+        <td key={gameRecord.name + "_name"}>{gameRecord.name}</td>
+        <td key={gameRecord.name + "_players"}>
           {gameRecord.players.length + "/" + gameRecord.playerLimit}
         </td>
         {this.renderJoin(gameRecord)}
         {this.renderDelete(gameRecord)}
-        <td key={gameRecord.gameName + "_creator"}>{gameRecord.creator}</td>
-        <td key={gameRecord.gameName + "_status"}>
+        <td key={gameRecord.name + "_creator"}>{gameRecord.creator.name}</td>
+        <td key={gameRecord.name + "_status"}>
           {GameTableRow.getGameStatus(gameRecord)}
         </td>
       </tr>

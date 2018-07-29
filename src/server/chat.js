@@ -15,7 +15,7 @@ chatManagement
   })
   .post(auth.userAuthentication, (req, res) => {
     const body = req.body;
-    const userInfo = auth.getUserInfo(req.session.id);
+    const userInfo = auth.userList.getUserById(req.session.id);
     chatContent.push({ user: userInfo, text: body });
     res.sendStatus(200);
   });

@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/styleStatsMenu.css";
-import stats from "../../engine/Stats";
+import stats from "../../../engine/Stats";
 
 export default class StatsBar extends React.Component {
   constructor(props) {

@@ -1,6 +1,5 @@
 const express = require("express");
 const games = require("./games");
-
 const gameManagement = express.Router();
 
 gameManagement.post("/addGame", games.addGameToList, (req, res) => {
@@ -12,7 +11,7 @@ gameManagement.post("/deleteGame", games.removeGameFromList, (req, res) => {
 });
 
 gameManagement.get("/allGames", (req, res) => {
-  res.json(games.getAllGames());
+  res.json(games.gamesList.getAll());
 });
 
 gameManagement.post("/joinGame", games.addCurrentUserToGame, (req,res) =>{

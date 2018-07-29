@@ -1,117 +1,86 @@
-const gameLogic = require("../engine/GameLogic.js");
-
 const auth = require("./auth");
-const gameUtils = require("../utils/gameUtils");
+const GamesList = require("./GamesList.js");
+const Game = require("./Game.js");
 
-const gamesList = {};
-
-function doesGameExist(gameName) {
-  return gamesList[gameName] !== undefined;
-}
-
-function isUserInGame(userName, game) {
-  return game.players.includes(userName);
-}
-
-function createGameDTOFromParsed(parsedGame) {
-  const res = {
-    gameName: parsedGame.name,
-    creator: parsedGame.creator,
-    players: [parsedGame.creator],
-    playerAmount: 1,
-    playerLimit: parseInt(parsedGame.playerLimit),
-    gameLogic: null
-  };
-
-  return res;
-}
+const gamesList = new GamesList();
 
 function addGameToList(req, res, next) {
-  console.log(" in add GameToList", req);
   const parsedGame = JSON.parse(req.body);
+  const gameName = parsedGame.gameName;
+  const creator = auth.userList.getUserById(req.session.id);
 
-  if (gamesList[parsedGame.name] !== undefined) {
+  if (gamesList.isGameNameExists(gameName)) {
     res.status(403).send("this game name already exist");
   } else {
-    gamesList[parsedGame.name] = createGameDTOFromParsed(parsedGame);
-    auth.setGameNameForUser(req.session.id, parsedGame.name);
+    const game = new Game(gameName, creator, parseInt(parsedGame.playerLimit));
+    gamesList.add(gameName, game);
+    if (parsedGame.shouldAddPCPlayer){
+      const pcPlayer = auth.createPCPlayer();
+      game.addPlayer(pcPlayer);
+    }
     next();
   }
 }
 
 function removeGameFromList(req, res, next) {
   const parsed = JSON.parse(req.body);
+  const gameName = parsed.gameName;
   // check game exists
-  if (!doesGameExist(parsed.gameName)) {
+  if (!gamesList.isGameNameExists(gameName)) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
-  else if (auth.getUserInfo(req.session.id).name !== parsed.creator) {
+  else if (auth.userList.getUserById(req.session.id).name !== parsed.creator) {
     res
       .status(401)
       .send("user isn't permitted to delete another creator's game");
   } else {
-    delete gamesList[parsed.gameName];
+    gamesList.remove(gameName);
     next();
   }
 }
 
 function addCurrentUserToGame(req, res, next) {
   const parsed = JSON.parse(req.body);
-  const game = gamesList[parsed.gameName];
-  const userInfo = auth.getUserInfo(req.session.id);
+  const game = gamesList.getGameByGameName(parsed.gameName);
+  const user = auth.userList.getUserById(req.session.id);
 
   if (!game) {
     res.status(404).send("game does not exist");
-  } else if (!userInfo) {
+  } else if (!user) {
     res.status(401).send("user not found");
-  } else if (gameUtils.isGameFull(game)) {
+  } else if (game.isGameFull) {
     res.status(405).send("game is full");
-  } else if (isUserInGame(userInfo.userName, game)) {
+  } else if (game.isPlayerIn(user)) {
     res.status(406).send("user already in game");
   } else {
-    game.players.push(userInfo.userName);
-    auth.setGameNameForUser(req.session.id, game.name);
-    gamesList[parsed.gameName] = game;
-    createGameLogic(game.gameName);
+    game.addPlayer(user);
     next();
   }
 }
 
-function getAllGames() {
-  return gamesList;
+function removeCurrentUserFromGame(req, res, next) {
+    const parsed = JSON.parse(req.body);
+    const game = gamesList.getGameByGameName(parsed.gameName);
+    const user = auth.userList.getUserById(req.session.id);
+
+    if (!game) {
+        res.status(404).send("game does not exist");
+    } else if (!user) {
+        res.status(401).send("user not found");
+    } else if (!game.isPlayerIn(user)) {
+        res.status(406).send("user is not in game");
+    } else {
+        game.removePlayer(user);
+        next();
+    }
 }
 
-function getGameByName(gameName) {
-  return gamesList[gameName];
-}
-
-function createGameLogic(gameName) {
-  console.log("gameList:", gamesList);
-  const game = getGameByName(gameName);
-  if (!game) {
-    throw "undefined game!";
-  }
-  if (game.gameLogic !== null) {
-    throw "game logic already exists!";
-  }
-
-  if (gameUtils.isGameFull(game)) {
-    game.gameLogic = new gameLogic(game.players);
-    console.log("game after logicCreate", game);
-    game.players.forEach(player =>
-      auth.setStatusForUser(player, gameUtils.STATUS_CONSTS.PLAYING)
-    );
-  }
-
-  console.log("Games list:", gamesList);
-}
 
 module.exports = {
+  gamesList,
   addGameToList,
   removeGameFromList,
-  getAllGames,
   addCurrentUserToGame,
-  getGameByName,
-  createGameLogic
+  removeCurrentUserFromGame
 };

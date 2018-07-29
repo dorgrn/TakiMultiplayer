@@ -5,7 +5,6 @@ import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";
 import takiImage from "../resources/logo.png";
 
-const gameUtils = require("../../utils/gameUtils.js");
 
 export default class LobbyContainer extends React.Component {
   constructor(props) {
@@ -73,7 +72,7 @@ export default class LobbyContainer extends React.Component {
           response => {
               if (!response.ok) {
                   console.log(
-                      `failed to logout user ${this.props.userInfo.userName} `,
+                      `failed to logout user ${this.props.user.name} `,
                       response
                   );
               }
@@ -95,16 +94,16 @@ export default class LobbyContainer extends React.Component {
         <button className={"btn"} onClick={this.logoutHandler.bind(this)}>
           logout
         </button>
-        <p>Username: {this.props.userInfo.userName}</p>
+        <p>Username: {this.props.user.name}</p>
         <img id={"logo-lobby"} src={takiImage} />
 
         <div className={"lobby-container"}>
           <GameTable
             games={this.state.games}
-            userInfo={this.props.userInfo}
+            user={this.props.user}
           />
           <AddGameForm
-            userInfo={this.props.userInfo}
+            user={this.props.user}
           />
           <UserTable users={this.state.users} />
         </div>

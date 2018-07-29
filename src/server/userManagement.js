@@ -5,12 +5,12 @@ const chatManagement = require("./chat");
 const userManagement = express.Router();
 
 userManagement.get("/", auth.userAuthentication, (req, res) => {
-  const userName = auth.getUserInfo(req.session.id);
-  res.json(userName);
+  const user = auth.userList.getUserById(req.session.id);
+  res.json(user);
 });
 
 userManagement.get("/allUsers", auth.userAuthentication, (req, res) => {
-  res.json(auth.getAllUsers());
+  res.json(auth.userList.getAll());
 });
 
 userManagement.
@@ -20,8 +20,8 @@ post("/addUser", auth.addUserToAuthList, (req, res) => {
 
 userManagement.get("/logout", [
   (req, res, next) => {
-    const userinfo = auth.getUserInfo(req.session.id);
-    chatManagement.appendUserLogoutMessage(userinfo);
+    const user = auth.userList.getUserById(req.session.id);
+    chatManagement.appendUserLogoutMessage(user);
     next();
   },
   auth.removeUserFromAuthList,

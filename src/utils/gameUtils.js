@@ -5,21 +5,15 @@ const STATUS_CONSTS = {
   PLAYING: "playing"
 };
 
-function isGameFull(game) {
-  if (!game) throw "game not defined!";
-  return game.players.length === game.playerLimit;
-}
-
-function createGameRecord(name, creator, playerLimit) {
+function createGameRecord(name, playerLimit, shouldAddPCPlayer) {
   return {
-    name: name,
-    creator: creator,
-    playerLimit: playerLimit
+    gameName: name,
+    playerLimit: playerLimit,
+    shouldAddPCPlayer: shouldAddPCPlayer
   };
 }
 
 module.exports = {
-  isGameFull,
   createGameRecord,
   STATUS_CONSTS
 };

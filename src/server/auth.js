@@ -1,24 +1,19 @@
-const gameUtils = require("../utils/gameUtils");
+const User = require("./User");
+const PC = require("./PC");
+const UserList = require("./UserList.js");
 
-const userList = {};
+const userList = new UserList();
 
-/*
-  user: {
-    name
-    status: idle/playing
-  }
- */
+function createUserPlayer(name){
+  return new User(name);
+}
 
-function createUserFromParsed(name) {
-  return {
-    name: name,
-    status: gameUtils.STATUS_CONSTS.IDLE,
-    gameName: ""
-  };
+function createPCPlayer(){
+  return new PC();
 }
 
 function userAuthentication(req, res, next) {
-  if (userList[req.session.id] === undefined) {
+  if (!userList.isIdExists(req.session.id)) {
     res.sendStatus(401);
   } else {
     next();
@@ -27,64 +22,34 @@ function userAuthentication(req, res, next) {
 
 function addUserToAuthList(req, res, next) {
   // req.body = username
-  if (userList[req.session.id] !== undefined) {
-    res.status(403).send("user already exist");
-  } else {
-    for (sessionid in userList) {
-      const name = userList[sessionid];
-      if (name === req.body) {
-        res.status(403).send("user name already exist");
-        return;
-      }
-    }
-
-    userList[req.session.id] = createUserFromParsed(req.body);
-    next();
+  const userName = req.body;
+  if (userList.isIdExists(req.session.id)) {
+      res.status(403).send("user already exist");
+      return;
   }
+  else if (userList.isNameExists(userName)) {
+      res.status(403).send("user name already exist");
+      return;
+  }
+
+  userList.add(req.session.id, createUserPlayer(userName));
+  next();
 }
 
 function removeUserFromAuthList(req, res, next) {
-  if (userList[req.session.id] === undefined) {
+  if (!userList.isIdExists(req.session.id)) {
     res.status(403).send("user does not exist");
   } else {
-    delete userList[req.session.id];
+    userList.remove(req.session.id);
     next();
   }
 }
 
-function getUserInfo(id) {
-  let userInfo = userList[id];
-  return {
-    userName: userInfo.name,
-    userStatus: userInfo.status,
-    gameName: userInfo.gameName
-  };
-}
-
-function setGameNameForUser(id, gameName) {
-  let userInfo = userList[id];
-  userInfo.gameName = gameName;
-}
-
-function getUserIdFromUserName(userName) {
-  return _.findKey(userList, user => (user.userName = userName));
-}
-
-function setStatusForUser(userName, status) {
-  let userId = getUserIdFromUserName(userName);
-  userList[userId].userStatus = status;
-}
-
-function getAllUsers() {
-  return userList;
-}
-
 module.exports = {
+  userList,
   userAuthentication,
   addUserToAuthList,
   removeUserFromAuthList,
-  getUserInfo,
-  setGameNameForUser,
-  getAllUsers,
-  setStatusForUser
+  createUserPlayer,
+  createPCPlayer
 };

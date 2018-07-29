@@ -10,7 +10,6 @@ export default class GameContainer extends React.Component {
   render() {
     return (
       <div>
-        {/*<Sidebar gameToShow={this.props.gameToShow} />*/}
         <Chat />
       </div>
     );

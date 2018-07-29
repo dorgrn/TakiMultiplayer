@@ -13,10 +13,10 @@ module.exports = (function() {
     createPlayers: function(playersDTO){
       let players=[];
       for(let i=0; i<playersDTO.length;i++){
-        if(playersDTO[i].playerType === TYPES.USER){
+        if(playersDTO[i].type === TYPES.USER){
             players.push(this.createUserPlayer(playersDTO[i].name));
         }
-        else if(playersDTO[i].playerType === TYPES.PC){
+        else if(playersDTO[i].type === TYPES.PC){
             players.push(this.createPCPlayer());
         }
       }
