@@ -1,6 +1,6 @@
-const auth = require("./auth");
-const GamesList = require("./GamesList.js");
-const Game = require("./Game.js");
+const auth = require("../users/users");
+const GamesList = require("../serverObjects/GamesList.js");
+const Game = require("../serverObjects/Game.js");
 
 const gamesList = new GamesList();
 

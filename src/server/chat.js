@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const auth = require("./auth");
+const auth = require("./users/users");
 
 const chatContent = [];
 

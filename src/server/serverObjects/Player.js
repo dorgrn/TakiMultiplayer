@@ -1,6 +1,5 @@
-const gameUtils = require("../utils/gameUtils");
-const PlayerFactory = require("../engine/PlayerFactory");
-
+const gameUtils = require("../../utils/gameUtils");
+const PlayerLogic = require("../../engine/Player");
 
 module.exports = class Player {
     constructor(name, type){
@@ -19,11 +18,11 @@ module.exports = class Player {
     }
 
     get isUser(){
-        return this.type === PlayerFactory.getTypes().USER;
+        return this.type === PlayerLogic.TYPES.USER;
     }
 
     get isPC(){
-        return this.type === PlayerFactory.getTypes().PC;
+        return this.type === PlayerLogic.TYPES.PC;
     }
 
     setStatusPlaying(){

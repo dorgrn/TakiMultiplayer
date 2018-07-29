@@ -1,6 +1,6 @@
 const express = require("express");
-const auth = require("./auth");
-const chatManagement = require("./chat");
+const auth = require("./users");
+const chatManagement = require("../chat");
 
 const userManagement = express.Router();
 

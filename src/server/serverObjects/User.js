@@ -1,8 +1,8 @@
 const Player = require("./Player");
-const PlayerFactory = require("../engine/PlayerFactory");
+const PlayerLogic = require("../../engine/Player");
 
 module.exports = class User extends Player {
     constructor(name){
-        super(name, PlayerFactory.getTypes().USER);
+        super(name, PlayerLogic.TYPES.USER);
     }
 };

@@ -1,11 +1,11 @@
 const express = require("express");
 const gameRoom = require("./gameRoom");
-const auth = require("../auth");
+const auth = require("../users/users");
 
 const gameRoomManagement = express.Router();
 
-gameRoomManagement.get("/boardState", auth.userAuthentication, gameRoom.getBoardState, (req, res) => {
-  res.sendStatus(200);
+gameRoomManagement.get("/boardState", auth.userAuthentication, (req, res) => {
+  res.json(gameRoom.getBoardState(req.session.id));
 });
 
 gameRoomManagement.post("/drawCard", auth.userAuthentication, gameRoom.drawCard, (req, res) => {

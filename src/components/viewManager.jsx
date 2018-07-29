@@ -44,29 +44,25 @@ export default class ViewManager extends React.Component {
   }
 
   getUser() {
-    this.fetchUser()
-      .then(user => {
-        this.setState(() => ({ user: user}));
-      })
-      .catch(err => {
-        if (err.status === 401) {
-          // incase we're getting 'unautorithed' as response
-          this.setState(() => (this.clearUserInfo()));
-        } else {
-          throw err; // in case we're getting an error
-        }
-      });
-  }
-
-  fetchUser() {
-    return fetch("/users", { method: "GET", credentials: "include" }).then(
-      response => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      }
-    );
+      return fetch("/users", {method: "GET", credentials: "include"})
+          .then(response => {
+              if (!response.ok) {
+                  throw response;
+              }
+              return response.json();
+          })
+          .then(user => {
+              this.setState(() => ({user: user}));
+          })
+          .catch(err => {
+              if (err.status === 401) {
+                  // incase we're getting 'unautorithed' as response
+                  this.setState(() => (this.clearUserInfo()));
+              }
+              else {
+                  throw err;
+              }
+          });
   }
 
   render() {

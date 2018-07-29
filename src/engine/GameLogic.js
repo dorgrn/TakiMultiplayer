@@ -1,9 +1,8 @@
-const playerFactory = require("./PlayerFactory");
-const cardFactory = require("./CardFactory");
 const Stats = require("./Stats");
 const PlayZone = require("./PlayZone");
 const Deck = require("./Deck");
 const Player = require("./Player");
+const Card = require("./Card");
 const History = require("./History");
 
 function funcOpenTaki() {
@@ -63,7 +62,7 @@ module.exports = class GameLogic{
         this.history = new History();
         this.deck = new Deck();
         this.playZone = new PlayZone();
-        this.players = playerFactory.createPlayers(playersDTO);
+        this.players = Player.createPlayers(playersDTO);
         this.currentlyPlaying = playersDTO.length;
         this.playingDirection=1;
         this.playerTurn = 0;
@@ -115,7 +114,7 @@ module.exports = class GameLogic{
 
   activateCard(card) {
     const activePlayer = this.getActivePlayer();
-    const types = cardFactory.TYPES;
+    const types = Card.TYPES;
     if (activePlayer.inTakiMode.status === true) {
       if (activePlayer.isPC()) {
         this.doPlayerTurn();
@@ -347,9 +346,7 @@ module.exports = class GameLogic{
     // draw the first card to playZone
     let card = this.drawCard();
 
-    console.log(cardFactory.SUPER_CARDS);
-
-      while (card.isSuperCard()) {
+    while (card.isSuperCard()) {
       this.deck.insertCard(card);
       card = this.drawCard();
     }
@@ -359,7 +356,7 @@ module.exports = class GameLogic{
     // deal the first cards to players
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].init();
-      this.players[i].mustTake = playerFactory.HAND_INITIAL_SIZE;
+      this.players[i].mustTake = Player.HAND_INITIAL_SIZE;
       this.drawCardsToPlayer(this.players[i]);
     }
 

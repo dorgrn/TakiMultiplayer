@@ -1,6 +1,6 @@
-const User = require("./User");
-const PC = require("./PC");
-const UserList = require("./UserList.js");
+const User = require("../serverObjects/User");
+const PC = require("../serverObjects/PC");
+const UserList = require("../serverObjects/UserList.js");
 
 const userList = new UserList();
 

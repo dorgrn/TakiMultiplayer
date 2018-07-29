@@ -1,12 +1,12 @@
-const auth = require("../auth");
-const games = require("../games");
+const auth = require("../users/users");
+const games = require("../games/games");
 
-function getBoardState(req, res, next) {
-  const gameName = auth.userList.getUserById(req.session.id).gameName;
+function getBoardState(id) {
+  const gameName = auth.userList.getUserById(id).gameName;
   const game = games.gamesList.getGameByGameName(gameName);
 
-  res.send(game.gameLogic);
-  next();
+  //TODO: this should send a smaller version of boardState. it returns the whole boarState only for debugging reasons.
+  return game.logic.getBoardState();
 }
 
 function playCard(req, res, next) {
@@ -14,8 +14,9 @@ function playCard(req, res, next) {
   const gameName = player.gameName;
   const game = games.gamesList.getGameByGameName(gameName);
 
-  const gameLogic = game.gameLogic;
+  const gameLogic = game.logic;
 
+  //TODO: drawCadsWhenNoLegal should accept LOGIC player object insted of SERVER player object
   gameLogic.drawCardsWhenNoLegal(player);
   next();
 }

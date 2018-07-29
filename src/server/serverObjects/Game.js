@@ -1,4 +1,4 @@
-const GameLogic = require("../engine/GameLogic.js");
+const GameLogic = require("../../engine/GameLogic.js");
 const _ = require("lodash");
 
 module.exports = class Game {

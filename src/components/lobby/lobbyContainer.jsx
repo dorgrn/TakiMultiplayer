@@ -5,7 +5,6 @@ import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";
 import takiImage from "../resources/logo.png";
 
-
 export default class LobbyContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -88,7 +87,6 @@ export default class LobbyContainer extends React.Component {
   }
 
   render() {
-      //console.log(this.props.userInfo);
     return (
       <div>
         <button className={"btn"} onClick={this.logoutHandler.bind(this)}>
