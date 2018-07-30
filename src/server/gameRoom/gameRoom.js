@@ -65,8 +65,7 @@ function getBoardState(id) {
 function playCard(req, res, next) {
   const parsedCard = JSON.parse(req.body);
   const player = auth.userList.getUserById(req.session.id);
-  const gameName = player.gameName;
-  const game = games.gamesList.getGameByGameName(gameName);
+  const game = games.gamesList.getGameByGameName(player.gameName);
 
   const activePlayer = game.logic.getActivePlayer();
   if (!activePlayer.name === player.name){
@@ -78,8 +77,16 @@ function playCard(req, res, next) {
 }
 
 function drawCard(req, res, next) {
-  const card = req.body.card;
+    const player = auth.userList.getUserById(req.session.id);
+    const game = games.gamesList.getGameByGameName(player.gameName);
 
+    const activePlayer = game.logic.getActivePlayer();
+    if (!activePlayer.name === player.name){
+        res.sendStatus(401);
+    }
+
+    game.logic.drawCardsWhenNoLegal(activePlayer);
+    next();
 }
 
 module.exports = {

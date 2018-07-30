@@ -8,7 +8,7 @@ gameRoomManagement.get("/boardState", auth.userAuthentication, (req, res) => {
   res.json(gameRoom.getBoardState(req.session.id));
 });
 
-gameRoomManagement.post("/drawCard", auth.userAuthentication, gameRoom.drawCard, (req, res) => {
+gameRoomManagement.get("/drawCard", auth.userAuthentication, gameRoom.drawCard, (req, res) => {
   res.sendStatus(200);
 });
 
