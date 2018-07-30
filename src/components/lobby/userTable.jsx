@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/lobby.css";
+import "../../css/lobby/lobby.css";
 
 export default class UserTable extends React.Component {
   constructor(props) {

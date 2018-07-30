@@ -11,10 +11,12 @@
 
 @media screen and (min-width: 1000px){
     .info-layout {
-        height: 165px;
-        grid-template-columns: 40% 20% 40%;
+        /*height: 165px;*/
+        grid-template-rows: 20% 40% 40%;
         grid-template-areas:
-                "chat presentUsers movesHistory";
+                "presentUsers"
+                "movesHistory"
+                "chat";
     }
 }
 

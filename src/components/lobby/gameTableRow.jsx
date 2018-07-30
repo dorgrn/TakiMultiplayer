@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/lobby.css";
+import "../../css/lobby/lobby.css";
 
 const gameUtils = require("../../utils/gameUtils.js");
 

@@ -2,43 +2,42 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 20% 40% 40%;
+    grid-template-rows: 30% 40% 30%;
+    grid-template-columns: 30% 40% 30%;
     grid-template-areas:
-        "otherPlayersRow"
-        "mainBoardRow"
-        "thisPlayerRow";
+            ". playerUp ."
+            "playerLeft mainBoard playerRight"
+            ". playerDown .";
 }
 
-.other-players-row{
-    width:100%;
-    grid-area: otherPlayersRow;
-
-    display: flex;
-    align-items: flex-start;
+#player-up{
+    grid-area: playerUp;
 }
 
-.main-board-row{
-    grid-area: mainBoardRow;
+#player-down{
+    grid-area: playerDown;
+}
+
+#player-left{
+    grid-area: playerLeft;
+}
+
+#player-right{
+    grid-area: playerRight;
+}
+
+.main-board{
+    grid-area: mainBoard;
     margin:1%;
 }
 
-.main-board-row-layout{
+.main-board-layout{
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 50% 50%;
     grid-template-areas:
-            "statistics playZone deck";
-}
-
-.this-player-row{
-    grid-area: thisPlayerRow;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-
-    margin: 1%;
+            "playZone deck";
 }
 
 .playZone{
@@ -50,13 +49,6 @@
     justify-content: center;
 }
 
-.statistics{
-    width: 100%;
-    grid-area: statistics;
-
-    background-size: 100% 100%;
-}
-
 .deck{
     width: 100%;
     grid-area: deck;
@@ -66,7 +58,4 @@
     justify-content: center;
 }
 
-.statistics-board-img{
-    width: 50%;
-}
 

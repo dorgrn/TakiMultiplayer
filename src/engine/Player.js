@@ -90,6 +90,7 @@ module.exports = class Player{
             name: this.name,
             type: this.playerType,
             hand: this.hand.copyState(),
+            cardsAmount: this.hand.cards.length,
             stats: Object.assign({}, this.stats),
             place: this.place
         };

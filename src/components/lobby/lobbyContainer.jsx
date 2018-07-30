@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/lobby.css";
+import "../../css/lobby/lobby.css";
 import GameTable from "./gameTable.jsx";
 import UserTable from "./userTable.jsx";
 import AddGameForm from "./addGameForm.jsx";

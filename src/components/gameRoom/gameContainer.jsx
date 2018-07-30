@@ -1,5 +1,10 @@
 import React from "react";
-import Chat from "../chat/chatContainer.jsx";
+import Board from "./board/board.jsx";
+import Info from "./info/info.jsx";
+import "../../css/global.css";
+import "../../css/gameRoom/gameRoom.css";
+
+
 
 export default class GameContainer extends React.Component {
   constructor(props) {
@@ -32,11 +37,16 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state.boardState);
+      console.log(this.state.boardState);
     return (
-      <div>
-        <Chat />
+        this.state.boardState !== "" ?
+      <div className={"page-content"}>
+          <div className={"gameroom-layout"}>
+              <Board boardState={this.state.boardState}/>
+              <Info/>
+          </div>
       </div>
+        : null
     );
   }
 }

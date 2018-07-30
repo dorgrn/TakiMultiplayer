@@ -1,4 +1,4 @@
-.this-player-card, .other-player-card, .card-playZone,.card-deck {
+.player-card, .card-playZone,.card-deck {
     /* shadow */
     box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
@@ -7,23 +7,25 @@
 }
 
 
-.this-player-card{
-    width:8%;
-}
-
 .card-playZone, .card-deck{
-    width:24%;
+    /*width:24%;*/
+    width: 6vw;
 }
 
 .card-playZone{
     transform: rotate(30deg);
 }
 
-.other-player-card{
-    width: 10%;
+.horizontal-card{
+    /*width: 15%;*/
+    width: 6vw;
 }
 
-
+.vertical-card{
+    /*width: 25%;*/
+    width: 6vw;
+    transform: rotate(90deg);
+}
 
 .legal-card:hover, .illegal-card:hover {
     border: 5px solid;

@@ -2,22 +2,19 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 75% 25%;
-    grid-template-areas:
-            "boardRow"
-            "infoRow";
+    grid-template-columns: 20% 80%;
+    grid-template-areas:"infoCol boardCol";
 }
 
-.board-row{
+.board-content{
     width: 100%;
     height: 100%;
-    grid-area: boardRow;
-
+    grid-area: boardCol;
 }
 
 
-info-row{
+info-content{
     width:100%;
     height: 100%;
-    grid-area: infoRow;
+    grid-area: infoCol;
 }
