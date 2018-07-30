@@ -9,7 +9,7 @@ export default class PlayerHorizontal extends React.Component {
 
   render() {
     return (
-      <Player player={this.props.player} direction={this.direction}/>
+      <Player user={this.props.user} player={this.props.player} playerTurnName={this.props.playerTurnName} direction={this.direction}/>
     );
   }
 }

@@ -10,7 +10,7 @@ export default class PlayerUp extends React.Component {
   render() {
     return (
         <div id={"player-up"}>
-            <PlayerHorizontal player={this.props.player}/>
+            <PlayerHorizontal user={this.props.user} player={this.props.player} playerTurnName={this.props.playerTurnName}/>
         </div>
     );
   }

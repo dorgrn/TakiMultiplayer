@@ -4,7 +4,6 @@ import PlayerDown from "./player/playerDown.jsx";
 import PlayerLeft from "./player/playerLeft.jsx";
 import PlayerRight from "./player/playerRight.jsx";
 
-
 import "../../../css/gameRoom/board.css";
 
 
@@ -17,9 +16,8 @@ export default class Board extends React.Component {
     return (
       <div className={"board-content"}>
           <div className={"board-layout"}>
-            <PlayerDown player={this.props.boardState.players[0]}/>
-            <PlayerLeft player={this.props.boardState.players[1]}/>
-            <PlayerUp player={this.props.boardState.players[2]}/>
+            <PlayerDown user={this.props.user} player={this.props.boardState.players[0]} playerTurnName={this.props.boardState.playerTurnName}/>
+            <PlayerUp user={this.props.user} player={this.props.boardState.players[1]} playerTurnName={this.props.boardState.playerTurnName}/>
           </div>
       </div>
     );

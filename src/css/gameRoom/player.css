@@ -48,10 +48,15 @@
 
 .hand-horizontal, .hand-vertical{
     grid-area: playerHand;
+    display: flex;
+    align-items: flex-start;
+}
+
+.hand-horizontal{
+    flex-direction: row;
 }
 
 .hand-vertical{
-    display: flex;
     flex-direction: column;
 }
 

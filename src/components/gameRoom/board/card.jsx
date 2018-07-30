@@ -1,9 +1,13 @@
 import React from "react";
 import "../../../css/gameRoom/card.css";
+const backCardImg = "card_back";
 
-const imageFormat = ".png";
-const backCardImgSrc = "card_back";
-const cardsDir = "../src/textures/cards/";
+function importAll(r) {
+    let images = {};
+    r.keys().map((key) => {images[(key.replace('./', '')).replace('.png', '')]=r(key)});
+    return images;
+}
+const images = importAll(require.context("../../resources/cards/", false, /\.png$/));
 
 export default class Card extends React.Component {
   constructor() {
@@ -11,23 +15,23 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const image = this.props.card ? this.props.card.frontImg : backCardImgSrc;
-    const imgSrc = cardsDir + image + imageFormat;
-
+    const image = this.props.card ? this.props.card.frontImg : backCardImg;
     const title = this.props.card ? this.props.card.description : "";
 
     const angle = this.props.rotate ? this.props.rotate : 0;
     const offsetLeft = this.props.leftOffset;
     const offsetTop = this.props.topOffset;
-    const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`, top:`${offsetTop}%`};
+    //const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`, top:`${offsetTop}%`};
+    const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`};
 
-    return (
+
+      return (
         <img
-            className={`${props.cardStyle}`}
-            src={imgSrc}
+            className={`${this.props.cardStyle}`}
+            src={images[image]}
             style={styles}
             title={title}
-            onClick={props.onClick}
+            onClick={this.props.onClick}
         />
     );
   }

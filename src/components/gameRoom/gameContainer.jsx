@@ -11,7 +11,8 @@ export default class GameContainer extends React.Component {
     super(props);
     this.UPDATE_TIMEOUT = 500;
     this.state = {
-        boardState: ""
+        boardState: "",
+        user: props.user
     };
       this.fetchBoardStateInterval = setInterval(
           this.getBoardState.bind(this),
@@ -42,7 +43,7 @@ export default class GameContainer extends React.Component {
         this.state.boardState !== "" ?
       <div className={"page-content"}>
           <div className={"gameroom-layout"}>
-              <Board boardState={this.state.boardState}/>
+              <Board user={this.state.user} boardState={this.state.boardState}/>
               <Info/>
           </div>
       </div>
