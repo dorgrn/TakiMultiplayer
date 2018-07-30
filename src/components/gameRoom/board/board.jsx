@@ -12,13 +12,35 @@ export default class Board extends React.Component {
     super();
   }
 
+  renderPlayers(){
+    const boardState = this.props.boardState;
+    const players = [];
+    if (boardState.players.length === 2){
+        players.push(<PlayerDown key={boardState.players[0].name} user={this.props.user} player={boardState.players[0]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerUp key={boardState.players[1].name} user={this.props.user} player={boardState.players[1]} playerTurnName={boardState.playerTurnName}/>);
+    }
+    else if(boardState.players.length === 3){
+        players.push(<PlayerDown key={boardState.players[0].name} user={this.props.user} player={boardState.players[0]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerLeft key={boardState.players[1].name} user={this.props.user} player={boardState.players[1]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerUp key={boardState.players[2].name} user={this.props.user} player={boardState.players[2]} playerTurnName={boardState.playerTurnName}/>);
+    }
+    else {
+        players.push(<PlayerDown key={boardState.players[0].name} user={this.props.user} player={boardState.players[0]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerLeft key={boardState.players[1].name} user={this.props.user} player={boardState.players[1]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerUp key={boardState.players[2].name} user={this.props.user} player={boardState.players[2]} playerTurnName={boardState.playerTurnName}/>);
+        players.push(<PlayerRight key={boardState.players[3].name} user={this.props.user} player={boardState.players[3]} playerTurnName={boardState.playerTurnName}/>);
+    }
+
+    return players;
+  }
+
   render() {
+    const players = this.renderPlayers();
     return (
       <div className={"board-content"}>
           <div className={"board-layout"}>
-            <PlayerDown user={this.props.user} player={this.props.boardState.players[0]} playerTurnName={this.props.boardState.playerTurnName}/>
-            <PlayerUp user={this.props.user} player={this.props.boardState.players[1]} playerTurnName={this.props.boardState.playerTurnName}/>
-            <CenterBoard user={this.props.user} boardState={this.props.boardState}/>
+              {players}
+              <CenterBoard user={this.props.user} boardState={this.props.boardState}/>
           </div>
       </div>
     );

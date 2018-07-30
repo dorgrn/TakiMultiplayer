@@ -38,7 +38,7 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-      console.log(this.state.boardState);
+      // console.log(this.state.boardState);
     return (
         this.state.boardState !== "" ?
       <div className={"page-content"}>

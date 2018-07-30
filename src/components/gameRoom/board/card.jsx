@@ -22,13 +22,14 @@ export default class Card extends React.Component {
     const leftOffset = this.props.leftOffset;
     const topOffset = this.props.topOffset;
     let styles;
-    if (leftOffset !== undefined){
+
+    if (this.props.direction === 'horizontal'){
         styles = { transform: `rotate(${angle}deg)`, left:`${leftOffset}%`};
     }
-    else if (topOffset !== undefined){
-        styles = { transform: `rotate(${angle}deg)`, top:`${topOffset}%`};
+    else if (this.props.direction === 'vertical'){
+        styles = { transform: `rotate(${angle}deg) translate(0vw,-3vw)`, top:`${topOffset}%`};
     }
-    else {
+    else{
         styles = { transform: `rotate(${angle}deg)`};
     }
 

@@ -1,27 +1,62 @@
 
-.player-horizontal{
+.player{
     width: 100%;
     height: 100%;
+}
 
+/*
+
+#player-down{
     grid-template-rows: 80% 20%;
     grid-template-areas:
             "playerHand"
             "playerHeadline";
 }
 
-.player-vertical{
-    width: 100%;
-    height: 100%;
+#player-up{
+    grid-template-rows: 20% 80%;
+    grid-template-areas:
+            "playerHeadline"
+            "playerHand";
+}
 
-    grid-template-rows: 80% 20%;
+#player-left{
+    grid-template-columns: 20% 80%;
+    grid-template-areas:
+            "playerHeadline"
+            "playerHand";
+}
+
+#player-right{
+    grid-template-columns: 80% 20%;
     grid-template-areas:
             "playerHand"
             "playerHeadline";
+}
+
+*/
+
+.headline-up{
+    transform: translate(0vw,-2vw);
+}
+
+.headline-down{
+    transform: translate(0vw,10vw);
+}
+
+.headline-left{
+    transform: translate(-10vw ,10vw) rotate(-90deg);
+}
+
+.headline-right{
+    transform: translate(4vw ,10vw) rotate(90deg);
 }
 
 .player-headline{
-    width: 20vw;
-    grid-area: playerHeadline;
+    width: 29vw;
+
+    /*height:100%;*/
+    /*grid-area: playerHeadline;*/
     display: grid;
     grid-template-columns: 25% 75%;
     grid-template-areas:
@@ -29,6 +64,8 @@
 
     background-color: lightgray;
     border-radius: 20px;
+
+    position: absolute;
 }
 
 .player-icon{
@@ -49,7 +86,8 @@
 .hand-horizontal, .hand-vertical{
     grid-area: playerHand;
     display: flex;
-    align-items: flex-start;
+    /*align-items: flex-start;*/
+
 }
 
 .hand-horizontal{
@@ -60,3 +98,6 @@
     flex-direction: column;
 }
 
+.hand{
+    margin: auto;
+}

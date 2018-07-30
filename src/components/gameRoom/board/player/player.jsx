@@ -16,13 +16,14 @@ export default class Player extends React.Component {
               playerTurnName={this.props.playerTurnName}
               direction={this.props.direction}/>
 
-          <div className={"player-headline"}>
+          <div className={"player-headline "+`headline-${this.props.side}`}>
               <div className={"player-icon"}>
                   <img className={"player-icon-img"} src={"./textures/user_icon.png"} />
               </div>
               <div className={"player-name"}>
                   {this.props.player.name}
               </div>
+
           </div>
       </div>
     );

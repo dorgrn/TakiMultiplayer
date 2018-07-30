@@ -45,8 +45,9 @@
     grid-area: playZone;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .deck{
@@ -54,8 +55,9 @@
     grid-area: deck;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 

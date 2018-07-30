@@ -5,6 +5,7 @@ import Card from "../card.jsx";
 const handWidth = 29;
 const cardWidth = 6;
 const leftStart = 44;
+const topStart = 30;
 let leftOffset = 0;
 let topOffset = 0;
 let zIndex = 0;
@@ -49,6 +50,11 @@ playCard(card){
   createCard(cardLogic) {
     let cardStyle = "card";
     let key;
+    let rotate;
+
+    if (this.props.direction === "vertical"){
+        rotate = -90;
+    }
 
     if (cardLogic !== undefined){
         if (this.props.user.name === this.props.player.name
@@ -58,15 +64,17 @@ playCard(card){
             } else {
                 cardStyle = cardStyle+" illegal-card";
             }
-            key = cardLogic.cardId;
+            //key = cardLogic.cardId;
         }
     }
     else {
-        key = `${this.props.player.name}`+`${cardCounter}`;
-        cardCounter++;
+        //key = `${this.props.player.name}`+`${cardCounter}`;
+        //cardCounter++;
     }
 
-    const handleClick = function() {
+      key = `${this.props.player.name}`+`${cardCounter}`;
+cardCounter++;
+      const handleClick = function() {
       this.cardSelected(cardLogic);
     };
 
@@ -76,6 +84,7 @@ playCard(card){
             card={cardLogic}
             cardStyle={cardStyle}
             style={{zIndex: zIndex}}
+            rotate={rotate}
             leftOffset={leftOffset}
             topOffset={topOffset}
             direction={this.props.direction}
@@ -93,6 +102,9 @@ playCard(card){
     leftOffset = cardsAmount < handWidth/cardWidth ?
         leftStart + handWidth/2 - (cardWidth/2)*cardsAmount
         : leftStart;
+    topOffset = cardsAmount < handWidth/cardWidth ?
+        topStart + handWidth/2 - (cardWidth/2)*cardsAmount
+        : topStart;
 
 
     for (let i =0; i<cardsAmount;i++){
@@ -103,13 +115,20 @@ playCard(card){
         leftOffset += cardsAmount < handWidth/cardWidth ?
             cardWidth
             : handWidth/cardsAmount;
+        topOffset += cardsAmount < handWidth/cardWidth ?
+            cardWidth
+            : handWidth/cardsAmount;
         cards.push(newCard);
     }
     zIndex = 0;
     cardCounter=0;
 
     return (
-        <div className={`hand-${direction}`}>{cards}</div>
+        <div className={`hand-${direction}`}>
+            <div className={"hand"}>
+                {cards}
+            </div>
+        </div>
     );
   }
 }
