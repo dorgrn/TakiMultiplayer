@@ -19,12 +19,18 @@ export default class Card extends React.Component {
     const title = this.props.card ? this.props.card.description : "";
 
     const angle = this.props.rotate ? this.props.rotate : 0;
-    const offsetLeft = this.props.leftOffset;
-    const offsetTop = this.props.topOffset;
-    //const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`, top:`${offsetTop}%`};
-    const styles = this.props.direction === "horizontal" ?
-        { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`}
-        : { transform: `rotate(${angle}deg)`, top:`${offsetTop}%`};
+    const leftOffset = this.props.leftOffset;
+    const topOffset = this.props.topOffset;
+    let styles;
+    if (leftOffset !== undefined){
+        styles = { transform: `rotate(${angle}deg)`, left:`${leftOffset}%`};
+    }
+    else if (topOffset !== undefined){
+        styles = { transform: `rotate(${angle}deg)`, top:`${topOffset}%`};
+    }
+    else {
+        styles = { transform: `rotate(${angle}deg)`};
+    }
 
     return (
         <img

@@ -6,7 +6,7 @@
     grid-template-columns: 30% 40% 30%;
     grid-template-areas:
             ". playerUp ."
-            "playerLeft mainBoard playerRight"
+            "playerLeft centerBoard playerRight"
             ". playerDown .";
 }
 
@@ -26,12 +26,12 @@
     grid-area: playerRight;
 }
 
-.main-board{
-    grid-area: mainBoard;
+.center-board{
+    grid-area: centerBoard;
     margin:1%;
 }
 
-.main-board-layout{
+.center-board-layout{
     height: 100%;
     width: 100%;
     display: grid;
