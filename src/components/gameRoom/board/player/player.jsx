@@ -32,6 +32,7 @@ export default class Player extends React.Component {
   }
 
   render() {
+      const color = this.props.player.name === this.props.playerTurnName ? "green" : "lightgray";
     return (
       <div className={`player-${this.props.direction}`}>
           <Hand
@@ -41,7 +42,7 @@ export default class Player extends React.Component {
               direction={this.props.direction}
           />
 
-          <div className={"player-headline "+`headline-${this.props.side}`}>
+          <div className={"player-headline "+`headline-${this.props.side}`} style={{backgroundColor:`${color}`}}>
               <div className={"player-icon"}>
                   <img className={"player-icon-img"} src={this.icon} />
               </div>
