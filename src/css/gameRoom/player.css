@@ -4,44 +4,12 @@
     height: 100%;
 }
 
-/*
-
-#player-down{
-    grid-template-rows: 80% 20%;
-    grid-template-areas:
-            "playerHand"
-            "playerHeadline";
-}
-
-#player-up{
-    grid-template-rows: 20% 80%;
-    grid-template-areas:
-            "playerHeadline"
-            "playerHand";
-}
-
-#player-left{
-    grid-template-columns: 20% 80%;
-    grid-template-areas:
-            "playerHeadline"
-            "playerHand";
-}
-
-#player-right{
-    grid-template-columns: 80% 20%;
-    grid-template-areas:
-            "playerHand"
-            "playerHeadline";
-}
-
-*/
-
 .headline-up{
     transform: translate(0vw,-2vw);
 }
 
 .headline-down{
-    transform: translate(0vw,10vw);
+    transform: translate(0vw,12vw);
 }
 
 .headline-left{
@@ -55,10 +23,8 @@
 .player-headline{
     width: 29vw;
 
-    /*height:100%;*/
-    /*grid-area: playerHeadline;*/
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 10% 90%;
     grid-template-areas:
             "playerIcon playerName";
 
@@ -73,7 +39,7 @@
 }
 
 .player-icon-img{
-    width: 75%;
+    width: 3vw;
 }
 
 .player-name{
@@ -81,12 +47,12 @@
     text-align: center;
     font-family: sans-serif;
     font-size: 1.5vw;
+
 }
 
 .hand-horizontal, .hand-vertical{
     grid-area: playerHand;
     display: flex;
-    /*align-items: flex-start;*/
 
 }
 

@@ -24,7 +24,7 @@ export default class Card extends React.Component {
     let styles;
 
     if (this.props.direction === 'horizontal'){
-        styles = { transform: `rotate(${angle}deg)`, left:`${leftOffset}%`};
+        styles = { transform: `rotate(${angle}deg) translate(0vw,2vw)`, left:`${leftOffset}%`};
     }
     else if (this.props.direction === 'vertical'){
         styles = { transform: `rotate(${angle}deg) translate(0vw,-3vw)`, top:`${topOffset}%`};

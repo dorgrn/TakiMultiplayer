@@ -30,7 +30,8 @@ function buildRelativePlayersArray(user, players){
                 hand: undefined,
                 cardsAmount: players[i].cardsAmount,
                 stats: players[i].stats,
-                place: players[i].place
+                place: players[i].place,
+                playingStatus: players[i].playingStatus
             };
             result.push(player);
             i = (i+1) % playerAmount;

@@ -4,7 +4,7 @@ const Stopwatch = require("./Stopwatch");
 
 const PLAYING_STATUS = {
   PLAYING: "playing",
-  IDLE: "idle"
+  DONE: "done"
 };
 
 const TYPES = {
@@ -92,7 +92,8 @@ module.exports = class Player{
             hand: this.hand.copyState(),
             cardsAmount: this.hand.cards.length,
             stats: Object.assign({}, this.stats),
-            place: this.place
+            place: this.place,
+            playingStatus: this.playingStatus
         };
     }
 
@@ -204,8 +205,8 @@ module.exports = class Player{
     this.stats.turnsAvgTime = this.getAvgTurnTime();
   }
 
-  setIdle() {
-    this.playingStatus = PLAYING_STATUS.IDLE;
+  setDone() {
+    this.playingStatus = PLAYING_STATUS.DONE;
   }
 
   isPlaying() {
