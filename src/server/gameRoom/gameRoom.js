@@ -7,7 +7,7 @@ function buildRelativePlayersArray(user, players){
 
   if (user.status === gameUtils.STATUS_CONSTS.IDLE){
         players.forEach((player)=>result.push(player));
-    }
+  }
     // the user is player, should get his data only
     else if (user.status === gameUtils.STATUS_CONSTS.PLAYING){
         const playerAmount = players.length;
@@ -63,14 +63,17 @@ function getBoardState(id) {
 }
 
 function playCard(req, res, next) {
+  const parsedCard = JSON.parse(req.body);
   const player = auth.userList.getUserById(req.session.id);
   const gameName = player.gameName;
   const game = games.gamesList.getGameByGameName(gameName);
 
-  const gameLogic = game.logic;
+  const activePlayer = game.logic.getActivePlayer();
+  if (!activePlayer.name === player.name){
+      res.sendStatus(401);
+  }
 
-  //TODO: drawCadsWhenNoLegal should accept LOGIC player object insted of SERVER player object
-  gameLogic.drawCardsWhenNoLegal(player);
+  game.logic.playCard(parsedCard.cardId);
   next();
 }
 

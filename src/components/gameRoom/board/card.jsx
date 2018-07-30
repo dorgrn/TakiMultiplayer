@@ -22,10 +22,11 @@ export default class Card extends React.Component {
     const offsetLeft = this.props.leftOffset;
     const offsetTop = this.props.topOffset;
     //const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`, top:`${offsetTop}%`};
-    const styles = { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`};
+    const styles = this.props.direction === "horizontal" ?
+        { transform: `rotate(${angle}deg)`, left:`${offsetLeft}%`}
+        : { transform: `rotate(${angle}deg)`, top:`${offsetTop}%`};
 
-
-      return (
+    return (
         <img
             className={`${this.props.cardStyle}`}
             src={images[image]}

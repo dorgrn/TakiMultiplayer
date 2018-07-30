@@ -150,8 +150,10 @@ module.exports = class GameLogic{
   }
 
   //TODO: this method is vital for server
-  playCard(card) {
+  playCard(cardId) {
     const activePlayer = this.getActivePlayer();
+    const card = activePlayer.hand.cards.find(card => card.cardId === cardId);
+
     if (!this.isCardLegal(card)) {
       return;
     }
@@ -308,7 +310,7 @@ module.exports = class GameLogic{
         this.drawCardsWhenNoLegal(activePlayer);
       }
     } else {
-      this.playCard(cardToPlay);
+      this.playCard(cardToPlay.cardId);
     }
   }
 

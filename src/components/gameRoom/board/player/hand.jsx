@@ -15,10 +15,23 @@ export default class Hand extends React.Component {
     super();
   }
 
-  cardSelected(cardId) {
+playCard(card){
+    fetch("/gameRoom/playCard", {method: "POST",body: JSON.stringify(card),credentials: "include"})
+        .then(response => {
+            if (!response.ok) {
+                console.log(
+                    `user ${this.props.user.name} failed to play card`,
+                    response
+                );
+            }
+        });
+}
+
+  cardSelected(card) {
     //request from server to playCard
     if (card !== undefined){
-        return true;
+        console.log(card);
+        this.playCard(card);
     }
   }
 
@@ -65,6 +78,7 @@ export default class Hand extends React.Component {
             style={{zIndex: zIndex}}
             leftOffset={leftOffset}
             topOffset={topOffset}
+            direction={this.props.direction}
             onClick={handleClick.bind(this)}
         />
     );
