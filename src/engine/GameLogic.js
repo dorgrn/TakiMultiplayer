@@ -89,6 +89,7 @@ module.exports = class GameLogic{
     top.color = color;
     top.frontImg = top.frontImg.replace("colorful", color);
     this.playZone.putOnTop(top);
+    this.fillLegalCards();
 
     this.history.gamePostColorChanged(this.stats.getElapsedTime(), color);
     if (activePlayer.inTakiMode.status === false) {

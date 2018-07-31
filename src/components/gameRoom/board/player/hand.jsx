@@ -2,36 +2,34 @@ import React from "react";
 import "../../../../css/gameRoom/player.css";
 import Card from "../card.jsx";
 
-const handWidth = 29;
-const cardWidth = 6;
-const leftStart = 44;
-const topStart = 30;
-let leftOffset = 0;
-let topOffset = 0;
-let zIndex = 0;
-let cardCounter = 0;
-
 export default class Hand extends React.Component {
   constructor() {
     super();
+    this.handWidth = 29;
+    this.cardWidth = 6;
+    this.leftStart = 44;
+    this.topStart = 30;
+    this.leftOffset = 0;
+    this.topOffset = 0;
+    this.zIndex = 0;
+    this.cardCounter = 0;
   }
 
-playCard(card){
-    fetch("/gameRoom/playCard", {method: "POST",body: JSON.stringify(card),credentials: "include"})
-        .then(response => {
-            if (!response.ok) {
-                console.log(
-                    `user ${this.props.user.name} failed to play card`,
-                    response
-                );
-            }
-        });
-}
+    playCard(card){
+        fetch("/gameRoom/playCard", {method: "POST",body: JSON.stringify(card),credentials: "include"})
+            .then(response => {
+                if (!response.ok) {
+                    console.log(
+                        `user ${this.props.user.name} failed to play card`,
+                        response
+                    );
+                }
+            });
+    }
 
   cardSelected(card) {
     //request from server to playCard
     if (card !== undefined){
-        console.log(card);
         this.playCard(card);
     }
   }
@@ -64,18 +62,13 @@ playCard(card){
             } else {
                 cardStyle = cardStyle+" illegal-card";
             }
-            //key = cardLogic.cardId;
         }
     }
-    else {
-        //key = `${this.props.player.name}`+`${cardCounter}`;
-        //cardCounter++;
-    }
 
-      key = `${this.props.player.name}`+`${cardCounter}`;
-cardCounter++;
-      const handleClick = function() {
-      this.cardSelected(cardLogic);
+    key = `${this.props.player.name}`+`${this.cardCounter}`;
+      this.cardCounter++;
+    const handleClick = function() {
+        this.cardSelected(cardLogic);
     };
 
     return (
@@ -83,10 +76,10 @@ cardCounter++;
             key={key}
             card={cardLogic}
             cardStyle={cardStyle}
-            style={{zIndex: zIndex}}
+            style={{zIndex: this.zIndex}}
             rotate={rotate}
-            leftOffset={leftOffset}
-            topOffset={topOffset}
+            leftOffset={this.leftOffset}
+            topOffset={this.topOffset}
             direction={this.props.direction}
             onClick={handleClick.bind(this)}
         />
@@ -95,33 +88,38 @@ cardCounter++;
 
 
   render() {
-    const direction = this.props.direction;
-    const cards = [];
-    const cardsAmount = this.props.player.cardsAmount;
+      const direction = this.props.direction;
+      const cards = [];
+      const cardsAmount = this.props.player.cardsAmount;
 
-    leftOffset = cardsAmount < handWidth/cardWidth ?
-        leftStart + handWidth/2 - (cardWidth/2)*cardsAmount
-        : leftStart;
-    topOffset = cardsAmount < handWidth/cardWidth ?
-        topStart + handWidth/2 - (cardWidth/2)*cardsAmount
-        : topStart;
+      if (this.props.player.name === this.props.user.name){
+          this.leftStart = 30;
+          this.handWidth = 57;
+      }
+
+      this.leftOffset = cardsAmount < this.handWidth/this.cardWidth ?
+          this.leftStart + this.handWidth/2 - (this.cardWidth/2)*cardsAmount
+          : this.leftStart;
+      this.topOffset = cardsAmount < this.handWidth/this.cardWidth ?
+          this.topStart + this.handWidth/2 - (this.cardWidth/2)*cardsAmount
+          : this.topStart;
 
 
-    for (let i =0; i<cardsAmount;i++){
-        const newCard = this.props.player.hand ?
-            this.createCard(this.props.player.hand.cards[i])
-            : this.createCard();
-        zIndex++;
-        leftOffset += cardsAmount < handWidth/cardWidth ?
-            cardWidth
-            : handWidth/cardsAmount;
-        topOffset += cardsAmount < handWidth/cardWidth ?
-            cardWidth
-            : handWidth/cardsAmount;
-        cards.push(newCard);
-    }
-    zIndex = 0;
-    cardCounter=0;
+      for (let i =0; i<cardsAmount;i++){
+          const newCard = this.props.player.hand ?
+              this.createCard(this.props.player.hand.cards[i])
+              : this.createCard();
+          this.zIndex++;
+          this.leftOffset += cardsAmount < this.handWidth/this.cardWidth ?
+              this.cardWidth
+              : this.handWidth/cardsAmount;
+          this.topOffset += cardsAmount < this.handWidth/this.cardWidth ?
+              this.cardWidth
+              : this.handWidth/cardsAmount;
+          cards.push(newCard);
+      }
+    this.zIndex = 0;
+    this.cardCounter=0;
 
     return (
         <div className={`hand-${direction}`}>

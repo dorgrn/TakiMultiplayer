@@ -14,6 +14,9 @@ const icons = importAll(require.context("../../../resources/emoji/", false, /\.p
 export default class Player extends React.Component {
   constructor() {
     super();
+    // this.state = {
+    //     inTakiMode: false
+    //   }
   }
 
   componentWillMount(){
@@ -31,7 +34,17 @@ export default class Player extends React.Component {
       return _.values(icons)[index];
   }
 
+  // renderTakiMode(){
+  //     if (this.state.inTakiMode === false && this.props.player.inTakiMode === true){
+  //         this.setState(() => ({inTakiMode: true}));
+  //     }
+  //     else if (this.state.inTakiMode === true && this.props.player.inTakiMode === false){
+  //         this.setState(() => ({inTakiMode: false}));
+  //     }
+  // }
+
   render() {
+    //this.renderTakiMode();
     const color = this.props.player.name === this.props.playerTurnName ? "green" : "lightgray";
     return (
       <div className={`player-${this.props.direction}`}>
