@@ -1,4 +1,7 @@
 import React from "react";
+import Box from "../box.jsx";
+import "../../../../css/chat.css";
+
 
 export default class conversationArea extends React.Component {
   constructor(props) {
@@ -38,15 +41,20 @@ export default class conversationArea extends React.Component {
       });
   }
 
+    getMessages(){
+        let messages = [];
+
+        this.state.content.map((message, index) => {
+            const row = <p key={`Chat +${index}`}>{message.user.name}: {message.text}</p>
+            messages.push(row);
+        });
+
+        return <div style={{paddingLeft:"1em"}}>{messages}</div>;
+    }
+
   render() {
     return (
-      <div className="conversation-area-wrapper">
-        {this.state.content.map((line, index) => (
-          <p key={line.user.name + index}>
-            {line.user.name}: {line.text}
-          </p>
-        ))}
-      </div>
+        <Box title={"Chat"} content={this.getMessages()} isBottomStick={true}/>
     );
   }
 }

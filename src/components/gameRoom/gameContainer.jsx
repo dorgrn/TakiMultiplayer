@@ -44,7 +44,7 @@ export default class GameContainer extends React.Component {
       <div className={"page-content"}>
           <div className={"gameroom-layout"}>
               <Board user={this.state.user} boardState={this.state.boardState}/>
-              <Info/>
+              <Info boardState={this.state.boardState}/>
           </div>
       </div>
         : null

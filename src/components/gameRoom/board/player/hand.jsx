@@ -92,8 +92,16 @@ export default class Hand extends React.Component {
       const cards = [];
       const cardsAmount = this.props.player.cardsAmount;
 
-      if (this.props.player.name === this.props.user.name){
+      if(window.innerWidth < 1100){
           this.leftStart = 30;
+          this.topStart = 20;
+      }else{
+          this.leftStart = 44;
+          this.topStart = 30;
+      }
+
+      if (this.props.player.name === this.props.user.name){
+          this.leftStart = window.innerWidth < 1100 ? 20: 30;
           this.handWidth = 57;
       }
 

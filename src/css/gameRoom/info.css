@@ -1,25 +1,23 @@
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1100px){
     .info-layout {
-        height: 130px;
-        grid-template-columns: 25% 75%;
-        grid-template-rows: 130px 130px;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 185px 190px;
         grid-template-areas:
-                "chat chat"
-                "presentUsers movesHistory";
+                "gameStatus movesHistory"
+                "presentUsers chat";
     }
 }
 
-@media screen and (min-width: 1000px){
+@media screen and (min-width: 1100px){
     .info-layout {
-        /*height: 165px;*/
-        grid-template-rows: 20% 40% 40%;
+        grid-template-rows: 25% 25% 25% 25%;
         grid-template-areas:
+                "gameStatus"
                 "presentUsers"
                 "movesHistory"
                 "chat";
     }
 }
-
 
 .info-layout{
     width: 100%;
@@ -27,18 +25,18 @@
 
 }
 
-.present-users{
-    width: 100%;
+#game-status{
+    grid-area: gameStatus;
+}
+
+#present-users{
     grid-area: presentUsers;
 }
 
-.moves-history{
-    width: 100%;
+#moves-history{
     grid-area: movesHistory;
 }
 
-.chat{
-    display: block;
-    width: 100%;
+#chat{
     grid-area: chat;
 }

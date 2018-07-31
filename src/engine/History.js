@@ -66,7 +66,7 @@ module.exports = class History {
 
   copyState() {
     return {
-      cards: this.posts.slice()
+      posts: this.posts.slice()
     };
   }
 };

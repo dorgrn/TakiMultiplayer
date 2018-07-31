@@ -1,9 +1,25 @@
+@media screen and (max-width: 1100px){
+    .gameroom-layout {
+        grid-template-rows: 80% 20%;
+        grid-template-areas:
+                "boardCol"
+                "infoCol";
+    }
+}
+
+@media screen and (min-width: 1100px){
+    .gameroom-layout {
+        grid-template-columns: 20% 80%;
+        grid-template-areas:"infoCol boardCol";
+    }
+}
+
 .gameroom-layout{
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 20% 80%;
-    grid-template-areas:"infoCol boardCol";
+    /*grid-template-columns: 20% 80%;*/
+    /*grid-template-areas:"infoCol boardCol";*/
 }
 
 .board-content{

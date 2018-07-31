@@ -1,4 +1,7 @@
 import React from "react";
+import "../../../../css/chat.css";
+import "../../../../css/global.css";
+
 
 export default class ChatInput extends React.Component {
   constructor(props) {
@@ -21,7 +24,7 @@ export default class ChatInput extends React.Component {
         />
         <input
           type="submit"
-          className="btn-lobby"
+          className={"button-UI"}
           disabled={this.state.sendInProgress}
           value="Send"
         />

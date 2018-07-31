@@ -1,4 +1,6 @@
 import React from "react";
+import Box from "./box.jsx";
+import Chat from "./chat/chatContainer.jsx";
 import "../../../css/gameRoom/info.css";
 
 export default class Info extends React.Component {
@@ -6,10 +8,54 @@ export default class Info extends React.Component {
     super();
   }
 
+  getUsers(){
+      let users = [];
+
+      this.props.boardState.players.map((player, index)=>{
+          const row = <p key={`Users +${index}`}>{player.name}</p>;
+          users.push(row);
+        }
+      );
+
+      return <div style={{paddingLeft:"1em"}}>{users}</div>;
+  }
+
+  getHistoryPosts(){
+      let history = [];
+
+      this.props.boardState.history.posts.map((post, index) => {
+          let color = post.publisher === "Game" ? "red" : "black";
+          const row = <p key={`History +${index}`} style={{color:color}}><b>{post.time}</b>:  {post.content}</p>;
+          history.push(row);
+      });
+
+      return <div style={{paddingLeft:"1em"}}>{history}</div>;
+  }
+
+    getGameStatus(){
+      const boardState = this.props.boardState;
+      const activePlayer = boardState.players.find((player)=>(player.name===boardState.playerTurnName));
+      let status = [];
+      let counter = 0;
+
+      status.push(<p key={`Status +${++counter}`}><b>Time:&emsp;</b>{boardState.stats.gameElapsedTime}&emsp;
+          <b>Turn:&emsp;</b>{boardState.stats.turnAmount}</p>);
+      status.push(<p key={`Status +${++counter}`}><b>Player turn:&emsp;</b>{activePlayer.name}</p>);
+      status.push(<p key={`Status +${++counter}`}><b>&uarr;&emsp;Average turn time:&emsp;</b>{activePlayer.stats.turnsAvgTime}</p>);
+      status.push(<p key={`Status +${++counter}`}><b>&uarr;&emsp;Last card counter:&emsp;</b>{activePlayer.stats.lastCardCounter}</p>);
+
+      return <div style={{paddingLeft:"1em"}}>{status}</div>;
+    }
+
   render() {
+
     return (
       <div className={"info-content"}>
           <div className={"info-layout"}>
+            <Box id={"game-status"} title={"Game Status"} content={this.getGameStatus()} isBottomStick={false}/>
+            <Box id={"present-users"} title={"Users"} content={this.getUsers()} isBottomStick={false}/>
+            <Box id={"moves-history"} title={"History"} content={this.getHistoryPosts()} isBottomStick={true}/>
+            <Chat id={"chat"}/>
           </div>
       </div>
     );
