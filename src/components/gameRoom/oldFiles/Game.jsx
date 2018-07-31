@@ -3,7 +3,7 @@ import "../css/style.css";
 import Board from "./Board";
 import StatsBar from "./StatsBar.jsx";
 import manager from "../../engine/Manager.js";
-import ColorMenu from "./ColorMenu";
+import ColorMenu from "../board/colorMenu";
 import EndGameMenu from "./EndGameMenu.jsx";
 
 export default class Game extends React.Component {

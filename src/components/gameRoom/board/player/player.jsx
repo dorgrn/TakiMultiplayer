@@ -32,7 +32,7 @@ export default class Player extends React.Component {
   }
 
   render() {
-      const color = this.props.player.name === this.props.playerTurnName ? "green" : "lightgray";
+    const color = this.props.player.name === this.props.playerTurnName ? "green" : "lightgray";
     return (
       <div className={`player-${this.props.direction}`}>
           <Hand

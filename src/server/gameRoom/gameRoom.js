@@ -90,8 +90,23 @@ function drawCard(req, res, next) {
     next();
 }
 
+function colorSelected(req, res, next){
+    const parsedColor = JSON.parse(req.body);
+    const player = auth.userList.getUserById(req.session.id);
+    const game = games.gamesList.getGameByGameName(player.gameName);
+
+    const activePlayer = game.logic.getActivePlayer();
+    if (!activePlayer.name === player.name){
+        res.sendStatus(401);
+    }
+
+    game.logic.colorSelected(parsedColor);
+    next();
+}
+
 module.exports = {
   getBoardState,
   playCard,
-  drawCard
+  drawCard,
+  colorSelected
 };

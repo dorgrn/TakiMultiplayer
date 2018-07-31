@@ -4,12 +4,24 @@ import PlayerDown from "./player/playerDown.jsx";
 import PlayerLeft from "./player/playerLeft.jsx";
 import PlayerRight from "./player/playerRight.jsx";
 import CenterBoard from "./center/centerBoard.jsx";
+import ColorMenu from "./colorMenu.jsx";
 import "../../../css/gameRoom/board.css";
 
 
 export default class Board extends React.Component {
   constructor() {
     super();
+  }
+
+  renderColorMenu(){
+      const boardState = this.props.boardState;
+      const amount = boardState.playZone.cards.length;
+
+      if (boardState.playZone.cards[amount-1].color === 'colorful'){
+        return <ColorMenu/>;
+      }
+
+      return null;
   }
 
   renderPlayers(){
@@ -42,6 +54,7 @@ export default class Board extends React.Component {
               {players}
               <CenterBoard user={this.props.user} boardState={this.props.boardState}/>
           </div>
+          {this.renderColorMenu()}
       </div>
     );
   }

@@ -16,5 +16,9 @@ gameRoomManagement.post("/playCard", auth.userAuthentication, gameRoom.playCard,
   res.sendStatus(200);
 });
 
+gameRoomManagement.post("/colorSelected", auth.userAuthentication, gameRoom.colorSelected, (req, res) => {
+    res.sendStatus(200);
+});
+
 
 module.exports = gameRoomManagement;

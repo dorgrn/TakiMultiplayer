@@ -15,7 +15,6 @@ const TYPES = {
 const HAND_INITIAL_SIZE = 8;
 
 
-
 module.exports = class Player{
     constructor(type, name){
         this.name = name;
