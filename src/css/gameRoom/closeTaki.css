@@ -7,9 +7,12 @@
   font-size: 3vw;
   border: none;
   border-radius: 10%;
-  width: 50%;
-  height: 50%;
+  /*width: 50%;*/
+  /*height: 50%;*/
+  width: 20vw;
+  height: 15vw;
   z-index: 1;
+  position:absolute;
 }
 
 .close-taki:hover {

@@ -278,7 +278,7 @@ module.exports = class GameLogic{
     let activePlayer = this.getActivePlayer();
     this.currentlyPlaying--;
     activePlayer.place = this.players.length - this.currentlyPlaying;
-    activePlayer.setIdle();
+    activePlayer.setDone();
   }
 
   doPlayerTurn() {

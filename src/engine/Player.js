@@ -92,7 +92,8 @@ module.exports = class Player{
             cardsAmount: this.hand.cards.length,
             stats: Object.assign({}, this.stats),
             place: this.place,
-            playingStatus: this.playingStatus
+            playingStatus: this.playingStatus,
+            inTakiMode: this.inTakiMode.status
         };
     }
 

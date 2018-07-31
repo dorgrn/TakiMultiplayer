@@ -17,7 +17,8 @@ export default class Board extends React.Component {
       const boardState = this.props.boardState;
       const amount = boardState.playZone.cards.length;
 
-      if (boardState.playZone.cards[amount-1].color === 'colorful'){
+      if (boardState.playZone.cards[amount-1].color === 'colorful' &&
+        boardState.playerTurnName===this.props.user.name){
         return <ColorMenu/>;
       }
 

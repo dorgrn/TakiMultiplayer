@@ -24,16 +24,8 @@ function buildRelativePlayersArray(user, players){
 
         //then add the other players by order
         for(let j=0 ; j<playerAmount-1 ; j++){
-            let player = {
-                name: players[i].name,
-                type: players[i].type,
-                hand: undefined,
-                cardsAmount: players[i].cardsAmount,
-                stats: players[i].stats,
-                place: players[i].place,
-                playingStatus: players[i].playingStatus
-            };
-            result.push(player);
+            players[i].hand = undefined;
+            result.push(players[i]);
             i = (i+1) % playerAmount;
         }
     }
@@ -104,9 +96,23 @@ function colorSelected(req, res, next){
     next();
 }
 
+function takiClosed(req, res, next){
+    const player = auth.userList.getUserById(req.session.id);
+    const game = games.gamesList.getGameByGameName(player.gameName);
+
+    const activePlayer = game.logic.getActivePlayer();
+    if (!activePlayer.name === player.name){
+        res.sendStatus(401);
+    }
+
+    game.logic.takiClosed();
+    next();
+}
+
 module.exports = {
   getBoardState,
   playCard,
   drawCard,
-  colorSelected
+  colorSelected,
+  takiClosed
 };

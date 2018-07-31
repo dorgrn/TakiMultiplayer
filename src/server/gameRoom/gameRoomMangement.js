@@ -20,5 +20,9 @@ gameRoomManagement.post("/colorSelected", auth.userAuthentication, gameRoom.colo
     res.sendStatus(200);
 });
 
+gameRoomManagement.get("/takiClosed", auth.userAuthentication, gameRoom.takiClosed, (req, res) => {
+    res.sendStatus(200);
+});
+
 
 module.exports = gameRoomManagement;
