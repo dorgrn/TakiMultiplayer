@@ -1,26 +1,26 @@
 const express = require("express");
 const gameRoom = require("./gameRoom");
-const auth = require("../users/users");
+const users = require("../users/users");
 
 const gameRoomManagement = express.Router();
 
-gameRoomManagement.get("/boardState", auth.userAuthentication, (req, res) => {
+gameRoomManagement.get("/boardState", users.userAuthentication, (req, res) => {
   res.json(gameRoom.getBoardState(req.session.id));
 });
 
-gameRoomManagement.get("/drawCard", auth.userAuthentication, gameRoom.drawCard, (req, res) => {
+gameRoomManagement.get("/drawCard", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.drawCard, (req, res) => {
   res.sendStatus(200);
 });
 
-gameRoomManagement.post("/playCard", auth.userAuthentication, gameRoom.playCard, (req, res) => {
+gameRoomManagement.post("/playCard", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.playCard, (req, res) => {
   res.sendStatus(200);
 });
 
-gameRoomManagement.post("/colorSelected", auth.userAuthentication, gameRoom.colorSelected, (req, res) => {
+gameRoomManagement.post("/colorSelected", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.colorSelected, (req, res) => {
     res.sendStatus(200);
 });
 
-gameRoomManagement.get("/takiClosed", auth.userAuthentication, gameRoom.takiClosed, (req, res) => {
+gameRoomManagement.get("/takiClosed", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.takiClosed, (req, res) => {
     res.sendStatus(200);
 });
 

@@ -1,4 +1,4 @@
-const auth = require("../users/users");
+const users = require("../users/users");
 const games = require("../games/games");
 const gameUtils = require("../../utils/gameUtils");
 
@@ -34,7 +34,7 @@ function buildRelativePlayersArray(user, players){
 }
 
 function buildRelativeBoardState(id, boardState){
-  const user = auth.userList.getUserById(id);
+  const user = users.userList.getUserById(id);
   const players = buildRelativePlayersArray(user, boardState.players);
   const playerTurnName = boardState.players[boardState.turn].name;
   return {
@@ -46,70 +46,60 @@ function buildRelativeBoardState(id, boardState){
   };
 }
 
-function getBoardState(id) {
-  const gameName = auth.userList.getUserById(id).gameName;
-  const game = games.gamesList.getGameByGameName(gameName);
-  const boardState = game.logic.getBoardState();
-
-  //TODO: this should send a smaller version of boardState. it returns the whole boarState only for debugging reasons.
-  return buildRelativeBoardState(id, boardState);
-}
-
-function playCard(req, res, next) {
-  const parsedCard = JSON.parse(req.body);
-  const player = auth.userList.getUserById(req.session.id);
-  const game = games.gamesList.getGameByGameName(player.gameName);
-
-  const activePlayer = game.logic.getActivePlayer();
-  if (!activePlayer.name === player.name){
-      res.sendStatus(401);
-  }
-
-  game.logic.playCard(parsedCard.cardId);
-  next();
-}
-
-function drawCard(req, res, next) {
-    const player = auth.userList.getUserById(req.session.id);
+function playerAuthentication(req, res, next) {
+    const player = users.userList.getUserById(req.session.id);
     const game = games.gamesList.getGameByGameName(player.gameName);
 
     const activePlayer = game.logic.getActivePlayer();
     if (!activePlayer.name === player.name){
         res.sendStatus(401);
     }
+    else{
+        next();
+    }
+}
 
+function getBoardState(id) {
+  const gameName = users.userList.getUserById(id).gameName;
+  const game = games.gamesList.getGameByGameName(gameName);
+  const boardState = game.logic.getBoardState();
+
+  return buildRelativeBoardState(id, boardState);
+}
+
+function playCard(req, res, next) {
+  const parsedCard = JSON.parse(req.body);
+  const player = users.userList.getUserById(req.session.id);
+  const game = games.gamesList.getGameByGameName(player.gameName);
+  game.logic.playCard(parsedCard.cardId);
+  next();
+}
+
+function drawCard(req, res, next) {
+    const player = users.userList.getUserById(req.session.id);
+    const game = games.gamesList.getGameByGameName(player.gameName);
+    const activePlayer = game.logic.getActivePlayer();
     game.logic.drawCardsWhenNoLegal(activePlayer);
     next();
 }
 
 function colorSelected(req, res, next){
     const parsedColor = JSON.parse(req.body);
-    const player = auth.userList.getUserById(req.session.id);
+    const player = users.userList.getUserById(req.session.id);
     const game = games.gamesList.getGameByGameName(player.gameName);
-
-    const activePlayer = game.logic.getActivePlayer();
-    if (!activePlayer.name === player.name){
-        res.sendStatus(401);
-    }
-
     game.logic.colorSelected(parsedColor);
     next();
 }
 
 function takiClosed(req, res, next){
-    const player = auth.userList.getUserById(req.session.id);
+    const player = users.userList.getUserById(req.session.id);
     const game = games.gamesList.getGameByGameName(player.gameName);
-
-    const activePlayer = game.logic.getActivePlayer();
-    if (!activePlayer.name === player.name){
-        res.sendStatus(401);
-    }
-
     game.logic.takiClosed();
     next();
 }
 
 module.exports = {
+  playerAuthentication,
   getBoardState,
   playCard,
   drawCard,

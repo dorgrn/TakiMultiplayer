@@ -1,4 +1,4 @@
-const auth = require("../users/users");
+const users = require("../users/users");
 const GamesList = require("../serverObjects/GamesList.js");
 const Game = require("../serverObjects/Game.js");
 
@@ -7,7 +7,7 @@ const gamesList = new GamesList();
 function addGameToList(req, res, next) {
   const parsedGame = JSON.parse(req.body);
   const gameName = parsedGame.gameName;
-  const creator = auth.userList.getUserById(req.session.id);
+  const creator = users.userList.getUserById(req.session.id);
 
   if (gamesList.isGameNameExists(gameName)) {
     res.status(403).send("this game name already exist");
@@ -15,7 +15,7 @@ function addGameToList(req, res, next) {
     const game = new Game(gameName, creator, parseInt(parsedGame.playerLimit));
     gamesList.add(gameName, game);
     if (parsedGame.shouldAddPCPlayer){
-      const pcPlayer = auth.createPCPlayer();
+      const pcPlayer = users.createPCPlayer();
       game.addPlayer(pcPlayer);
     }
     next();
@@ -30,7 +30,7 @@ function removeGameFromList(req, res, next) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
-  else if (auth.userList.getUserById(req.session.id).name !== parsed.creator) {
+  else if (users.userList.getUserById(req.session.id).name !== parsed.creator) {
     res
       .status(401)
       .send("user isn't permitted to delete another creator's game");
@@ -43,7 +43,7 @@ function removeGameFromList(req, res, next) {
 function addCurrentUserToGame(req, res, next) {
   const parsed = JSON.parse(req.body);
   const game = gamesList.getGameByGameName(parsed.gameName);
-  const user = auth.userList.getUserById(req.session.id);
+  const user = users.userList.getUserById(req.session.id);
 
   if (!game) {
     res.status(404).send("game does not exist");
@@ -62,7 +62,7 @@ function addCurrentUserToGame(req, res, next) {
 function removeCurrentUserFromGame(req, res, next) {
     const parsed = JSON.parse(req.body);
     const game = gamesList.getGameByGameName(parsed.gameName);
-    const user = auth.userList.getUserById(req.session.id);
+    const user = users.userList.getUserById(req.session.id);
 
     if (!game) {
         res.status(404).send("game does not exist");

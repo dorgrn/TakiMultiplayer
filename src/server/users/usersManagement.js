@@ -1,30 +1,29 @@
 const express = require("express");
-const auth = require("./users");
+const users = require("./users");
 const chatManagement = require("../chat");
 
 const userManagement = express.Router();
 
-userManagement.get("/", auth.userAuthentication, (req, res) => {
-  const user = auth.userList.getUserById(req.session.id);
+userManagement.get("/", users.userAuthentication, (req, res) => {
+  const user = users.userList.getUserById(req.session.id);
   res.json(user);
 });
 
-userManagement.get("/allUsers", auth.userAuthentication, (req, res) => {
-  res.json(auth.userList.getAll());
+userManagement.get("/allUsers", users.userAuthentication, (req, res) => {
+  res.json(users.userList.getAll());
 });
 
 userManagement.
-post("/addUser", auth.addUserToAuthList, (req, res) => {
+post("/addUser", users.addUserToAuthList, (req, res) => {
   res.sendStatus(200);
 });
 
 userManagement.get("/logout", [
   (req, res, next) => {
-    const user = auth.userList.getUserById(req.session.id);
+    const user = users.userList.getUserById(req.session.id);
     chatManagement.appendUserLogoutMessage(user);
     next();
-  },
-  auth.removeUserFromAuthList,
+  }, users.removeUserFromAuthList,
   (req, res) => {
     res.sendStatus(200);
   }
