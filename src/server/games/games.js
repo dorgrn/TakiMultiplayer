@@ -76,11 +76,22 @@ function removeCurrentUserFromGame(req, res, next) {
     }
 }
 
+function getGame(id){
+    const user = users.userList.getUserById(id);
+    const gameName = user.gameName;
+    if (gameName===""){
+        res.status(404).send("game does not exist");
+    }
+
+    return gamesList.getGameByGameName(gameName).getState();
+}
+
 
 module.exports = {
   gamesList,
   addGameToList,
   removeGameFromList,
   addCurrentUserToGame,
-  removeCurrentUserFromGame
+  removeCurrentUserFromGame,
+  getGame
 };

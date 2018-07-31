@@ -1,5 +1,6 @@
 const express = require("express");
 const games = require("./games");
+const users = require("../users/users");
 const gameManagement = express.Router();
 
 gameManagement.post("/addGame", games.addGameToList, (req, res) => {
@@ -17,6 +18,10 @@ gameManagement.get("/allGames", (req, res) => {
 gameManagement.post("/joinGame", games.addCurrentUserToGame, (req,res) =>{
   // check if game is now full and respond accordingly
   res.sendStatus(200);
+});
+
+gameManagement.get("/getGame", users.userAuthentication, (req, res) => {
+  res.json(games.getGame(req.session.id));
 });
 
 module.exports = gameManagement;

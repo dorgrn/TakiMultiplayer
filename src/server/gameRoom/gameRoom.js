@@ -62,9 +62,11 @@ function playerAuthentication(req, res, next) {
 function getBoardState(id) {
   const gameName = users.userList.getUserById(id).gameName;
   const game = games.gamesList.getGameByGameName(gameName);
-  const boardState = game.logic.getBoardState();
 
-  return buildRelativeBoardState(id, boardState);
+  if (game.logic !== ""){
+      const boardState = game.logic.getBoardState();
+      return buildRelativeBoardState(id, boardState);
+  }
 }
 
 function playCard(req, res, next) {
