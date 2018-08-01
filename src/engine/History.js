@@ -37,7 +37,7 @@ module.exports = class History {
     this.pushPlayerPost(
       time,
       turn,
-      player.name + " draw " + cardAmount + " cards from deck."
+      player.name + " drew " + cardAmount + " cards from deck."
     );
   }
 

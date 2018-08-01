@@ -6,19 +6,23 @@ module.exports = class Player {
         this.name = name;
         this.type = type;
         this.gameName = "";
-        this.status = gameUtils.STATUS_CONSTS.IDLE;
+        this.status = gameUtils.PLAYER_CONSTS.IDLE;
     }
 
     get isPlaying(){
-        return this.status === gameUtils.STATUS_CONSTS.PLAYING;
+        return this.status === gameUtils.PLAYER_CONSTS.PLAYING;
     }
 
     get isIdle(){
-        return this.status === gameUtils.STATUS_CONSTS.IDLE;
+        return this.status === gameUtils.PLAYER_CONSTS.IDLE;
     }
 
     get isUser(){
         return this.type === PlayerLogic.TYPES.USER;
+    }
+
+    get isInGame(){
+        return this.gameName!=="";
     }
 
     get isPC(){
@@ -26,11 +30,11 @@ module.exports = class Player {
     }
 
     setStatusPlaying(){
-        this.status = gameUtils.STATUS_CONSTS.PLAYING;
+        this.status = gameUtils.PLAYER_CONSTS.PLAYING;
     }
 
     setStatusIdle(){
-        this.status = gameUtils.STATUS_CONSTS.IDLE;
+        this.status = gameUtils.PLAYER_CONSTS.IDLE;
     }
 
     getState(){

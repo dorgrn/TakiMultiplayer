@@ -4,18 +4,18 @@ import LoginContainer from "./login/loginContainer.jsx";
 import LobbyContainer from "./lobby/lobbyContainer.jsx";
 import GameContainer from "./gameRoom/gameContainer.jsx";
 
-
 export default class ViewManager extends React.Component {
   constructor(props) {
     super(props);
-    this.UPDATE_TIMEOUT = 500;
+    this.UPDATE_INTERVAL = 500;
     this.state = {
       user: ""
     };
 
+
     this.fetchInterval = setInterval(
         this.getUser.bind(this),
-        this.UPDATE_TIMEOUT
+        this.UPDATE_INTERVAL
     );
   }
 
@@ -67,7 +67,8 @@ export default class ViewManager extends React.Component {
 
   render() {
     if (this.state.user !== ""){
-        if (this.state.user.gameName !== "" && this.state.user.status === gameUtils.STATUS_CONSTS.PLAYING) {
+        //TODO: the first if statment happends only if the game.status=IN_PROGRESS
+        if (this.state.user.gameName !== "" && this.state.user.status === gameUtils.PLAYER_CONSTS.PLAYING) {
             return this.renderGameRoom();
         }
         else if (this.state.user.name !== ""){

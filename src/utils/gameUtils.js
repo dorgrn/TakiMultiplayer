@@ -1,8 +1,14 @@
 const _ = require("lodash");
 
-const STATUS_CONSTS = {
+const PLAYER_CONSTS = {
   IDLE: "idle",
   PLAYING: "playing"
+};
+
+const GAME_CONSTS = {
+  PENDING: "pending",
+  IN_PROGRESS: "in progress",
+  DONE: "done"
 };
 
 function createGameRecord(name, playerLimit, shouldAddPCPlayer) {
@@ -15,5 +21,6 @@ function createGameRecord(name, playerLimit, shouldAddPCPlayer) {
 
 module.exports = {
   createGameRecord,
-  STATUS_CONSTS
+  PLAYER_CONSTS,
+  GAME_CONSTS
 };

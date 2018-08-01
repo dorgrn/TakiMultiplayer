@@ -49,8 +49,6 @@ function addCurrentUserToGame(req, res, next) {
     res.status(404).send("game does not exist");
   } else if (!user) {
     res.status(401).send("user not found");
-  } else if (game.isGameFull) {
-    res.status(405).send("game is full");
   } else if (game.isPlayerIn(user)) {
     res.status(406).send("user already in game");
   } else {
@@ -60,9 +58,8 @@ function addCurrentUserToGame(req, res, next) {
 }
 
 function removeCurrentUserFromGame(req, res, next) {
-    const parsed = JSON.parse(req.body);
-    const game = gamesList.getGameByGameName(parsed.gameName);
     const user = users.userList.getUserById(req.session.id);
+    const game = gamesList.getGameByGameName(user.gameName);
 
     if (!game) {
         res.status(404).send("game does not exist");
@@ -76,13 +73,15 @@ function removeCurrentUserFromGame(req, res, next) {
     }
 }
 
-function getGame(id){
-    const user = users.userList.getUserById(id);
-    const gameName = user.gameName;
-    if (gameName===""){
+function getGame(req, res, next){
+    const user = users.userList.getUserById(req.session.id);
+
+    if (!user.isInGame){
         res.status(404).send("game does not exist");
+        return;
     }
 
+    const gameName = user.gameName;
     return gamesList.getGameByGameName(gameName).getState();
 }
 

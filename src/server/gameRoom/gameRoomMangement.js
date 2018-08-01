@@ -5,7 +5,7 @@ const users = require("../users/users");
 const gameRoomManagement = express.Router();
 
 gameRoomManagement.get("/boardState", users.userAuthentication, (req, res) => {
-  res.json(gameRoom.getBoardState(req.session.id));
+  res.json(gameRoom.getBoardState(req,res));
 });
 
 gameRoomManagement.get("/drawCard", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.drawCard, (req, res) => {
@@ -21,6 +21,10 @@ gameRoomManagement.post("/colorSelected", users.userAuthentication, gameRoom.pla
 });
 
 gameRoomManagement.get("/takiClosed", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.takiClosed, (req, res) => {
+    res.sendStatus(200);
+});
+
+gameRoomManagement.get("/gameEnded", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.gameEnded, (req, res) => {
     res.sendStatus(200);
 });
 

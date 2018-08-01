@@ -20,8 +20,12 @@ gameManagement.post("/joinGame", games.addCurrentUserToGame, (req,res) =>{
   res.sendStatus(200);
 });
 
+gameManagement.get("/leaveGame", games.removeCurrentUserFromGame, (req,res) => {
+  res.sendStatus(200);
+});
+
 gameManagement.get("/getGame", users.userAuthentication, (req, res) => {
-  res.json(games.getGame(req.session.id));
+  res.json(games.getGame(req,res));
 });
 
 module.exports = gameManagement;

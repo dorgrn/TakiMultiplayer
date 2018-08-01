@@ -5,49 +5,24 @@ import "../../../css/gameRoom/info.css";
 
 export default class Info extends React.Component {
   constructor() {
-    super();
-    this.UPDATE_TIMEOUT = 500;
-    this.state = {
-        game:""
-    };
-
-    this.fetchGameInterval = setInterval(
-        this.getGame.bind(this),
-        this.UPDATE_TIMEOUT
-    );
+      super();
   }
-
-    getGame() {
-        return fetch("/games/getGame", { method: "GET", credentials: "include" })
-            .then(response => {
-                if (!response.ok) {
-                    throw response;
-                }
-                return response.json();
-            })
-            .then(game => {
-                this.setState(() => ({ game: game }));
-            })
-            .catch(err => {
-                throw err;
-            });
-    }
 
   getUsers(){
       let counter = 0;
       let users = [];
 
-      if (this.state.game === ""){
+      if (this.props.game === ""){
           return;
       }
 
-      this.state.game.players.map((player)=>{
+      this.props.game.players.map((player)=>{
           const row = <p key={`Users +${++counter}`}>[Player] {player.name}</p>;
           users.push(row);
         }
       );
 
-      this.state.game.observers.map((observer)=>{
+      this.props.game.observers.map((observer)=>{
           const row = <p key={`Users +${++counter}`}>[Observer] {observer.name}</p>;
           users.push(row);
         }
@@ -88,10 +63,10 @@ export default class Info extends React.Component {
     return (
       <div className={"info-content"}>
           <div className={"info-layout"}>
-            <Box id={"game-status"} title={`Game ${this.state.game.name} Status`} content={this.getGameStatus()} isBottomStick={false}/>
+            <Box id={"game-status"} title={`Game ${this.props.game.name} Status`} content={this.getGameStatus()} isBottomStick={false}/>
             <Box id={"present-users"} title={"Users"} content={this.getUsers()} isBottomStick={false}/>
             <Box id={"moves-history"} title={"History"} content={this.getHistoryPosts()} isBottomStick={true}/>
-            <Chat id={"chat"}/>
+            <Chat id={"chat"} user={this.props.user}/>
           </div>
       </div>
     );

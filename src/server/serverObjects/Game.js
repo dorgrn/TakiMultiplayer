@@ -1,4 +1,5 @@
 const GameLogic = require("../../engine/GameLogic.js");
+const gameUtils = require ("../../utils/gameUtils.js");
 const _ = require("lodash");
 
 module.exports = class Game {
@@ -8,9 +9,22 @@ module.exports = class Game {
         this.playerLimit = playerLimit;
         this.players = [];
         this.observers = [];
+        this.status = gameUtils.GAME_CONSTS.PENDING;
         this.logic = "";
 
         this.addPlayer(creator);
+    }
+
+    get isPending(){
+        return this.status === gameUtils.GAME_CONSTS.PENDING;
+    }
+
+    get isInProgress(){
+        return this.status === gameUtils.GAME_CONSTS.IN_PROGRESS;
+    }
+
+    get isDone(){
+        return this.status === gameUtils.GAME_CONSTS.DONE;
     }
 
     get isGameFull(){
@@ -59,11 +73,17 @@ module.exports = class Game {
 
     }
 
+    startGame(){
+
+    }
+
+
     createGameLogic() {
         for (let i=0; i<this.players.length;i++){
             this.players[i].setStatusPlaying();
         }
 
+        this.status = gameUtils.GAME_CONSTS.IN_PROGRESS;
         this.logic = new GameLogic(this.players);
     }
 
@@ -73,7 +93,8 @@ module.exports = class Game {
             creator: this.creator,
             playerLimit: this.playerLimit,
             players: this.players,
-            observers: this.observers
+            observers: this.observers,
+            status: this.status
         };
     }
 

@@ -8,7 +8,7 @@ import takiImage from "../resources/logo.png";
 export default class LobbyContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.UPDATE_TIMEOUT = 500;
+    this.UPDATE_INTERVAL = 500;
 
     this.state = {
       users: {}, // all users
@@ -18,12 +18,12 @@ export default class LobbyContainer extends React.Component {
 
   this.fetchUsersInterval = setInterval(
       this.getUsers.bind(this),
-      this.UPDATE_TIMEOUT
+      this.UPDATE_INTERVAL
   );
 
   this.fetchGamesInterval = setInterval(
       this.getGames.bind(this),
-      this.UPDATE_TIMEOUT
+      this.UPDATE_INTERVAL
   );
 
 

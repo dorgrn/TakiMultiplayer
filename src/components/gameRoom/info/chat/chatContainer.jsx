@@ -1,13 +1,26 @@
 import React from "react";
 import ConversationArea from "./conversationArea.jsx";
 import ChatInput from "./chatInput.jsx";
+import gameUtils from "../../../../utils/gameUtils.js";
 import "../../../../css/chat.css";
 
-export default function Chat() {
-  return (
-    <div className="chat-container">
-      <ConversationArea />
-      <ChatInput />
-    </div>
-  );
+export default class Chat extends React.Component{
+    constructor(){
+        super();
+    }
+
+    renderChatInput(){
+        if(this.props.user.status === gameUtils.PLAYER_CONSTS.PLAYING) {
+            return <ChatInput/>;
+        }
+    }
+
+    render(){
+        return (
+            <div className="chat-container">
+                <ConversationArea />
+                {this.renderChatInput()}
+            </div>
+        );
+    }
 }

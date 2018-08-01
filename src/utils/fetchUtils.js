@@ -1,4 +1,4 @@
-const UPDATE_TIMEOUT = 500;
+const UPDATE_INTERVAL = 500;
 
 function getData(path) {
   return fetch(path, { method: "GET", credentials: "include" }).then(
@@ -23,7 +23,7 @@ function postData(path, body) {
 }
 
 module.exports = {
-  UPDATE_TIMEOUT,
+    UPDATE_INTERVAL,
   getData,
   postData
 };
