@@ -2,6 +2,7 @@ import React from "react";
 import PlayZone from "./playZone.jsx";
 import Deck from "./deck.jsx";
 import CloseTakiButton from "./closeTakiButton.jsx";
+import arrowsDirection from "../../../resources/direction.png";
 
 
 export default class CenterBoard extends React.Component {
@@ -35,12 +36,23 @@ export default class CenterBoard extends React.Component {
       return null;
   }
 
+  renderDirection(){
+      let style = null;
+      if (this.props.boardState.direction === -1) {
+          style = {transform: "scaleX(-1)"};
+      }
+
+      return (
+          <div className={"arrows-direction-content"}>
+              <img className={"arrow-direction"} src={arrowsDirection} style={style}/>
+          </div>
+      );
+  }
 
   render() {
-
-
     return (
       <div className={"center-board"}>
+          {this.renderDirection()}
           {this.renderCloseTakiButton()}
           <div className={"center-board-layout"}>
             <PlayZone playZone={this.props.boardState.playZone}/>

@@ -80,7 +80,8 @@ module.exports = class GameLogic{
             stats: this.stats.copyState(),
             playZone: this.playZone.copyState(),
             deck: this.deck.copyState(),
-            history: this.history.copyState()
+            history: this.history.copyState(),
+            playingDirection: this.playingDirection
         };
     }
 

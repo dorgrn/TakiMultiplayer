@@ -42,7 +42,8 @@ function buildRelativeBoardState(user, boardState){
       playerTurnName: playerTurnName,
       playZone: boardState.playZone,
       history: boardState.history,
-      stats: boardState.stats
+      stats: boardState.stats,
+      direction: boardState.playingDirection
   };
 }
 

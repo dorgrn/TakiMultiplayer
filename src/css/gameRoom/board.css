@@ -26,6 +26,18 @@
     grid-area: playerRight;
 }
 
+.arrows-direction-content{
+    opacity: 0.5;
+    z-index: -1;
+    position: absolute;
+}
+
+.arrow-direction{
+    display: block;
+    width: 7vw;
+    grid-area: arrowDirection;
+}
+
 .center-board{
     grid-area: centerBoard;
     margin:1%;

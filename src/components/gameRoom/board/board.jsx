@@ -11,6 +11,7 @@ import "../../../css/gameRoom/board.css";
 export default class Board extends React.Component {
   constructor() {
     super();
+
   }
 
   renderColorMenu(){
