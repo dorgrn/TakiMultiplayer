@@ -1,23 +1,42 @@
+@media screen and (max-width: 1100px){
+    .headline-up{
+        transform: translate(1vw,-2vw);
+    }
+
+    .headline-down{
+        transform: translate(1vw,16vw);
+    }
+
+    .headline-left{
+        transform: translate(-10vw ,12vw) rotate(-90deg);
+    }
+
+    .headline-right{
+        transform: translate(10vw ,12vw) rotate(90deg);
+    }
+}
+
+@media screen and (min-width: 1100px){
+    .headline-up{
+        transform: translate(0vw,-2vw);
+    }
+
+    .headline-down{
+        transform: translate(0vw,12vw);
+    }
+
+    .headline-left{
+        transform: translate(-10vw ,10vw) rotate(-90deg);
+    }
+
+    .headline-right{
+        transform: translate(4vw ,10vw) rotate(90deg);
+    }
+}
 
 .player{
     width: 100%;
     height: 100%;
-}
-
-.headline-up{
-    transform: translate(0vw,-2vw);
-}
-
-.headline-down{
-    transform: translate(0vw,12vw);
-}
-
-.headline-left{
-    transform: translate(-10vw ,10vw) rotate(-90deg);
-}
-
-.headline-right{
-    transform: translate(4vw ,10vw) rotate(90deg);
 }
 
 .player-headline{

@@ -110,7 +110,6 @@ export default class GameContainer extends React.Component {
   }
 
   renderBoard(){
-      console.log(this.state.game);
       if (this.state.game !== ""){
           const playersLeftToStart = this.state.game.playerLimit - this.state.game.players.length;
           return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS || this.isGameEnded ?

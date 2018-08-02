@@ -1,3 +1,15 @@
+@media screen and (max-width: 1100px){
+    .card {
+        width: 8vw;
+    }
+}
+
+@media screen and (min-width: 1100px){
+    .card {
+        width: 6vw;
+    }
+}
+
 .card {
     /* shadow */
     box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
@@ -5,7 +17,7 @@
     /* rounded border */
     border-radius: 10%;
 
-    width: 6vw;
+    /*width: 6vw;*/
     position: absolute;
 }
 
