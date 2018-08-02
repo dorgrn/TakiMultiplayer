@@ -23,10 +23,6 @@ module.exports = class Game {
         return this.status === gameUtils.GAME_CONSTS.IN_PROGRESS;
     }
 
-    get isDone(){
-        return this.status === gameUtils.GAME_CONSTS.DONE;
-    }
-
     get isGameFull(){
         return this.players.length === this.playerLimit;
     }
@@ -41,17 +37,20 @@ module.exports = class Game {
             console.log("Failed to add player to game. player is already in game.");
         }
         else {
-            if (this.players.length === this.playerLimit){
-                this.observers.push(player);
-            }
-            else{
-                this.players.push(player);
-                if (this.isGameFull){
-                    this.createGameLogic();
+            if (!this.isDone)
+            {
+                if (this.isGameFull || this.isInProgress){
+                    this.observers.push(player);
                 }
-            }
+                else{
+                    this.players.push(player);
+                    if (this.isGameFull){
+                        this.createGameLogic();
+                    }
+                }
 
-            player.gameName = this.name;
+                player.gameName = this.name;
+            }
         }
     }
 
@@ -65,9 +64,9 @@ module.exports = class Game {
             }
             else{
                 _.remove(this.players, (plr) => (plr.name === player.name));
-                player.setStatusIdle();
             }
 
+            player.setStatusIdle();
             player.gameName = "";
         }
 

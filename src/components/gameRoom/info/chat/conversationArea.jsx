@@ -30,7 +30,7 @@ export default class conversationArea extends React.Component {
         if (!response.ok) {
           throw response;
         }
-        this.timeoutId = setTimeout(this.getChatContent, 200);
+        this.timeoutId = setTimeout(this.getChatContent, 500);
         return response.json();
       })
       .then(content => {

@@ -15,11 +15,9 @@ export default class GameContainer extends React.Component {
     this.UPDATE_INTERVAL = 500;
     this.state = {
         game: "",
-        boardState: "",
-        user: props.user
+        boardState: ""
     };
 
-    this.fetchBoardStateInterval = setInterval(this.getBoardState.bind(this), this.UPDATE_INTERVAL);
     this.fetchGameInterval = setInterval(this.getGame.bind(this), this.UPDATE_INTERVAL);
   }
 
@@ -38,6 +36,12 @@ export default class GameContainer extends React.Component {
         })
         .then(game => {
             this.setState(() => ({ game: game }));
+        })
+        .then(() => {
+            if (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS && this.fetchBoardStateInterval===undefined){
+                this.props.updateViewManager();
+                this.fetchBoardStateInterval = setInterval(this.getBoardState.bind(this), this.UPDATE_INTERVAL);
+            }
         })
         .catch(err => {
             throw err;
@@ -81,39 +85,62 @@ export default class GameContainer extends React.Component {
                     response
                 );
             }
+            this.props.updateViewManager();
         });
   }
 
   renderEndGameMenu(){
-    if(this.state.boardState.stats.isGameEnded){
-        clearInterval(this.fetchBoardStateInterval);
-        clearInterval(this.fetchGameInterval);
-        this.gameEnded();
-        return <EndGameMenu boardState={this.state.boardState}/>
+    if(this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS){
+        if (this.state.boardState !== ""){
+            if(this.state.boardState.stats.isGameEnded){
+                clearInterval(this.fetchBoardStateInterval);
+                clearInterval(this.fetchGameInterval);
+                this.props.updateViewManager();
+                return <EndGameMenu boardState={this.state.boardState}/>
+            }
+        }
     }
   }
 
   renderExitButton(){
-      if (this.state.user.status === gameUtils.PLAYER_CONSTS.IDLE){
-          return <ExitButton text={"Leave Game"} onClick={this.leaveGame.bind(this)}/>;
+      let isExitAllowed = false;
+
+      console.log("for player");
+      console.log(this.props.user.status);
+      console.log(this.state.game.status);
+
+      if (this.state.game !== ""){
+          if (this.state.game.status === gameUtils.GAME_CONSTS.PENDING ||
+              this.props.user.status === gameUtils.PLAYER_CONSTS.IDLE){
+              isExitAllowed = true;
+          }
+          else if (this.state.boardState !== "") {
+              const player = this.state.boardState.donePlayers.find((player) => player.name === this.props.user.name);
+              isExitAllowed = (player !== undefined);
+          }
       }
+
+      return (isExitAllowed ? <ExitButton text={"Leave Game"} onClick={this.leaveGame.bind(this)}/> : null);
+  }
+
+  renderBoard(){
+      return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS ?
+          <Board user={this.props.user} boardState={this.state.boardState}/>
+          : null);
   }
 
   render() {
-      // console.log(this.state.boardState);
     return (
-        this.state.boardState !== "" ?
-            <div>
-                {this.renderExitButton()}
-                <div className={"page-content"}>
-                    <div className={"gameroom-layout"}>
-                        <Board user={this.state.user} boardState={this.state.boardState}/>
-                        <Info game={this.state.game} user={this.props.user} boardState={this.state.boardState}/>
-                    </div>
-                    {this.renderEndGameMenu()}
+        <div>
+            {this.renderExitButton()}
+            <div className={"page-content"}>
+                <div className={"gameroom-layout"}>
+                    {this.renderBoard()}
+                    <Info game={this.state.game} user={this.props.user} boardState={this.state.boardState}/>
                 </div>
+                {this.renderEndGameMenu()}
             </div>
-        : null
+        </div>
     );
   }
 }

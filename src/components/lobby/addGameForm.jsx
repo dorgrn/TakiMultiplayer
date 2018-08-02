@@ -34,6 +34,7 @@ export default class AddGameForm extends React.Component {
                 this.setState(() => ({
                     errMessage: ""
                 }));
+                this.props.updateViewManager();
             })
             .catch(() => {
                 this.setState(() => ({

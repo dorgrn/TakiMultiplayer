@@ -8,7 +8,7 @@ import takiImage from "../resources/logo.png";
 export default class LobbyContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.UPDATE_INTERVAL = 500;
+    this.UPDATE_INTERVAL = 2000;
 
     this.state = {
       users: {}, // all users
@@ -75,6 +75,9 @@ export default class LobbyContainer extends React.Component {
                       response
                   );
               }
+              else {
+                  this.props.updateViewManager();
+              }
           }
       );
   }
@@ -99,9 +102,11 @@ export default class LobbyContainer extends React.Component {
           <GameTable
             games={this.state.games}
             user={this.props.user}
+            updateViewManager={this.props.updateViewManager}
           />
           <AddGameForm
             user={this.props.user}
+            updateViewManager={this.props.updateViewManager}
           />
           <UserTable users={this.state.users} />
         </div>

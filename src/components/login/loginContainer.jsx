@@ -33,6 +33,7 @@ export default class LoginContainer extends React.Component {
     }).then(response => {
       if (response.ok) {
         this.setState(() => ({ errMessage: "" }));
+        this.props.updateViewManager();
       } else {
         if (response.status === 403) {
           this.setState(() => ({

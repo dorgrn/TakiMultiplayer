@@ -10,7 +10,8 @@ export default class Chat extends React.Component{
     }
 
     renderChatInput(){
-        if(this.props.user.status === gameUtils.PLAYER_CONSTS.PLAYING) {
+        if(this.props.user.status === gameUtils.PLAYER_CONSTS.PLAYING ||
+            this.props.game.status === gameUtils.GAME_CONSTS.PENDING) {
             return <ChatInput/>;
         }
     }

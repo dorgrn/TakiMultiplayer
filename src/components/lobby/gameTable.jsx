@@ -19,6 +19,7 @@ export default class GameTable extends React.Component {
             key={gameName + "_row"}
             gameRecord={gameRecord}
             user={this.props.user}
+            updateViewManager={this.props.updateViewManager}
           />
         );
       }

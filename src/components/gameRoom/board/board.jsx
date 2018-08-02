@@ -48,15 +48,16 @@ export default class Board extends React.Component {
   }
 
   render() {
-    const players = this.renderPlayers();
     return (
-      <div className={"board-content"}>
-          <div className={"board-layout"}>
-              {players}
-              <CenterBoard user={this.props.user} boardState={this.props.boardState}/>
+        this.props.boardState !== "" ?
+          <div className={"board-content"}>
+              <div className={"board-layout"}>
+                  {this.renderPlayers()}
+                  <CenterBoard user={this.props.user} boardState={this.props.boardState}/>
+              </div>
+              {this.renderColorMenu()}
           </div>
-          {this.renderColorMenu()}
-      </div>
+            : null
     );
   }
 }

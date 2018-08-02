@@ -7,8 +7,7 @@ const PLAYER_CONSTS = {
 
 const GAME_CONSTS = {
   PENDING: "pending",
-  IN_PROGRESS: "in progress",
-  DONE: "done"
+  IN_PROGRESS: "in progress"
 };
 
 function createGameRecord(name, playerLimit, shouldAddPCPlayer) {

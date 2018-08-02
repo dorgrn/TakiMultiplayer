@@ -24,9 +24,4 @@ gameRoomManagement.get("/takiClosed", users.userAuthentication, gameRoom.playerA
     res.sendStatus(200);
 });
 
-gameRoomManagement.get("/gameEnded", users.userAuthentication, gameRoom.playerAuthentication, gameRoom.gameEnded, (req, res) => {
-    res.sendStatus(200);
-});
-
-
 module.exports = gameRoomManagement;

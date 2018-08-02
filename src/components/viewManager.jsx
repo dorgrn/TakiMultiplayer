@@ -7,16 +7,13 @@ import GameContainer from "./gameRoom/gameContainer.jsx";
 export default class ViewManager extends React.Component {
   constructor(props) {
     super(props);
-    this.UPDATE_INTERVAL = 500;
+    this.UPDATE_TIMEOUT = 500;
+    this.getUserTimeout;
     this.state = {
       user: ""
     };
 
-
-    this.fetchInterval = setInterval(
-        this.getUser.bind(this),
-        this.UPDATE_INTERVAL
-    );
+    this.getUser();
   }
 
   clearUserInfo(){
@@ -24,12 +21,13 @@ export default class ViewManager extends React.Component {
   }
 
   renderLogin(){
-      return <LoginContainer/>;
+      return <LoginContainer updateViewManager={this.getUser.bind(this)}/>;
   }
 
   renderLobby() {
     return (
         <LobbyContainer
+          updateViewManager={this.getUser.bind(this)}
           user={this.state.user}
         />
     );
@@ -38,6 +36,7 @@ export default class ViewManager extends React.Component {
   renderGameRoom(){
     return (
         <GameContainer
+          updateViewManager={this.getUser.bind(this)}
           user={this.state.user}
         />
     );
@@ -54,6 +53,11 @@ export default class ViewManager extends React.Component {
           .then(user => {
               this.setState(() => ({user: user}));
           })
+          .then(() => {
+              if (this.state.user.gameName !== "" && this.state.user.status === gameUtils.PLAYER_CONSTS.IDLE) {
+                  this.getUserTimeout = setTimeout(this.getUser.bind(this), this.UPDATE_TIMEOUT);
+              }
+          })
           .catch(err => {
               if (err.status === 401) {
                   // incase we're getting 'unautorithed' as response
@@ -67,8 +71,7 @@ export default class ViewManager extends React.Component {
 
   render() {
     if (this.state.user !== ""){
-        //TODO: the first if statment happends only if the game.status=IN_PROGRESS
-        if (this.state.user.gameName !== "" && this.state.user.status === gameUtils.PLAYER_CONSTS.PLAYING) {
+        if (this.state.user.gameName !== "") {
             return this.renderGameRoom();
         }
         else if (this.state.user.name !== ""){

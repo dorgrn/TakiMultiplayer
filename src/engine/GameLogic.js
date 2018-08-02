@@ -64,6 +64,7 @@ module.exports = class GameLogic{
         this.playZone = new PlayZone();
         this.players = Player.createPlayers(playersDTO);
         this.currentlyPlaying = playersDTO.length;
+        this.donePlayers = [];
         this.playingDirection=1;
         this.playerTurn = 0;
 
@@ -74,6 +75,7 @@ module.exports = class GameLogic{
     getBoardState() {
         return {
             players: this.players.map(player => player.copyState()),
+            donePlayers: this.donePlayers.map(player => player.copyState()),
             turn: this.playerTurn,
             stats: this.stats.copyState(),
             playZone: this.playZone.copyState(),
@@ -278,6 +280,7 @@ module.exports = class GameLogic{
   playerDonePlaying() {
     let activePlayer = this.getActivePlayer();
     this.currentlyPlaying--;
+    this.donePlayers.push(activePlayer);
     activePlayer.place = this.players.length - this.currentlyPlaying;
     activePlayer.setDone();
   }
@@ -319,25 +322,27 @@ module.exports = class GameLogic{
     return this.players[this.playerTurn];
   }
 
+  getNextPlayerIndex(){
+      let i =
+          (this.playerTurn + this.playingDirection + this.players.length) %
+          this.players.length;
+      while (i !== this.playerTurn) {
+          if (this.players[i].isPlaying()) {
+              break;
+          }
+          i =
+              (i + this.playingDirection + this.players.length) % this.players.length;
+      }
+
+      return i;
+  }
+
   getNextPlayer() {
-    return this.players[
-      (this.playerTurn + this.playingDirection + this.players.length) %
-        this.players.length
-    ];
+      return this.players[this.getNextPlayerIndex()];
   }
 
   setNextPlayerAsActive() {
-    let i =
-      (this.playerTurn + this.playingDirection + this.players.length) %
-      this.players.length;
-    while (i !== this.playerTurn) {
-      if (this.players[i].isPlaying()) {
-        this.playerTurn = i;
-        break;
-      }
-      i =
-        (i + this.playingDirection + this.players.length) % this.players.length;
-    }
+      this.playerTurn = this.getNextPlayerIndex();
   }
 
   init() {

@@ -22,6 +22,7 @@ export default class GameTableRow extends React.Component {
         if (!response.ok) {
           throw response;
         }
+        this.props.updateViewManager();
       })
       .catch(err => {
         throw err;
@@ -40,6 +41,7 @@ export default class GameTableRow extends React.Component {
         if (!response.ok) {
           throw response;
         }
+        this.props.updateViewManager();
       })
       .catch(err => {
         throw err;

@@ -12,7 +12,7 @@ const TYPES = {
     USER: "user"
 };
 
-const HAND_INITIAL_SIZE = 20;
+const HAND_INITIAL_SIZE = 8;
 
 
 module.exports = class Player{

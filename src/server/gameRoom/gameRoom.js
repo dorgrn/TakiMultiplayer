@@ -38,6 +38,7 @@ function buildRelativeBoardState(user, boardState){
   const playerTurnName = boardState.players[boardState.turn].name;
   return {
       players: players,
+      donePlayers: boardState.donePlayers,
       playerTurnName: playerTurnName,
       playZone: boardState.playZone,
       history: boardState.history,
@@ -100,19 +101,11 @@ function takiClosed(req, res, next){
     next();
 }
 
-function gameEnded(req, res, next){
-    const player = users.userList.getUserById(req.session.id);
-    const game = games.gamesList.getGameByGameName(player.gameName);
-    game.status = gameUtils.GAME_CONSTS.DONE;
-    next();
-}
-
 module.exports = {
   playerAuthentication,
   getBoardState,
   playCard,
   drawCard,
   colorSelected,
-  takiClosed,
-  gameEnded
+  takiClosed
 };

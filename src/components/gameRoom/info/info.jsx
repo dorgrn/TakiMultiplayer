@@ -32,6 +32,10 @@ export default class Info extends React.Component {
   }
 
   getHistoryPosts(){
+      if (this.props.boardState === ""){
+          return;
+      }
+
       let history = [];
 
       this.props.boardState.history.posts.map((post, index) => {
@@ -44,6 +48,10 @@ export default class Info extends React.Component {
   }
 
     getGameStatus(){
+      if (this.props.boardState === ""){
+          return;
+      }
+
       const boardState = this.props.boardState;
       const activePlayer = boardState.players.find((player)=>(player.name===boardState.playerTurnName));
       let status = [];
@@ -66,7 +74,7 @@ export default class Info extends React.Component {
             <Box id={"game-status"} title={`Game ${this.props.game.name} Status`} content={this.getGameStatus()} isBottomStick={false}/>
             <Box id={"present-users"} title={"Users"} content={this.getUsers()} isBottomStick={false}/>
             <Box id={"moves-history"} title={"History"} content={this.getHistoryPosts()} isBottomStick={true}/>
-            <Chat id={"chat"} user={this.props.user}/>
+            <Chat id={"chat"} game={this.props.game} user={this.props.user}/>
           </div>
       </div>
     );
