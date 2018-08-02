@@ -31,7 +31,7 @@
     flex-grow: 1;
 }
 
-.chat-container .chat-input-wrapper .btn-lobby {
+.chat-container .chat-input-wrapper {
     flex-grow: 0;
     width: 88px;
     margin: 0 2px 0 5px;

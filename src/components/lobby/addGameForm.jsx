@@ -68,7 +68,7 @@ export default class AddGameForm extends React.Component {
       return (
           <div className={"menu-background"}>
               <div className={"menu-content"}>
-                  <form className={"create-game"} onSubmit={this.createNewGameHandler.bind(this)} onReset={this.props.onCloseForm}>
+                  <form id={"add-game-form"} onSubmit={this.createNewGameHandler.bind(this)} onReset={this.props.onCloseForm}>
                       <h2>Create new game</h2>
                       <br />
                       <label htmlFor={"gameName"}>Game name: </label>

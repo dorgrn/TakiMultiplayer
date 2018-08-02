@@ -27,39 +27,6 @@
   grid-template-rows: 10% 90%;
 }
 
-.button-green, .button-orange, .button-red {
-  display: inline-block;
-  padding: 15px 25px;
-  font-size: 20px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 700;
-  outline: none;
-  color: #fff;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 7px #999;
-  margin: 7px;
-}
-
-.button-green:active, .button-orange:active, .button-red:active {
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-.button-green {background-color: #4CAF50}
-.button-orange {background-color: #F0AF2D}
-.button-red{background-color: #FE2F2F}
-
-.button-green:hover {background-color: #3e8e41}
-.button-orange:hover {background-color: #D29824}
-.button-red:hover{background-color: #CD2525}
-
-.button-green:active {background-color: #3e8e41}
-.button-orange:active {background-color: #D29824}
-.button-red:active{background-color: #CD2525}
-
 .lobby-scrollbar{
   width: 100%;
   height: 100%;
