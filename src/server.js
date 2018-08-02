@@ -4,8 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const userManagement = require("./server/users/usersManagement");
 const gameManagement = require("./server/games/gamesManagement");
-const users = require("./server/users/users");
-const chatManagement = require("./server/chat");
+const chatManagement = require("./server/gameRoom/chat/chatManagment");
 const gameRoomManagement = require("./server/gameRoom/gameRoomMangement");
 const app = express();
 

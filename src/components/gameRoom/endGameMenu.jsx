@@ -56,7 +56,7 @@ export default class EndGameMenu extends React.Component {
               <div className={"menu-content"}>
                   <h1>Game Over</h1>
                   <h2>{this.winner} is the winner!</h2>
-                  <h2>{this.loser} on the other hand... need more practice :)</h2>
+                  <h2>{this.loser} lost the game.</h2>
                   <h2>Game time: {this.gameTime} , Turn amount: {this.turnAmount}</h2>
                   <table id={"results-table"}>
                       <thead>

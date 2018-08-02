@@ -36,6 +36,7 @@ export default class ChatInput extends React.Component {
     e.preventDefault();
     this.setState(() => ({ sendInProgress: true }));
     const text = this.inputElement.value;
+
     fetch("/chat", {
       method: "POST",
       body: text,

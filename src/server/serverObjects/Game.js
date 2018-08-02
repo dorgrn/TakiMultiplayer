@@ -10,6 +10,7 @@ module.exports = class Game {
         this.players = [];
         this.observers = [];
         this.status = gameUtils.GAME_CONSTS.PENDING;
+        this.chat = [];
         this.logic = "";
         this._tempPlayers = [];
 
@@ -102,6 +103,7 @@ module.exports = class Game {
         }
 
         this.players = [];
+        this.chat = [];
     }
 
     getState(){
@@ -115,5 +117,14 @@ module.exports = class Game {
         };
     }
 
+    getChat(){
+        return this.chat;
+    }
 
+    postChat(name, message){
+        this.chat.push({
+            user: name,
+            message: message
+        });
+    }
 };

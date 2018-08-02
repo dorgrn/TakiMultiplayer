@@ -42,14 +42,14 @@ export default class conversationArea extends React.Component {
   }
 
     getMessages(){
-        let messages = [];
+        let posts = [];
 
-        this.state.content.map((message, index) => {
-            const row = <p key={`Chat +${index}`}>{message.user.name}: {message.text}</p>
-            messages.push(row);
+        this.state.content.map((post, index) => {
+            const row = <p key={`Chat +${index}`}>{post.user}: {post.message}</p>;
+            posts.push(row);
         });
 
-        return <div style={{paddingLeft:"1em"}}>{messages}</div>;
+        return <div style={{paddingLeft:"1em"}}>{posts}</div>;
     }
 
   render() {

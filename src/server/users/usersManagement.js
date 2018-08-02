@@ -1,6 +1,5 @@
 const express = require("express");
 const users = require("./users");
-const chatManagement = require("../chat");
 
 const userManagement = express.Router();
 
@@ -19,11 +18,7 @@ post("/addUser", users.addUserToAuthList, (req, res) => {
 });
 
 userManagement.get("/logout", [
-  (req, res, next) => {
-    const user = users.userList.getUserById(req.session.id);
-    chatManagement.appendUserLogoutMessage(user);
-    next();
-  }, users.removeUserFromAuthList,
+  users.removeUserFromAuthList,
   (req, res) => {
     res.sendStatus(200);
   }
