@@ -18,8 +18,6 @@
     height: 100%;
     width: 100%;
     display: grid;
-    /*grid-template-columns: 20% 80%;*/
-    /*grid-template-areas:"infoCol boardCol";*/
 }
 
 .board-content{
@@ -33,4 +31,16 @@ info-content{
     width:100%;
     height: 100%;
     grid-area: infoCol;
+}
+
+.board-pending-message{
+    width: 100%;
+    height: 100%;
+    grid-area: boardCol;
+    color: red;
+    font-weight: 900;
+    font-size: 50px;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 50px;
 }

@@ -64,18 +64,6 @@ export default class GameContainer extends React.Component {
           });
   }
 
-  gameEnded(){
-    fetch("/gameRoom/gameEnded", {method: "GET",credentials: "include"})
-        .then(response => {
-            if (!response.ok) {
-                console.log(
-                    `user ${this.props.user.name} failed to end the game.`,
-                    response
-                );
-            }
-        });
-  }
-
   leaveGame() {
     fetch("/games/leaveGame", { method: "GET", credentials: "include" })
         .then(response => {
@@ -104,11 +92,6 @@ export default class GameContainer extends React.Component {
 
   renderExitButton(){
       let isExitAllowed = false;
-
-      console.log("for player");
-      console.log(this.props.user.status);
-      console.log(this.state.game.status);
-
       if (this.state.game !== ""){
           if (this.state.game.status === gameUtils.GAME_CONSTS.PENDING ||
               this.props.user.status === gameUtils.PLAYER_CONSTS.IDLE){
@@ -124,9 +107,13 @@ export default class GameContainer extends React.Component {
   }
 
   renderBoard(){
-      return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS ?
-          <Board user={this.props.user} boardState={this.state.boardState}/>
-          : null);
+      console.log(this.state.game);
+      if (this.state.game !== ""){
+          const playersLeftToStart = this.state.game.playerLimit - this.state.game.players.length;
+          return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS ?
+              <Board user={this.props.user} boardState={this.state.boardState}/>
+              : <div className={"board-pending-message"}>waiting for {playersLeftToStart} more players to start</div>);
+      }
   }
 
   render() {
