@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/lobby/lobby.css";
+import "../../css/lobby/userInfo.css";
 import AddGameForm from "./addGameForm.jsx";
 
 export default class UserInfo extends React.Component {

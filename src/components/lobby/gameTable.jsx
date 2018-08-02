@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/lobby/lobby.css";
+import "../../css/lobby/gameTable.css";
 import GameTableBox from "./gameTableBox.jsx";
 
 export default class GameTable extends React.Component {

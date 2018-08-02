@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/lobby/lobby.css";
+import "../../css/lobby/userTable.css";
 
 export default class UserTable extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class UserTable extends React.Component {
 
   renderUserTable() {
     return (
-      <table className={"lobby-table users"}>
+      <table className={"users-table"}>
         <tbody>
           <tr>
               <th>Name</th>

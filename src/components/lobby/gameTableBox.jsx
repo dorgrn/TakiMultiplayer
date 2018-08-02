@@ -1,4 +1,5 @@
 import React from "react";
+import "../../css/lobby/gameTable.css";
 import gameUtils from "../../utils/gameUtils.js";
 
 export default class GameTableBox extends React.Component {

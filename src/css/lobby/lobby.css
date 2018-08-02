@@ -27,18 +27,6 @@
   grid-template-rows: 10% 90%;
 }
 
-.user-info-content{
-  padding: 10px;
-  background-color: lightgray;
-  height: 50%;
-  border-radius: 20px;
-  box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-}
-
 .button-green, .button-orange, .button-red {
   display: inline-block;
   padding: 15px 25px;
@@ -72,77 +60,6 @@
 .button-orange:active {background-color: #D29824}
 .button-red:active{background-color: #CD2525}
 
-
-
-
-
-
-
-
-.lobby-table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.lobby-table td,
-.lobby-table th {
-  border: 1px solid #ddd;
-}
-
-.lobby-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.lobby-table tr:hover {
-  background-color: #ddd;
-}
-
-.lobby-table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  background-color: #394899;
-  color: white;
-}
-
-#create-game {
-  grid-area: create-game;
-}
-
-.taki-logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  grid-area: takiLogo;
-}
-
-.lobby-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-
-.linkStyle {
-  color: blue;
-  text-underline: blue;
-  cursor: pointer;
-}
-
-.game-table-box{
-  display: block;
-  width: 280px;
-  height: 120px;
-  border-radius: 20px;
-  background-color: #7679D8;
-  margin: 5px;
-  padding: 10px;
-  box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-}
-
 .lobby-scrollbar{
   width: 100%;
   height: 100%;
@@ -157,7 +74,6 @@
   justify-content: center;
   align-content: flex-start;
 }
-
 
 /* width */
 .lobby-scrollbar::-webkit-scrollbar {
