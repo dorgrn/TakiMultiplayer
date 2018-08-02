@@ -7,12 +7,11 @@ import gameUtils from "../../utils/gameUtils.js";
 import "../../css/global.css";
 import "../../css/gameRoom/gameRoom.css";
 
-
-
 export default class GameContainer extends React.Component {
   constructor(props) {
     super(props);
     this.UPDATE_INTERVAL = 500;
+    this.isGameEnded = false;
     this.state = {
         game: "",
         boardState: ""
@@ -77,16 +76,20 @@ export default class GameContainer extends React.Component {
         });
   }
 
+  renderGameRoom(){
+      return !this.isGameEnded ?
+          <div className={"gameroom-layout"}>
+              {this.renderBoard()}
+              <Info game={this.state.game} user={this.props.user} boardState={this.state.boardState}/>
+          </div>
+          : this.renderEndGameMenu();
+  }
+
   renderEndGameMenu(){
-    if(this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS){
-        if (this.state.boardState !== ""){
-            if(this.state.boardState.stats.isGameEnded){
-                clearInterval(this.fetchBoardStateInterval);
-                clearInterval(this.fetchGameInterval);
-                this.props.updateViewManager();
-                return <EndGameMenu boardState={this.state.boardState}/>
-            }
-        }
+    if(this.isGameEnded){
+      clearInterval(this.fetchGameInterval);
+      clearInterval(this.fetchBoardStateInterval);
+      return <EndGameMenu boardState={this.state.boardState}/>
     }
   }
 
@@ -110,22 +113,24 @@ export default class GameContainer extends React.Component {
       console.log(this.state.game);
       if (this.state.game !== ""){
           const playersLeftToStart = this.state.game.playerLimit - this.state.game.players.length;
-          return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS ?
+          return (this.state.game.status === gameUtils.GAME_CONSTS.IN_PROGRESS || this.isGameEnded ?
               <Board user={this.props.user} boardState={this.state.boardState}/>
               : <div className={"board-pending-message"}>waiting for {playersLeftToStart} more players to start</div>);
       }
   }
 
   render() {
+    if (this.state.boardState !== ""){
+      if(this.state.boardState.stats.isGameEnded){
+          this.isGameEnded = true;
+      }
+    }
+
     return (
         <div>
             {this.renderExitButton()}
             <div className={"page-content"}>
-                <div className={"gameroom-layout"}>
-                    {this.renderBoard()}
-                    <Info game={this.state.game} user={this.props.user} boardState={this.state.boardState}/>
-                </div>
-                {this.renderEndGameMenu()}
+                {this.renderGameRoom()}
             </div>
         </div>
     );

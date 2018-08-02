@@ -11,6 +11,7 @@ module.exports = class Game {
         this.observers = [];
         this.status = gameUtils.GAME_CONSTS.PENDING;
         this.logic = "";
+        this._tempPlayers = [];
 
         this.addPlayer(creator);
     }
@@ -27,9 +28,18 @@ module.exports = class Game {
         return this.players.length === this.playerLimit;
     }
 
+    setStatusPending(){
+        this.status = gameUtils.GAME_CONSTS.PENDING;
+    }
+
+    setStatusInProgress(){
+        this.status = gameUtils.GAME_CONSTS.IN_PROGRESS;
+    }
+
     isPlayerIn(player){
         return _.find(this.players, (plr) => (plr.name === player.name)) !== undefined ||
-            _.find(this.observers, (obs) => (obs.name === player.name)) !== undefined;
+            _.find(this.observers, (obs) => (obs.name === player.name)) !== undefined ||
+            _.find(this._tempPlayers, (tmp) => (tmp.name === player.name)) !== undefined;
     }
 
     addPlayer(player){
@@ -56,14 +66,17 @@ module.exports = class Game {
 
     removePlayer(player){
         if (!this.isPlayerIn(player)){
-            console.log("Failed to remove player to game. player is not in game.");
+            console.log("Failed to remove player from game. player is not in game.");
         }
         else {
             if (_.find(this.observers, (obs) => (obs.name === player.name)) !== undefined){
                 _.remove(this.observers, (obs) => (obs.name === player.name));
             }
-            else{
+            else if (_.find(this.players, (plr) => (plr.name === player.name)) !== undefined) {
                 _.remove(this.players, (plr) => (plr.name === player.name));
+            }
+            else {
+                _.remove(this._tempPlayers, (tmp) => (tmp.name === player.name));
             }
 
             player.setStatusIdle();
@@ -72,18 +85,23 @@ module.exports = class Game {
 
     }
 
-    startGame(){
-
-    }
-
-
     createGameLogic() {
         for (let i=0; i<this.players.length;i++){
             this.players[i].setStatusPlaying();
         }
 
-        this.status = gameUtils.GAME_CONSTS.IN_PROGRESS;
+        this.setStatusInProgress();
         this.logic = new GameLogic(this.players);
+    }
+
+    gameEnded(){
+        this.setStatusPending();
+        for (let i=0; i<this.players.length;i++){
+            const player = this.players[i];
+            this._tempPlayers.push(player);
+        }
+
+        this.players = [];
     }
 
     getState(){

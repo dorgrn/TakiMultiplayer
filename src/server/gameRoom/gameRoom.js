@@ -5,7 +5,7 @@ const gameUtils = require("../../utils/gameUtils");
 function buildRelativePlayersArray(user, players){
   const result = [];
 
-  if (user.status === gameUtils.PLAYER_CONSTS.IDLE){
+  if (user.isIdle){
         players.forEach((player)=>result.push(player));
   }
     // the user is player, should get his data only
@@ -63,8 +63,9 @@ function getBoardState(req, res, next) {
     const user = users.userList.getUserById(req.session.id);
     if(user.isInGame){
         const game = games.gamesList.getGameByGameName(user.gameName);
-        if (game.isInProgress){
+        if (game.logic !== ""){
             const boardState = game.logic.getBoardState();
+            boardState.stats.isGameEnded ? game.gameEnded() : null;
             return buildRelativeBoardState(user, boardState);
         }
     }

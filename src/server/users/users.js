@@ -21,7 +21,6 @@ function userAuthentication(req, res, next) {
 }
 
 function addUserToAuthList(req, res, next) {
-  // req.body = username
   const userName = req.body;
   if (userList.isIdExists(req.session.id)) {
       res.status(403).send("user already exist");
