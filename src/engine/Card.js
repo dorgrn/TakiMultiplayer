@@ -106,6 +106,13 @@ module.exports = class Card {
     return this.type === card.type;
   }
 
+  reset(){
+      if (this.isSuperCard()){
+          this.frontImg = this.frontImg.replace(this.color, "colorful");
+          this.color = "colorful";
+      }
+  }
+
   static findCardInArray(array, type, color, value) {
       return array.find(function(card) {
           return (

@@ -250,7 +250,6 @@ module.exports = class GameLogic{
     gameEnded() {
         this.stats.gameWatch.stop();
         this.stats.isGameEnded = true;
-        this.players.sort(Player.comparePlayersPlaces);
     }
 
   swapPlayer() {

@@ -108,6 +108,7 @@ module.exports = class Deck {
 
   insertCards(cards) {
     for (let i = 0; i < cards.length; i++) {
+      cards[i].reset();
       this.cards.push(cards[i]);
     }
 

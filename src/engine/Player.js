@@ -221,17 +221,6 @@ module.exports = class Player{
     return this.playerType === TYPES.USER;
   }
 
-  static comparePlayersPlaces(player1, player2) {
-    if (player1.place < player2.place) {
-      return -1;
-    }
-    if (player1.place > player2.place) {
-      return 1;
-    }
-
-    return 0;
-  }
-
     static createPlayers(playersDTO){
         let players=[];
         for(let i=0; i<playersDTO.length;i++){
