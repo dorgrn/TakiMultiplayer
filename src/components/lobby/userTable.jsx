@@ -11,11 +11,13 @@ export default class UserTable extends React.Component {
       <table className={"lobby-table users"}>
         <tbody>
           <tr>
-            <th key={"head users"}>Users</th>
+              <th>Name</th>
+              <th>Status</th>
           </tr>
           {Object.keys(this.props.users).map((user, index) => (
             <tr key={user}>
-              <td key={user + "_" + index}>{this.props.users[user].name}</td>
+              <td key={user + "_" + index + "_name"}>{this.props.users[user].name}</td>
+              <td key={user + "_" + index + "_status"}>{this.props.users[user].status}</td>
             </tr>
           ))}
         </tbody>
@@ -24,6 +26,10 @@ export default class UserTable extends React.Component {
   }
 
   render() {
-    return <div>{this.renderUserTable()}</div>;
+    return(
+        <div className={"lobby-column"} id={"users-table"}>
+            <h1>Users</h1>
+            {this.renderUserTable()}
+        </div>);
   }
 }

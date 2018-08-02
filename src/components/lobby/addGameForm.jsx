@@ -1,26 +1,34 @@
 import React from "react";
 import "../../css/lobby/lobby.css";
-const gameUtils = require("../../utils/gameUtils.js");
 
 export default class AddGameForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state={
-        shouldAddPCPlayer: false
-    }
+        shouldAddPCPlayer: false,
+        errMessage: ""
+    };
   }
 
     handleAddPCPlayer(){
         this.setState(() => ({shouldAddPCPlayer: !this.state.shouldAddPCPlayer}));
     }
 
-    addGameHandler(e) {
+    createGameRecord(name, playerLimit, shouldAddPCPlayer) {
+        return {
+            gameName: name,
+            playerLimit: playerLimit,
+            shouldAddPCPlayer: shouldAddPCPlayer
+        };
+    }
+
+    createNewGameHandler(e) {
         e.preventDefault();
         const gameName = e.target.elements.gameName.value;
         const playerLimit = e.target.elements.playerLimit.value;
         const shouldAddPCPlayer = this.state.shouldAddPCPlayer;
-        const gameRecord = gameUtils.createGameRecord(gameName, playerLimit, shouldAddPCPlayer);
+        const gameRecord = this.createGameRecord(gameName, playerLimit, shouldAddPCPlayer);
 
         fetch("/games/addGame", {
             method: "POST",
@@ -34,6 +42,7 @@ export default class AddGameForm extends React.Component {
                 this.setState(() => ({
                     errMessage: ""
                 }));
+                this.props.onCloseForm();
                 this.props.updateViewManager();
             })
             .catch(() => {
@@ -44,30 +53,43 @@ export default class AddGameForm extends React.Component {
         return false;
     }
 
+    renderErrorMessage() {
+        if (this.state.errMessage) {
+            return <div className="error-message">{this.state.errMessage}</div>;
+        }
+        return null;
+    }
+
   render() {
+      if (!this.props.show){
+          return null;
+      }
+
       return (
-      <form className={"create-game"} onSubmit={this.addGameHandler.bind(this)}>
-        <h2>Create new game</h2>
-        <br />
-        <input type={"text"} name={"gameName"} placeholder={"Game name"} />
-        <br />
-        <label htmlFor={"playerLimit"}>Participant amount: </label>
-        <select name={"playerLimit"}>
-          <option value={"2"}>2</option>
-          <option value={"3"}>3</option>
-          <option value={"4"}>4</option>
-        </select>
-        <br />
-        <input type={"checkbox"} name={"shouldAddPCPlayer"} onChange={this.handleAddPCPlayer.bind(this)}/>
-        <label htmlFor={"shouldAddPcPlayer"}>Add PC Player</label>
-        <br />
-        <input
-          type={"submit"}
-          className={"btn"}
-          value={"Submit"}
-          disabled={this.props.user.gameName !== ""}
-        />
-      </form>
-    );
+          <div className={"menu-background"}>
+              <div className={"menu-content"}>
+                  <form className={"create-game"} onSubmit={this.createNewGameHandler.bind(this)} onReset={this.props.onCloseForm}>
+                      <h2>Create new game</h2>
+                      <br />
+                      <label htmlFor={"gameName"}>Game name: </label>
+                      <input type={"text"} name={"gameName"} placeholder={"Game name"} />
+                      <br />
+                      <label htmlFor={"playerLimit"}>Players amount: </label>
+                      <select name={"playerLimit"}>
+                          <option value={"2"}>2</option>
+                          <option value={"3"}>3</option>
+                          <option value={"4"}>4</option>
+                      </select>
+                      <br />
+                      <input type={"checkbox"} name={"shouldAddPCPlayer"} onChange={this.handleAddPCPlayer.bind(this)}/>
+                      <label htmlFor={"shouldAddPCPlayer"}>Add PC Player</label>
+                      <br />
+                      <input type={"submit"} className={"button-green"} value={"Submit"}/>
+                      <input type={"reset"} className={"button-red"} value={"Cancel"}/>
+                  </form>
+                  {this.renderErrorMessage()}
+              </div>
+          </div>
+  );
   }
 }

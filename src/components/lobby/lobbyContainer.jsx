@@ -1,9 +1,10 @@
 import React from "react";
 import "../../css/lobby/lobby.css";
+import UserInfo from "./userInfo.jsx";
 import GameTable from "./gameTable.jsx";
 import UserTable from "./userTable.jsx";
-import AddGameForm from "./addGameForm.jsx";
 import takiImage from "../resources/logo.png";
+
 
 export default class LobbyContainer extends React.Component {
   constructor(props) {
@@ -16,17 +17,15 @@ export default class LobbyContainer extends React.Component {
       errMessage: ""
     };
 
-  this.fetchUsersInterval = setInterval(
-      this.getUsers.bind(this),
-      this.UPDATE_INTERVAL
-  );
+      this.fetchUsersInterval = setInterval(
+          this.getUsers.bind(this),
+          this.UPDATE_INTERVAL
+      );
 
-  this.fetchGamesInterval = setInterval(
-      this.getGames.bind(this),
-      this.UPDATE_INTERVAL
-  );
-
-
+      this.fetchGamesInterval = setInterval(
+          this.getGames.bind(this),
+          this.UPDATE_INTERVAL
+      );
   }
 
   componentWillUnmount() {
@@ -66,52 +65,24 @@ export default class LobbyContainer extends React.Component {
       });
   }
 
-  logoutHandler() {
-      fetch("/users/logout", { method: "GET", credentials: "include" }).then(
-          response => {
-              if (!response.ok) {
-                  console.log(
-                      `failed to logout user ${this.props.user.name} `,
-                      response
-                  );
-              }
-              else {
-                  this.props.updateViewManager();
-              }
-          }
-      );
-  }
-
   renderErrorMessage() {
     if (this.state.errMessage) {
-      return <div className="login-error-message">{this.state.errMessage}</div>;
+      return <div className="error-message">{this.state.errMessage}</div>;
     }
     return null;
   }
 
   render() {
     return (
-      <div>
-        <button className={"btn"} onClick={this.logoutHandler.bind(this)}>
-          logout
-        </button>
-        <p>Username: {this.props.user.name}</p>
-        <img id={"logo-lobby"} src={takiImage} />
-
-        <div className={"lobby-container"}>
-          <GameTable
-            games={this.state.games}
-            user={this.props.user}
-            updateViewManager={this.props.updateViewManager}
-          />
-          <AddGameForm
-            user={this.props.user}
-            updateViewManager={this.props.updateViewManager}
-          />
-          <UserTable users={this.state.users} />
+        <div className={"page-content"}>
+            <div className={"lobby-layout"}>
+                <img className={"taki-logo"} src={takiImage} />
+                <UserTable users={this.state.users}/>
+                <GameTable user={this.props.user} games={this.state.games} updateViewManager={this.props.updateViewManager}/>
+                <UserInfo user={this.props.user} updateViewManager={this.props.updateViewManager}/>
+            </div>
+            {this.renderErrorMessage()}
         </div>
-        {this.renderErrorMessage()}
-      </div>
     );
   }
 }

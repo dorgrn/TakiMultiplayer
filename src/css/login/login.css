@@ -36,7 +36,7 @@
   /*border-color: #cadcff;*/
 }
 
-.login-page-wrapper .login-error-message {
+.login-page-wrapper .error-message {
   color: red;
   font-weight: 600;
 }

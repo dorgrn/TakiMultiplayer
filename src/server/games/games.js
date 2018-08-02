@@ -23,26 +23,31 @@ function addGameToList(req, res, next) {
 }
 
 function removeGameFromList(req, res, next) {
-  const parsed = JSON.parse(req.body);
-  const gameName = parsed.gameName;
+  const gameName = JSON.parse(req.body);
   // check game exists
   if (!gamesList.isGameNameExists(gameName)) {
     res.status(403).send("game does not exist");
   }
   // check that is creator
-  else if (users.userList.getUserById(req.session.id).name !== parsed.creator) {
+  else if (users.userList.getUserById(req.session.id).name !== gamesList.getGameByGameName(gameName).creator.name) {
     res
       .status(401)
       .send("user isn't permitted to delete another creator's game");
-  } else {
-    gamesList.remove(gameName);
-    next();
+  }
+  else if (gamesList.getGameByGameName(gameName).players.length > 0) {
+      res
+          .status(401)
+          .send("user can't delete game while other players in it");
+  }
+  else {
+          gamesList.remove(gameName);
+          next();
   }
 }
 
 function addCurrentUserToGame(req, res, next) {
-  const parsed = JSON.parse(req.body);
-  const game = gamesList.getGameByGameName(parsed.gameName);
+  const gameName = JSON.parse(req.body);
+  const game = gamesList.getGameByGameName(gameName);
   const user = users.userList.getUserById(req.session.id);
 
   if (!game) {
@@ -62,7 +67,9 @@ function removeCurrentUserFromGame(req, res, next) {
     const game = gamesList.getGameByGameName(user.gameName);
 
     if (!game) {
-        res.status(404).send("game does not exist");
+        user.setStatusIdle();
+        user.gameName = "";
+        next();
     } else if (!user) {
         res.status(401).send("user not found");
     } else if (!game.isPlayerIn(user)) {

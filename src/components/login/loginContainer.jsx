@@ -14,7 +14,7 @@ export default class LoginContainer extends React.Component {
 
   renderErrorMessage() {
     if (this.state.errMessage) {
-      return <div className="login-error-message">{this.state.errMessage}</div>;
+      return <div className="error-message">{this.state.errMessage}</div>;
     }
     return null;
   }

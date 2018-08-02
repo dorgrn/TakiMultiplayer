@@ -1,6 +1,88 @@
+.lobby-layout{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 20% 80%;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-areas:
+          "takiLogo takiLogo takiLogo"
+          "usersTable gamesTable userInfo";
+}
+
+#users-table{
+  grid-area: usersTable;
+}
+
+#games-table{
+  grid-area: gamesTable;
+}
+
+#user-info{
+  grid-area: userInfo;
+}
+
+.lobby-column{
+  padding: 10px;
+  display: grid;
+  grid-template-rows: 10% 90%;
+}
+
+.user-info-content{
+  padding: 10px;
+  background-color: lightgray;
+  height: 50%;
+  border-radius: 20px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-green, .button-orange, .button-red {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  outline: none;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 7px #999;
+  margin: 7px;
+}
+
+.button-green:active, .button-orange:active, .button-red:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-green {background-color: #4CAF50}
+.button-orange {background-color: #F0AF2D}
+.button-red{background-color: #FE2F2F}
+
+.button-green:hover {background-color: #3e8e41}
+.button-orange:hover {background-color: #D29824}
+.button-red:hover{background-color: #CD2525}
+
+.button-green:active {background-color: #3e8e41}
+.button-orange:active {background-color: #D29824}
+.button-red:active{background-color: #CD2525}
+
+
+
+
+
+
+
+
 .lobby-table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
+  width: 100%;
 }
 
 .lobby-table td,
@@ -28,11 +110,12 @@
   grid-area: create-game;
 }
 
-#logo-lobby {
+.taki-logo {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 20%;
+  height: 100%;
+  grid-area: takiLogo;
 }
 
 .lobby-container {
@@ -46,4 +129,52 @@
   color: blue;
   text-underline: blue;
   cursor: pointer;
+}
+
+.game-table-box{
+  display: block;
+  width: 280px;
+  height: 120px;
+  border-radius: 20px;
+  background-color: #7679D8;
+  margin: 5px;
+  padding: 10px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.lobby-scrollbar{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-wrap: break-word;
+  text-align: left;
+  font-family: sans-serif;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+
+/* width */
+.lobby-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.lobby-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.lobby-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.lobby-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
