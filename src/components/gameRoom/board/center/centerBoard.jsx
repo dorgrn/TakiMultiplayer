@@ -37,14 +37,15 @@ export default class CenterBoard extends React.Component {
   }
 
   renderDirection(){
-      let style = null;
-      if (this.props.boardState.direction === -1) {
-          style = {transform: "scaleX(-1)"};
-      }
+      const direction = this.props.boardState.direction;
 
       return (
           <div className={"arrows-direction-content"}>
-              <img className={"arrow-direction"} src={arrowsDirection} style={style}/>
+              <img
+                  className={"arrow-direction"}
+                  src={arrowsDirection}
+                  style={{transform: `scaleX(${direction})`}}
+              />
           </div>
       );
   }

@@ -37,6 +37,9 @@ th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  min-width: 680px;
+  min-height: 680px;
 }
 
 .menu-background {
@@ -57,7 +60,7 @@ th {
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
-  font-size: 1.5vw;
+  font-size: 18px;
   border-radius: 20px;
 }
 

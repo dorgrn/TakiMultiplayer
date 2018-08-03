@@ -29,28 +29,34 @@ export default class AddGameForm extends React.Component {
         const playerLimit = e.target.elements.playerLimit.value;
         const shouldAddPCPlayer = this.state.shouldAddPCPlayer;
         const gameRecord = this.createGameRecord(gameName, playerLimit, shouldAddPCPlayer);
-
-        fetch("/games/addGame", {
-            method: "POST",
-            body: JSON.stringify(gameRecord),
-            credentials: "include"
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw response;
-                }
-                this.setState(() => ({
-                    errMessage: ""
-                }));
-                this.props.onCloseForm();
-                this.props.updateViewManager();
+        if (gameName === ""){
+            this.setState(() => ({
+                errMessage: "Game name is missing"
+            }));
+        }
+        else{
+            fetch("/games/addGame", {
+                method: "POST",
+                body: JSON.stringify(gameRecord),
+                credentials: "include"
             })
-            .catch(() => {
-                this.setState(() => ({
-                    errMessage: "Game name already exist, please try another one"
-                }));
-            });
-        return false;
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    this.setState(() => ({
+                        errMessage: ""
+                    }));
+                    this.props.onCloseForm();
+                    this.props.updateViewManager();
+                })
+                .catch(() => {
+                    this.setState(() => ({
+                        errMessage: "Game name already exist, please try another one"
+                    }));
+                });
+            return false;
+        }
     }
 
     renderErrorMessage() {

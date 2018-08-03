@@ -1,27 +1,12 @@
-@media screen and (max-width: 1100px){
-    .box {
-        grid-template-rows: 25px 150px;
-        grid-template-areas:
-                "boxHeadline"
-                "boxContent";
-    }
-
-}
-
-@media screen and (min-width: 1100px){
-    .box {
-        grid-template-rows: 25px 150px;
-        grid-template-areas:
-                "boxHeadline"
-                "boxContent";
-    }
-}
-
 .box{
     height: 100%;
     width: 100%;
     background-color: gray;
     display: grid;
+    grid-template-rows: 25px 150px;
+    grid-template-areas:
+            "boxHeadline"
+            "boxContent";
     margin: 10px;
 }
 
