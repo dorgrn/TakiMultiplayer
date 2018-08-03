@@ -35,7 +35,9 @@ export default class UserInfo extends React.Component {
   render() {
     return (
         <div className={"lobby-column"} id={"user-info"}>
-            <h1>Info</h1>
+            <div className={"lobby-column-headline"}>
+                Info
+            </div>
             <div className={"user-info-content"}>
                 <p><b>Name: </b>{this.user.name}</p>
                 <button className={"button-green"} onClick={this.toggleAddGameForm.bind(this)}>New Game</button>

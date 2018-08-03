@@ -29,8 +29,12 @@ export default class UserTable extends React.Component {
   render() {
     return(
         <div className={"lobby-column"} id={"users-table"}>
-            <h1>Users</h1>
-            {this.renderUserTable()}
+            <div className={"lobby-column-headline"}>
+                Users
+            </div>
+            <div className={"lobby-column-content lobby-scrollbar"}>
+                {this.renderUserTable()}
+            </div>
         </div>);
   }
 }

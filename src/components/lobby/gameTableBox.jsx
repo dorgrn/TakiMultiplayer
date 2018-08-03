@@ -99,21 +99,21 @@ export default class GameTableBox extends React.Component {
 
     return (
         <div className={"game-table-box"}>
-            <table style={{width: "100%"}}>
-              <tbody>
-                <tr>
-                    <th style={{fontSize:"24px"}}><b>{name}</b></th>
-                    <td><u>creator:</u>&nbsp;{creator}</td>
-                </tr>
-                <tr>
-                    <td><u>players:</u>&nbsp;{playersPending}/{playerLimit}</td>
-                    <td><u>status:</u>&nbsp;{status}</td>
-                </tr>
-              </tbody>
-            </table>
-            {this.renderJoinButton()}
-            {this.renderDeleteButton()}
-            {this.renderErrorMessage()}
+            <div className={"game-table-box-headline"}>{name}</div>
+            <div>
+                <div className={"game-table-box-details"}>
+                    <ul className={"game-table-box-cells"}>
+                        <li className={"game-table-box-cell"}><u>Creator:</u>&nbsp;{creator}</li>
+                        <li className={"game-table-box-cell"}><u>Players:</u>&nbsp;{playersPending}/{playerLimit}</li>
+                        <li className={"game-table-box-cell"}><u>Status:</u>&nbsp;{status}</li>
+                    </ul>
+                </div>
+            </div>
+            <div className={"game-table-box-buttons"}>
+                {this.renderJoinButton()}
+                {this.renderDeleteButton()}
+                {this.renderErrorMessage()}
+            </div>
         </div>
     );
   }

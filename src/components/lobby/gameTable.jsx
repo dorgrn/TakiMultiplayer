@@ -2,6 +2,7 @@ import React from "react";
 import "../../css/lobby/lobby.css";
 import "../../css/lobby/gameTable.css";
 import GameTableBox from "./gameTableBox.jsx";
+import sadFace from "../resources/emoji/Crying_Emoji.png";
 
 export default class GameTable extends React.Component {
   constructor(props) {
@@ -26,14 +27,27 @@ export default class GameTable extends React.Component {
         }
     }
 
-    return gameObjects;
+    if (gameObjects.length === 0){
+        return(
+            <div className={"lobby-no-games-message"}>
+                There are no available games<br/>
+                <img style={{width:"30px"}} src={sadFace}/>
+            </div>
+        );
+    }
+    else {
+        return gameObjects;
+
+    }
   }
 
   render() {
     return (
         <div className={"lobby-column"} id={"games-table"}>
-            <h1>Games</h1>
-            <div className={"lobby-scrollbar"}>
+            <div className={"lobby-column-headline"}>
+                Games
+            </div>
+            <div className={"lobby-column-content lobby-scrollbar"}>
                 {this.renderGameObjects()}
             </div>
         </div>
