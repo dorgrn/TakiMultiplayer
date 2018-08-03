@@ -1,6 +1,6 @@
 @media screen and (max-width: 450px){
   .lobby-layout {
-    grid-template-rows: 10% 30% 30% 30%;
+    grid-template-rows: 10% 50% 50% 50%;
     grid-template-areas:
             "takiLogo"
             "userInfo"
@@ -11,7 +11,7 @@
 
 @media screen and (min-width: 450px) and (max-width: 900px){
   .lobby-layout {
-    grid-template-rows: 20% 35% 45%;
+    grid-template-rows: 10% 60% 50%;
     grid-template-columns: 50% 50%;
     grid-template-areas:
             "takiLogo takiLogo"

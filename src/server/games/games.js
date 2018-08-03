@@ -37,7 +37,8 @@ function removeGameFromList(req, res, next) {
                 .status(401)
                 .send("user isn't permitted to delete another creator's game");
         }
-        else if (game.players.length > 1 || !game.isPCPlayerIn) {
+        else if (game.players.length > 1 ||
+            (game.players.length===1 && !game.isPCPlayerIn)) {
             res
                 .status(401)
                 .send("user can't delete game while other players in it");
@@ -48,7 +49,6 @@ function removeGameFromList(req, res, next) {
         }
     }
 }
-
 
 function addCurrentUserToGame(req, res, next) {
   const gameName = JSON.parse(req.body);
