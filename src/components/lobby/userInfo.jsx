@@ -38,12 +38,13 @@ export default class UserInfo extends React.Component {
             <div className={"lobby-column-headline"}>
                 Info
             </div>
-            <div className={"user-info-content"}>
-                <p><b>Name: </b>{this.user.name}</p>
-                <button className={"button-green"} onClick={this.toggleAddGameForm.bind(this)}>New Game</button>
-                <button className={"button-red"} onClick={this.logoutHandler.bind(this)}>Logout</button>
+            <div className={"lobby-column-content"}>
+                <div className={"user-info-content"}>
+                    <p><b>Name: </b>{this.user.name}</p>
+                    <button className={"button-green"} onClick={this.toggleAddGameForm.bind(this)}>New Game</button>
+                    <button className={"button-red"} onClick={this.logoutHandler.bind(this)}>Logout</button>
+                </div>
             </div>
-
             <AddGameForm
                 show={this.state.showAddGameForm}
                 onCloseForm={this.toggleAddGameForm.bind(this)}
