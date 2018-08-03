@@ -1,12 +1,44 @@
+@media screen and (max-width: 450px){
+  .lobby-layout {
+    grid-template-rows: 10% 30% 30% 30%;
+    grid-template-areas:
+            "takiLogo"
+            "userInfo"
+            "usersTable"
+            "gamesTable";
+  }
+}
+
+@media screen and (min-width: 450px) and (max-width: 900px){
+  .lobby-layout {
+    grid-template-rows: 20% 35% 45%;
+    grid-template-columns: 50% 50%;
+    grid-template-areas:
+            "takiLogo takiLogo"
+            "userInfo usersTable"
+            "gamesTable gamesTable";
+  }
+}
+
+@media screen and (min-width: 900px){
+  .lobby-layout {
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 20% 60% 20%;
+    grid-template-areas:
+            "takiLogo takiLogo takiLogo"
+            "userInfo gamesTable usersTable";
+  }
+  .lobby-column{
+    display: grid;
+    grid-template-rows: 10% 90%;
+  }
+}
+
+
 .lobby-layout{
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 20% 80%;
-  grid-template-columns: 20% 60% 20%;
-  grid-template-areas:
-          "takiLogo takiLogo takiLogo"
-          "userInfo gamesTable usersTable";
 }
 
 #users-table{
@@ -23,8 +55,6 @@
 
 .lobby-column{
   padding: 10px;
-  display: grid;
-  grid-template-rows: 10% 90%;
 }
 
 .lobby-column-headline{

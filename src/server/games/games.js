@@ -23,27 +23,32 @@ function addGameToList(req, res, next) {
 }
 
 function removeGameFromList(req, res, next) {
-  const gameName = JSON.parse(req.body);
-  // check game exists
-  if (!gamesList.isGameNameExists(gameName)) {
-    res.status(403).send("game does not exist");
-  }
-  // check that is creator
-  else if (users.userList.getUserById(req.session.id).name !== gamesList.getGameByGameName(gameName).creator.name) {
-    res
-      .status(401)
-      .send("user isn't permitted to delete another creator's game");
-  }
-  else if (gamesList.getGameByGameName(gameName).players.length > 0) {
-      res
-          .status(401)
-          .send("user can't delete game while other players in it");
-  }
-  else {
-          gamesList.remove(gameName);
-          next();
-  }
+    const gameName = JSON.parse(req.body);
+    const user = users.userList.getUserById(req.session.id);
+    // check game exists
+    if (!gamesList.isGameNameExists(gameName)) {
+        res.status(403).send("game does not exist");
+    }
+    // check that is creator
+    else {
+        const game = gamesList.getGameByGameName(gameName);
+        if (user.name !== game.creator.name) {
+            res
+                .status(401)
+                .send("user isn't permitted to delete another creator's game");
+        }
+        else if (game.players.length > 1 || !game.isPCPlayerIn) {
+            res
+                .status(401)
+                .send("user can't delete game while other players in it");
+        }
+        else {
+            gamesList.remove(gameName);
+            next();
+        }
+    }
 }
+
 
 function addCurrentUserToGame(req, res, next) {
   const gameName = JSON.parse(req.body);

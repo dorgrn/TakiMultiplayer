@@ -12,6 +12,7 @@ module.exports = class Game {
         this.status = gameUtils.GAME_CONSTS.PENDING;
         this.chat = [];
         this.logic = "";
+        this.isPCPlayerIn = false;
         this._tempPlayers = [];
 
         this.addPlayer(creator);
@@ -55,6 +56,7 @@ module.exports = class Game {
                 }
                 else{
                     this.players.push(player);
+                    this.isPCPlayerIn = player.isPC ? true : this.isPCPlayerIn;
                     if (this.isGameFull){
                         this.createGameLogic();
                     }
@@ -99,10 +101,16 @@ module.exports = class Game {
         this.setStatusPending();
         for (let i=0; i<this.players.length;i++){
             const player = this.players[i];
-            this._tempPlayers.push(player);
+            if (player.isUser){
+                this._tempPlayers.push(player);
+                let index = this.players.indexOf(player);
+                if (index > -1) {
+                    console.log("player removed");
+                    this.players.splice(index, 1);
+                }
+            }
         }
 
-        this.players = [];
         this.chat = [];
     }
 
@@ -113,7 +121,8 @@ module.exports = class Game {
             playerLimit: this.playerLimit,
             players: this.players,
             observers: this.observers,
-            status: this.status
+            status: this.status,
+            isPCPlayerIn: this.isPCPlayerIn
         };
     }
 
