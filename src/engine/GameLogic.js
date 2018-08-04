@@ -299,7 +299,7 @@ module.exports = class GameLogic{
       this.stats.turnAmount++;
       this.fillLegalCards();
       if (activePlayer.isPC()) {
-        setTimeout(this.doPCTurn.bind(this), 500);
+        setTimeout(this.doPCTurn.bind(this), 1200);
       }
     }
   }
