@@ -1,0 +1,125 @@
+@media screen and (max-width: 700px){
+  .lobby-layout {
+    grid-template-rows: 10% 50% 50% 50%;
+    grid-template-areas:
+            "takiLogo"
+            "userInfo"
+            "usersTable"
+            "gamesTable";
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 900px){
+  .lobby-layout {
+    grid-template-rows: 10% 60% 50%;
+    grid-template-columns: 50% 50%;
+    grid-template-areas:
+            "takiLogo takiLogo"
+            "userInfo usersTable"
+            "gamesTable gamesTable";
+  }
+}
+
+@media screen and (min-width: 900px){
+  .lobby-layout {
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 20% 60% 20%;
+    grid-template-areas:
+            "takiLogo takiLogo takiLogo"
+            "userInfo gamesTable usersTable";
+  }
+  .lobby-column{
+    display: grid;
+    grid-template-rows: 10% 90%;
+  }
+}
+
+
+.lobby-layout{
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+#users-table{
+  grid-area: usersTable;
+}
+
+#games-table{
+  grid-area: gamesTable;
+}
+
+#user-info{
+  grid-area: userInfo;
+}
+
+.lobby-column{
+  padding: 10px;
+}
+
+.lobby-column-headline{
+  padding: 5px;
+  font-size:40px;
+  font-family:sans-serif;
+  font-weight: 600;
+  text-align: center;
+  margin: auto;
+  color: whitesmoke;
+  text-shadow:     -1px 1px 0 hsl(174,5%,20%),
+                  -2px 2px 0 hsl(174,5%,20%),
+                  -3px 3px 0 hsl(174,5%,20%),
+                  -4px 4px 0 hsl(174,5%,20%),
+                  -5px 5px 0 hsl(174,5%,20%),
+                  -6px 6px 0 hsl(174,5%,20%),
+                  -7px 7px 0 hsl(174,5%,20%),
+                  -8px 8px 0 hsl(174,5%,20%);
+}
+
+.lobby-column-content{
+  padding: 5px;
+  margin: 5px auto 5px auto;
+}
+
+.lobby-scrollbar{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-wrap: break-word;
+  text-align: left;
+  font-family: sans-serif;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+/* width */
+.lobby-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.lobby-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.lobby-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.lobby-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.lobby-no-games-message{
+  margin: auto;
+  padding: 50px;
+  font-size: 24px;
+  font-family: sans-serif;
+  font-weight: 400;
+  text-align: center;
+}

@@ -1,9 +1,8 @@
-const playerFactory = require("./PlayerFactory");
-const cardFactory = require("./CardFactory");
 const Stats = require("./Stats");
 const PlayZone = require("./PlayZone");
 const Deck = require("./Deck");
 const Player = require("./Player");
+const Card = require("./Card");
 const History = require("./History");
 
 function funcOpenTaki() {
@@ -63,8 +62,9 @@ module.exports = class GameLogic{
         this.history = new History();
         this.deck = new Deck();
         this.playZone = new PlayZone();
-        this.players = playerFactory.createPlayers(playersDTO);
+        this.players = Player.createPlayers(playersDTO);
         this.currentlyPlaying = playersDTO.length;
+        this.donePlayers = [];
         this.playingDirection=1;
         this.playerTurn = 0;
 
@@ -75,11 +75,13 @@ module.exports = class GameLogic{
     getBoardState() {
         return {
             players: this.players.map(player => player.copyState()),
+            donePlayers: this.donePlayers.map(player => player.copyState()),
             turn: this.playerTurn,
             stats: this.stats.copyState(),
             playZone: this.playZone.copyState(),
             deck: this.deck.copyState(),
-            history: this.history.copyState()
+            history: this.history.copyState(),
+            playingDirection: this.playingDirection
         };
     }
 
@@ -90,6 +92,7 @@ module.exports = class GameLogic{
     top.color = color;
     top.frontImg = top.frontImg.replace("colorful", color);
     this.playZone.putOnTop(top);
+    this.fillLegalCards();
 
     this.history.gamePostColorChanged(this.stats.getElapsedTime(), color);
     if (activePlayer.inTakiMode.status === false) {
@@ -115,7 +118,7 @@ module.exports = class GameLogic{
 
   activateCard(card) {
     const activePlayer = this.getActivePlayer();
-    const types = cardFactory.getTypes();
+    const types = Card.TYPES;
     if (activePlayer.inTakiMode.status === true) {
       if (activePlayer.isPC()) {
         this.doPlayerTurn();
@@ -151,8 +154,10 @@ module.exports = class GameLogic{
   }
 
   //TODO: this method is vital for server
-  playCard(card) {
+  playCard(cardId) {
     const activePlayer = this.getActivePlayer();
+    const card = activePlayer.hand.cards.find(card => card.cardId === cardId);
+
     if (!this.isCardLegal(card)) {
       return;
     }
@@ -246,7 +251,6 @@ module.exports = class GameLogic{
     gameEnded() {
         this.stats.gameWatch.stop();
         this.stats.isGameEnded = true;
-        this.players.sort(Player.comparePlayersPlaces);
     }
 
   swapPlayer() {
@@ -276,8 +280,9 @@ module.exports = class GameLogic{
   playerDonePlaying() {
     let activePlayer = this.getActivePlayer();
     this.currentlyPlaying--;
+    this.donePlayers.push(activePlayer);
     activePlayer.place = this.players.length - this.currentlyPlaying;
-    activePlayer.setIdle();
+    activePlayer.setDone();
   }
 
   doPlayerTurn() {
@@ -294,7 +299,7 @@ module.exports = class GameLogic{
       this.stats.turnAmount++;
       this.fillLegalCards();
       if (activePlayer.isPC()) {
-        setTimeout(this.doPCTurn.bind(this), 500);
+        setTimeout(this.doPCTurn.bind(this), 1200);
       }
     }
   }
@@ -309,7 +314,7 @@ module.exports = class GameLogic{
         this.drawCardsWhenNoLegal(activePlayer);
       }
     } else {
-      this.playCard(cardToPlay);
+      this.playCard(cardToPlay.cardId);
     }
   }
 
@@ -317,25 +322,27 @@ module.exports = class GameLogic{
     return this.players[this.playerTurn];
   }
 
+  getNextPlayerIndex(){
+      let i =
+          (this.playerTurn + this.playingDirection + this.players.length) %
+          this.players.length;
+      while (i !== this.playerTurn) {
+          if (this.players[i].isPlaying()) {
+              break;
+          }
+          i =
+              (i + this.playingDirection + this.players.length) % this.players.length;
+      }
+
+      return i;
+  }
+
   getNextPlayer() {
-    return this.players[
-      (this.playerTurn + this.playingDirection + this.players.length) %
-        this.players.length
-    ];
+      return this.players[this.getNextPlayerIndex()];
   }
 
   setNextPlayerAsActive() {
-    let i =
-      (this.playerTurn + this.playingDirection + this.players.length) %
-      this.players.length;
-    while (i !== this.playerTurn) {
-      if (this.players[i].isPlaying()) {
-        this.playerTurn = i;
-        break;
-      }
-      i =
-        (i + this.playingDirection + this.players.length) % this.players.length;
-    }
+      this.playerTurn = this.getNextPlayerIndex();
   }
 
   init() {
@@ -343,9 +350,9 @@ module.exports = class GameLogic{
     this.stats.gameWatch.start();
     this.history.clearHistory();
 
-        this.deck.init();
-        // draw the first card to playZone
-        let card = this.drawCard();
+    this.deck.init();
+    // draw the first card to playZone
+    let card = this.drawCard();
 
     while (card.isSuperCard()) {
       this.deck.insertCard(card);
@@ -357,7 +364,7 @@ module.exports = class GameLogic{
     // deal the first cards to players
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].init();
-      this.players[i].mustTake = playerFactory.HAND_INITIAL_SIZE;
+      this.players[i].mustTake = Player.HAND_INITIAL_SIZE;
       this.drawCardsToPlayer(this.players[i]);
     }
 

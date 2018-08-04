@@ -2,43 +2,59 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 20% 40% 40%;
+    grid-template-rows: 30% 40% 30%;
+    grid-template-columns: 30% 40% 30%;
     grid-template-areas:
-        "otherPlayersRow"
-        "mainBoardRow"
-        "thisPlayerRow";
+            ". playerUp ."
+            "playerLeft centerBoard playerRight"
+            ". playerDown .";
 }
 
-.other-players-row{
-    width:100%;
-    grid-area: otherPlayersRow;
+#player-up{
+    grid-area: playerUp;
+}
+
+#player-down{
+    grid-area: playerDown;
+}
+
+#player-left{
+    grid-area: playerLeft;
+}
+
+#player-right{
+    grid-area: playerRight;
+}
+
+.arrows-direction-content{
+    opacity: 0.5;
+    z-index: -1;
+    position: absolute;
+}
+
+.arrow-direction{
+    display: block;
+    width: 7vw;
+    grid-area: arrowDirection;
+}
+
+.center-board{
+    grid-area: centerBoard;
+    margin:1%;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.main-board-row{
-    grid-area: mainBoardRow;
-    margin:1%;
-}
-
-.main-board-row-layout{
+.center-board-layout{
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 50% 50%;
     grid-template-areas:
-            "statistics playZone deck";
-}
-
-.this-player-row{
-    grid-area: thisPlayerRow;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-
-    margin: 1%;
+            "playZone deck";
 }
 
 .playZone{
@@ -46,15 +62,9 @@
     grid-area: playZone;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-}
-
-.statistics{
-    width: 100%;
-    grid-area: statistics;
-
-    background-size: 100% 100%;
+    flex-direction: column;
 }
 
 .deck{
@@ -62,11 +72,8 @@
     grid-area: deck;
 
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-}
-
-.statistics-board-img{
-    width: 50%;
+    flex-direction: column;
 }
 

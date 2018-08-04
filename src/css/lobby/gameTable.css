@@ -1,0 +1,48 @@
+@media screen and (max-width: 750px){
+    .game-table-box {
+        width: 200px;
+    }
+
+}
+
+@media screen and (min-width: 750px){
+    .game-table-box {
+        width: 285px;
+    }
+}
+
+.game-table-box{
+    display: block;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: #7679D8;
+    margin: 5px;
+    padding: 10px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.game-table-box-headline{
+    padding:5px;
+    font-weight: 600;
+    font-size:24px;
+}
+
+.game-table-box-details{
+    display: table;
+}
+
+.game-table-box-cells{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.game-table-box-cell{
+    float:left;
+    padding:5px;
+}
+
+.game-table-box-buttons{
+    text-align: center;
+}

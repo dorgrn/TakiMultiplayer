@@ -1,46 +1,88 @@
-.other-player{
-    height: 100%;
-    width: 20%;
-    display: grid;
-    grid-template-rows: 50% 50%;
-    grid-template-areas:
-            "otherPlayerHeadline"
-            "otherPlayerHand";
-    margin-left: 5%;
-    margin-right: 5%;
-    position: relative;
+@media screen and (max-width: 1100px){
+    .headline-up{
+        transform: translate(1vw,-2vw);
+    }
+
+    .headline-down{
+        transform: translate(1vw,16vw);
+    }
+
+    .headline-left{
+        transform: translate(-10vw ,12vw) rotate(-90deg);
+    }
+
+    .headline-right{
+        transform: translate(10vw ,12vw) rotate(90deg);
+    }
 }
 
-.other-player-headline{
-    grid-area: otherPlayerHeadline;
+@media screen and (min-width: 1100px){
+    .headline-up{
+        transform: translate(0vw,-2vw);
+    }
+
+    .headline-down{
+        transform: translate(0vw,12vw);
+    }
+
+    .headline-left{
+        transform: translate(-10vw ,10vw) rotate(-90deg);
+    }
+
+    .headline-right{
+        transform: translate(4vw ,10vw) rotate(90deg);
+    }
+}
+
+.player{
+    width: 100%;
+    height: 100%;
+}
+
+.player-headline{
+    width: 29vw;
+
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 10% 90%;
     grid-template-areas:
-            "otherPlayerIcon otherPlayerName";
+            "playerIcon playerName";
 
     background-color: lightgray;
     border-radius: 20px;
 
+    position: absolute;
 }
 
-.other-player-icon{
-    grid-area: otherPlayerIcon;
+.player-icon{
+    grid-area: playerIcon;
 }
 
-.other-player-icon-img{
-    width: 75%;
+.player-icon-img{
+    width: 3vw;
 }
 
-.other-player-name{
-    grid-area: otherPlayerName;
+.player-name{
+    grid-area: playerName;
     text-align: center;
-    font-family: arial;
+    font-family: sans-serif;
     font-size: 1.5vw;
+
 }
 
-.other-player-hand{
-    grid-area: otherPlayerHand;
+.hand-horizontal, .hand-vertical{
+    grid-area: playerHand;
+    display: flex;
 
-    margin: 1%;
 }
 
+.hand-horizontal{
+    flex-direction: row;
+}
+
+.hand-vertical{
+    flex-direction: column;
+}
+
+.hand{
+    margin: auto;
+}

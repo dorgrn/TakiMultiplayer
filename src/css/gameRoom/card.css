@@ -1,29 +1,25 @@
-.this-player-card, .other-player-card, .card-playZone,.card-deck {
+@media screen and (max-width: 1100px){
+    .card {
+        width: 8vw;
+    }
+}
+
+@media screen and (min-width: 1100px){
+    .card {
+        width: 6vw;
+    }
+}
+
+.card {
     /* shadow */
     box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     /* rounded border */
     border-radius: 10%;
+
+    /*width: 6vw;*/
+    position: absolute;
 }
-
-
-.this-player-card{
-    width:8%;
-}
-
-.card-playZone, .card-deck{
-    width:24%;
-}
-
-.card-playZone{
-    transform: rotate(30deg);
-}
-
-.other-player-card{
-    width: 10%;
-}
-
-
 
 .legal-card:hover, .illegal-card:hover {
     border: 5px solid;

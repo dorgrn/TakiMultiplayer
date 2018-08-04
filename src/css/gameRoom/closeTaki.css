@@ -6,10 +6,11 @@
   font-weight: bold;
   font-size: 3vw;
   border: none;
-  border-radius: 10%;
-  width: 50%;
-  height: 50%;
+  border-radius: 20px;
+  width: 30vw;
+  height: 15vw;
   z-index: 1;
+  position:absolute;
 }
 
 .close-taki:hover {

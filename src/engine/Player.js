@@ -1,12 +1,19 @@
-const cardFactory = require("../engine/CardFactory.js");
 const Hand = require("./Hand");
+const Card = require("./Card");
 const Stopwatch = require("./Stopwatch");
-const playerFactory = require("./PlayerFactory");
 
 const PLAYING_STATUS = {
   PLAYING: "playing",
-  IDLE: "idle"
+  DONE: "done"
 };
+
+const TYPES = {
+    PC: "pc",
+    USER: "user"
+};
+
+const HAND_INITIAL_SIZE = 8;
+
 
 module.exports = class Player{
     constructor(type, name){
@@ -28,6 +35,18 @@ module.exports = class Player{
         this.hand = new Hand();
         this.playingStatus = PLAYING_STATUS.PLAYING;
         this.place = 0;
+    }
+
+    static get TYPES(){
+      return TYPES;
+    }
+
+    static get PLAYING_STATUS(){
+      return PLAYING_STATUS;
+    }
+
+    static get HAND_INITIAL_SIZE(){
+      return HAND_INITIAL_SIZE;
     }
 
   static getAvgTime(turnsAmount, turnsTime) {
@@ -70,13 +89,16 @@ module.exports = class Player{
             name: this.name,
             type: this.playerType,
             hand: this.hand.copyState(),
+            cardsAmount: this.hand.cards.length,
             stats: Object.assign({}, this.stats),
-            place: this.place
+            place: this.place,
+            playingStatus: this.playingStatus,
+            inTakiMode: this.inTakiMode.status
         };
     }
 
   determinePCPlay(top) {
-    const TYPES = cardFactory.getTypes();
+    const TYPES = Card.TYPES;
     const legalCards = this.hand.legalCards;
     let cardToPlay;
 
@@ -120,7 +142,7 @@ module.exports = class Player{
   }
 
   findPlayableCard(legalCards, options) {
-    const findCardInArray = cardFactory.findCardInArray;
+    const findCardInArray = Card.findCardInArray;
     let isPlayed = false;
     let cardToPlay;
 
@@ -143,8 +165,8 @@ module.exports = class Player{
     let colorSelected;
     let max = 0;
 
-    for (i = 0; i < cardFactory.colors.length; i++) {
-      colorsCount[cardFactory.colors[i]] = 0;
+    for (i = 0; i < Card.COLORS.length; i++) {
+      colorsCount[Card.COLORS[i]] = 0;
     }
 
     for (i = 0; i < cards.length; i++) {
@@ -159,8 +181,8 @@ module.exports = class Player{
 
     if (max === 0) {
       colorSelected =
-        cardFactory.colors[
-          Math.floor(Math.random() * cardFactory.colors.length)
+          Card.COLORS[
+          Math.floor(Math.random() * Card.COLORS.length)
         ];
     }
 
@@ -183,8 +205,8 @@ module.exports = class Player{
     this.stats.turnsAvgTime = this.getAvgTurnTime();
   }
 
-  setIdle() {
-    this.playingStatus = PLAYING_STATUS.IDLE;
+  setDone() {
+    this.playingStatus = PLAYING_STATUS.DONE;
   }
 
   isPlaying() {
@@ -192,21 +214,35 @@ module.exports = class Player{
   }
 
   isPC() {
-    return this.playerType === playerFactory.getTypes().PC;
+    return this.playerType === TYPES.PC;
   }
 
   isUser() {
-    return this.playerType === playerFactory.getTypes().USER;
+    return this.playerType === TYPES.USER;
   }
 
-  static comparePlayersPlaces(player1, player2) {
-    if (player1.place < player2.place) {
-      return -1;
-    }
-    if (player1.place > player2.place) {
-      return 1;
+    static createPlayers(playersDTO){
+        let players=[];
+        for(let i=0; i<playersDTO.length;i++){
+            if(playersDTO[i].type === TYPES.USER){
+                players.push(Player.createUserPlayer(playersDTO[i].name));
+            }
+        }
+
+        for(let i=0; i<playersDTO.length;i++){
+            if(playersDTO[i].type === TYPES.PC){
+                players.push(Player.createPCPlayer());
+            }
+        }
+
+        return players;
     }
 
-    return 0;
-  }
+    static createUserPlayer(name){
+        return new Player(TYPES.USER, name);
+    }
+
+    static createPCPlayer(){
+        return new Player(TYPES.PC, "PC player");
+    }
 };

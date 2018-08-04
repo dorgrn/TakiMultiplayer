@@ -1,16 +1,16 @@
-const cardFactory = require("../engine/CardFactory.js");
+//const cardFactory = require("../engine/CardFactory.js");
+const Card = require("./Card");
 
 function createDeck() {
   let cardIdCounter = 1;
   let newCard;
 
   clearDeck.call(this);
-
   // value cards
-  cardFactory.values.forEach(value => {
+  Card.VALUES.forEach(value => {
     for (let i = 0; i < this.VALUE_CARDS; i++) {
-      cardFactory.colors.forEach(color => {
-        newCard = cardFactory.createCard(
+      Card.COLORS.forEach(color => {
+        newCard = new Card(
           cardIdCounter++,
           color,
           "value",
@@ -23,10 +23,10 @@ function createDeck() {
   });
 
   // special cards
-  cardFactory.specialTypes.forEach(type => {
+  Card.SPECIAL_CARDS.forEach(type => {
     for (let i = 0; i < this.SPECIAL_CARDS; i++) {
-      cardFactory.colors.forEach(color => {
-        newCard = cardFactory.createCard(
+      Card.COLORS.forEach(color => {
+        newCard = new Card(
           cardIdCounter++,
           color,
           type,
@@ -39,22 +39,22 @@ function createDeck() {
 
   // supercard change color
   for (let i = 0; i < this.SUPER_CARD_CHANGE_COLOR; i++) {
-    newCard = cardFactory.createCard(
+    newCard = new Card(
       cardIdCounter++,
       "colorful",
-      cardFactory.superCards[0],
-      getFilename(cardFactory.superCards[0], "colorful")
+      Card.SUPER_CARDS[0],
+      getFilename(Card.SUPER_CARDS[0], "colorful")
     );
     this.insertCard(newCard);
   }
 
   // supercard super taki
   for (let i = 0; i < this.SUPER_CARD_SUPER_TAKI; i++) {
-    newCard = cardFactory.createCard(
+    newCard = new Card(
       cardIdCounter++,
       "colorful",
-      cardFactory.superCards[1],
-      getFilename(cardFactory.superCards[1], "colorful")
+      Card.SUPER_CARDS[1],
+      getFilename(Card.SUPER_CARDS[1], "colorful")
     );
     this.insertCard(newCard);
   }
@@ -108,6 +108,7 @@ module.exports = class Deck {
 
   insertCards(cards) {
     for (let i = 0; i < cards.length; i++) {
+      cards[i].reset();
       this.cards.push(cards[i]);
     }
 

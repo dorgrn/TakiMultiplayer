@@ -37,7 +37,7 @@ module.exports = class History {
     this.pushPlayerPost(
       time,
       turn,
-      player.name + " draw " + cardAmount + " cards from deck."
+      player.name + " drew " + cardAmount + " cards from deck."
     );
   }
 
@@ -66,7 +66,7 @@ module.exports = class History {
 
   copyState() {
     return {
-      cards: this.posts.slice()
+      posts: this.posts.slice()
     };
   }
 };

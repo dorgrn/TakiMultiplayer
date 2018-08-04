@@ -2,10 +2,9 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const userManagement = require("./server/userManagement");
-const gameManagement = require("./server/gameManagement");
-const auth = require("./server/auth");
-const chatManagement = require("./server/chat");
+const userManagement = require("./server/users/usersManagement");
+const gameManagement = require("./server/games/gamesManagement");
+const chatManagement = require("./server/gameRoom/chat/chatManagment");
 const gameRoomManagement = require("./server/gameRoom/gameRoomMangement");
 const app = express();
 
