@@ -1,5 +1,5 @@
 # TakiMultiplayer
-A multiplayer [Taki](https://en.wikipedia.org/wiki/Taki_(card_game)) card game implemented with Reactjs and express.
+A multiplayer [Taki](https://en.wikipedia.org/wiki/Taki_(card_game)) card game implemented with Reactjs and express.  
 The game is very similar to UNO.
 
 ## Prerequisites
@@ -22,5 +22,5 @@ npm run start
 * Dor Grinshpan - dorgrin6@gmail.com
 
 ## License
-We don't own the textures of the cards!
+We don't own the textures of the cards!  
 This project is licensed under the ISC License - see the [LICENSE.md](LICENSE.md) file for details.
