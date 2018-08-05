@@ -1,5 +1,5 @@
 # TakiMultiplayer
-A multiplayer (Taki)[https://en.wikipedia.org/wiki/Taki_(card_game)] card game implemented with Reactjs and express.
+A multiplayer [Taki](https://en.wikipedia.org/wiki/Taki_(card_game)) card game implemented with Reactjs and express.
 The game is very similar to UNO.
 
 ## Prerequisites
