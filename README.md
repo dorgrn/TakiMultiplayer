@@ -22,7 +22,7 @@ npm run start
 * Dor Grinshpan - dorgrin6@gmail.com
 
 ## License
+This game was created as part of a Web Development course in The Academic College of Tel Aviv-Yaffo.  
 This project is licensed under the ISC License.  
-This game was created as part of a Web Development course in The Academic College of Tel Aviv-Yaffo.
-We don't own the textures of the cards, the game design and rules.  
+We don't own the textures of the cards, the game design and rules.    
 Please give credit if you use this code.
