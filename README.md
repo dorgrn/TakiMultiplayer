@@ -22,5 +22,5 @@ npm run start
 * Dor Grinshpan - dorgrin6@gmail.com
 
 ## License
-We don't own the textures of the cards!  
-This project is licensed under the ISC License - see the [LICENSE.md](LICENSE.md) file for details.
+We don't own the textures of the cards, the game design and rules.  
+This project is licensed under the ISC License.
