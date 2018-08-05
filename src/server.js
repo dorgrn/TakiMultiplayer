@@ -26,4 +26,4 @@ app.use("/chat", chatManagement);
 app.use("/games", gameManagement);
 app.use("/gameRoom", gameRoomManagement);
 
-app.listen(3000, console.log("Example app listening on port 3000!"));
+app.listen(3000, console.log("Taki listening on port 3000!"));

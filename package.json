@@ -1,15 +1,15 @@
 {
-  "name": "es6-with-webpack",
+  "name": "Taki",
   "version": "1.0.0",
-  "description": "es6 deployed using webpack",
+  "description": "Multiplayer card game deployed with React and Express",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "build-watch": "webpack --watch",
-    "start": "node --inspect ./src/server.js",
+    "start": "node ./src/server.js",
     "start-watch": "nodemon --inspect ./src/server.js localhost 3000"
   },
-  "author": "Spivak Ofer",
+  "author": "Idan Goor and Dor Grinshpan",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
