@@ -23,6 +23,6 @@ npm run start
 
 ## License
 This game was created as part of a Web Development course in The Academic College of Tel Aviv-Yaffo.  
-This project is licensed under the ISC License.  
+This project is licensed under the MIT License (see License.md for more details).  
 We don't own the textures of the cards, the game design and rules.    
 Please give credit if you use this code.
