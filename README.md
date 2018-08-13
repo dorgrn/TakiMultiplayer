@@ -7,7 +7,7 @@ You have to have [npm](https://www.npmjs.com/get-npm) installed to play this gam
 
 ## Installing
 ### Two options:
-* Run startGame.bat (win32) OR  startGame.sh (GNU/Linux).
+* Run runGame.bat (win32) OR  runGame.sh (GNU/Linux).
 * Run the following commands on terminal: 
 ``` 
 npm install
