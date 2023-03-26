@@ -11,6 +11,7 @@ You have to have [npm](https://www.npmjs.com/get-npm) installed to play this gam
 * Run the following commands on terminal: 
 ``` 
 npm install
+npm build
 npm run start
 ````
 
