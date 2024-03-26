@@ -16,19 +16,19 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^0.28.7",
+    "css-loader": "^6.10.0",
     "file-loader": "^1.1.5",
-    "style-loader": "^0.19.0",
+    "style-loader": "^3.3.4",
     "webpack": "^3.10.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^3.1.0"
   },
   "dependencies": {
     "body-parser": "latest",
-    "express": "^4.16.3",
+    "express": "^4.19.2",
     "express-session": "^1.15.6",
     "lodash": "latest",
     "prettier": "^1.13.7",
-    "react": "^16.2.0",
-    "react-dom": "^16.4.1"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   }
 }
